@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Portals - Math Escape!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a1a;
+    --card: #12123a;
+    --accent: #e94560;
+    --gold: #f5c542;
+    --green: #2ecc71;
+    --blue: #3498db;
+    --purple: #9b59b6;
+    --orange: #e67e22;
+    --pink: #e84393;
+    --cyan: #00cec9;
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Floating background stars ───────────────────────────── */
+  .stars {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* ── Container ───────────────────────────────────────────── */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 850px; margin: 0 auto; padding: 20px;
+  }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  .header {
+    text-align: center; padding: 15px 0;
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+  }
+  .header .subtitle {
+    font-size: 1rem; color: #aaa; margin-top: 3px;
+  }
+
+  /* ── Stats bar ───────────────────────────────────────────── */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 15px;
+    margin: 10px 0; flex-wrap: wrap;
+  }
+  .stat-box {
+    background: var(--card);
+    border-radius: 15px; padding: 10px 18px;
+    text-align: center; min-width: 90px;
+    border: 2px solid rgba(255,255,255,0.1);
+    transition: transform 0.2s;
+  }
+  .stat-box:hover { transform: scale(1.05); }
+  .stat-box .label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-box .value { font-family: 'Fredoka One', cursive; font-size: 1.6rem; }
+  .stat-box.score .value { color: var(--gold); }
+  .stat-box.streak .value { color: var(--accent); }
+  .stat-box.level .value { color: var(--blue); }
+  .stat-box.stars-count .value { color: var(--purple); }
+
+  /* ── XP Progress bar ─────────────────────────────────────── */
+  .xp-bar-container {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px; height: 16px; margin: 8px 40px;
+    overflow: hidden; position: relative;
+  }
+  .xp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    border-radius: 20px; transition: width 0.5s ease;
+    position: relative;
+  }
+  .xp-bar::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .xp-label {
+    text-align: center; font-size: 0.75rem; color: #aaa; margin-top: 3px;
+  }
+
+  /* ── Trophy shelf ────────────────────────────────────────── */
+  .trophy-shelf {
+    display: flex; gap: 8px; justify-content: center;
+    flex-wrap: wrap; margin: 8px 0; min-height: 25px;
+  }
+  .trophy {
+    font-size: 1.4rem;
+    animation: trophyBounce 0.5s ease;
+    cursor: default;
+    transition: transform 0.2s;
+  }
+  .trophy:hover { transform: scale(1.4); }
+  @keyframes trophyBounce {
+    0% { transform: scale(0) rotate(-180deg); }
+    60% { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* ── Screens ─────────────────────────────────────────────── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── Mode selector (start screen) ────────────────────────── */
+  #start-screen { text-align: center; padding: 20px 0; }
+  #level-select-screen { text-align: center; padding: 20px 0; }
+  .mode-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px; margin: 20px 0;
+  }
+  .level-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px; margin: 20px auto; max-width: 700px;
+  }
+  .level-btn {
+    background: var(--card); border: 3px solid rgba(255,255,255,0.15);
+    border-radius: 18px; padding: 18px 14px; cursor: pointer;
+    transition: all 0.3s; color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem; font-weight: 700; text-align: left;
+  }
+  .level-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+  .level-btn .level-icon { font-size: 1.8rem; margin-bottom: 6px; display: block; }
+  .level-btn .level-name { font-size: 1rem; font-weight: 800; margin-bottom: 3px; }
+  .level-btn .level-desc { font-size: 0.75rem; color: #aaa; font-weight: 400; }
+  .level-btn .level-numbers { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-top: 6px; color: var(--gold); }
+  .level-btn.easy { border-color: var(--green); }
+  .level-btn.easy:hover { background: var(--green); }
+  .level-btn.easy:hover .level-desc, .level-btn.easy:hover .level-numbers { color: #fff; }
+  .level-btn.medium { border-color: var(--orange); }
+  .level-btn.medium:hover { background: var(--orange); }
+  .level-btn.medium:hover .level-desc, .level-btn.medium:hover .level-numbers { color: #fff; }
+  .level-btn.hard { border-color: var(--accent); }
+  .level-btn.hard:hover { background: var(--accent); }
+  .level-btn.hard:hover .level-desc, .level-btn.hard:hover .level-numbers { color: #fff; }
+  .level-btn.master { border-color: var(--purple); }
+  .level-btn.master:hover { background: var(--purple); }
+  .level-btn.master:hover .level-desc, .level-btn.master:hover .level-numbers { color: #fff; }
+  .level-btn.all { border-color: var(--blue); }
+  .level-btn.all:hover { background: var(--blue); }
+  .level-btn.all:hover .level-desc, .level-btn.all:hover .level-numbers { color: #fff; }
+  .level-btn.tables { border-color: var(--pink); }
+  .level-btn.tables:hover { background: var(--pink); }
+  .level-btn.tables:hover .level-desc, .level-btn.tables:hover .level-numbers { color: #fff; }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive; font-size: 1.4rem;
+    margin-bottom: 5px; color: #fff;
+  }
+  .section-subtitle { color: #aaa; font-size: 0.9rem; margin-bottom: 12px; }
+
+  .mode-btn {
+    background: var(--card); border: 3px solid rgba(255,255,255,0.1);
+    border-radius: 18px; padding: 22px 14px; cursor: pointer;
+    transition: all 0.3s; color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+  }
+  .mode-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .mode-btn .icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+  .mode-btn.multiply { border-color: var(--accent); }
+  .mode-btn.multiply:hover { background: var(--accent); }
+  .mode-btn.add { border-color: var(--green); }
+  .mode-btn.add:hover { background: var(--green); }
+  .mode-btn.subtract { border-color: var(--blue); }
+  .mode-btn.subtract:hover { background: var(--blue); }
+  .mode-btn.mixed { border-color: var(--purple); }
+  .mode-btn.mixed:hover { background: var(--purple); }
+  .mode-btn.divide { border-color: var(--orange); }
+  .mode-btn.divide:hover { background: var(--orange); }
+  .mode-btn.challenge { border-color: var(--pink); }
+  .mode-btn.challenge:hover { background: var(--pink); }
+
+  /* ── Astronaut Customization Screen ──────────────────────── */
+  #customize-screen { text-align: center; padding: 20px 0; }
+
+  .customize-layout {
+    display: flex; gap: 30px; align-items: flex-start;
+    justify-content: center; flex-wrap: wrap; margin: 20px 0;
+  }
+
+  .astronaut-preview {
+    width: 220px; height: 300px;
+    background: radial-gradient(ellipse at center, #1a1a4e 0%, var(--bg) 70%);
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.15);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .astronaut-preview .mini-stars {
+    position: absolute; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .customize-options {
+    display: flex; flex-direction: column; gap: 14px;
+    max-width: 350px;
+  }
+
+  .option-group {
+    background: var(--card);
+    border-radius: 14px; padding: 12px 16px;
+    border: 2px solid rgba(255,255,255,0.08);
+    text-align: left;
+  }
+  .option-group .opt-label {
+    font-size: 0.8rem; color: #aaa; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px; font-weight: 700;
+  }
+  .color-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .color-swatch {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 3px solid transparent; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.selected { border-color: #fff; box-shadow: 0 0 12px rgba(255,255,255,0.4); }
+
+  .style-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .style-btn {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 10px; padding: 8px 14px;
+    color: #fff; cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem; font-weight: 700; transition: all 0.2s;
+  }
+  .style-btn:hover { background: rgba(255,255,255,0.15); }
+  .style-btn.selected { border-color: var(--cyan); background: rgba(0,206,201,0.2); }
+
+  .launch-btn {
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    border: none; border-radius: 16px; padding: 16px 40px;
+    color: #fff; font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem; cursor: pointer;
+    transition: all 0.3s; margin-top: 10px;
+    box-shadow: 0 5px 20px rgba(0,206,201,0.3);
+  }
+  .launch-btn:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(0,206,201,0.5); }
+
+  /* ── SVG Astronaut ───────────────────────────────────────── */
+  .astro-svg { width: 140px; height: 200px; }
+
+  /* ── Game Screen ─────────────────────────────────────────── */
+  #game-screen { position: relative; }
+
+  .game-top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+
+  /* ── Space Chase Area ────────────────────────────────────── */
+  .chase-arena {
+    position: relative;
+    width: 100%; height: 180px;
+    background: linear-gradient(180deg, #070720 0%, #0d0d35 50%, #1a1a4e 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .chase-arena .arena-stars {
+    position: absolute; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .chase-arena .arena-star {
+    position: absolute; background: #fff; border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+
+  /* Planet decorations */
+  .planet {
+    position: absolute; border-radius: 50%;
+  }
+  .planet-1 {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle at 35% 35%, #e67e22, #a0522d);
+    top: 15px; right: 60px; opacity: 0.6;
+  }
+  .planet-2 {
+    width: 25px; height: 25px;
+    background: radial-gradient(circle at 35% 35%, #3498db, #1a5276);
+    top: 40px; right: 180px; opacity: 0.4;
+  }
+
+  /* Astronaut in chase */
+  .chase-astronaut {
+    position: absolute;
+    bottom: 20px;
+    transition: left 0.5s ease;
+    z-index: 5;
+    filter: drop-shadow(0 0 10px rgba(0,206,201,0.5));
+  }
+  .chase-astronaut svg { width: 60px; height: 85px; }
+
+  /* Monster in chase */
+  .chase-monster {
+    position: absolute;
+    bottom: 15px;
+    transition: left 0.8s ease;
+    z-index: 4;
+    filter: drop-shadow(0 0 15px rgba(233,69,96,0.6));
+  }
+  .chase-monster svg { width: 75px; height: 95px; }
+
+  /* Monster idle animation */
+  @keyframes monsterFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .chase-monster svg {
+    animation: monsterFloat 1.5s ease-in-out infinite;
+  }
+
+  /* Astronaut float */
+  @keyframes astronautFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(2deg); }
+  }
+  .chase-astronaut svg {
+    animation: astronautFloat 2s ease-in-out infinite;
+  }
+
+  /* Health bar */
+  .health-bar-wrapper {
+    display: flex; align-items: center; gap: 8px;
+    margin: 8px 0;
+  }
+  .health-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem; color: var(--accent);
+  }
+  .health-bar-bg {
+    flex: 1; height: 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px; overflow: hidden;
+  }
+  .health-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+  .distance-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem; color: var(--cyan);
+  }
+
+  /* ── Question Card ───────────────────────────────────────── */
+  .question-card {
+    background: var(--card);
+    border-radius: 22px; padding: 25px;
+    text-align: center; margin: 12px 0;
+    border: 3px solid rgba(255,255,255,0.1);
+    position: relative; overflow: hidden;
+  }
+  .question-card .timer-bar {
+    position: absolute; top: 0; left: 0; height: 5px;
+    background: linear-gradient(90deg, var(--green), var(--gold), var(--accent));
+    transition: width 0.1s linear;
+  }
+  .portal-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem; color: var(--cyan);
+    margin-bottom: 4px;
+  }
+  .question-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem; margin: 10px 0;
+    color: #fff;
+  }
+  .question-text .operator { color: var(--gold); margin: 0 8px; }
+  .question-text .equals { color: var(--cyan); margin: 0 8px; }
+
+  /* ── Answers ─────────────────────────────────────────────── */
+  .answers-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin: 15px auto; max-width: 480px;
+  }
+  .answer-btn {
+    background: rgba(255,255,255,0.08);
+    border: 3px solid rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem; color: #fff;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .answer-btn:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.05);
+    border-color: var(--cyan);
+  }
+  .answer-btn.correct {
+    background: var(--green) !important;
+    border-color: var(--green) !important;
+    animation: correctPop 0.5s ease;
+  }
+  .answer-btn.wrong {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+    animation: shake 0.5s ease;
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  /* ── Feedback overlay ────────────────────────────────────── */
+  .feedback {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem; z-index: 100;
+    pointer-events: none;
+    animation: feedbackPop 0.8s ease forwards;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  }
+  @keyframes feedbackPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    40% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+    70% { transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+  }
+
+  /* ── Confetti ────────────────────────────────────────────── */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    z-index: 99;
+    animation: confettiFall 1.5s ease forwards;
+  }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* ── Emoji rain ──────────────────────────────────────────── */
+  .emoji-float {
+    position: fixed; font-size: 2rem; z-index: 98;
+    animation: emojiFloat 2s ease forwards;
+    pointer-events: none;
+  }
+  @keyframes emojiFloat {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-200px) scale(1.5); }
+  }
+
+  /* ── Back button ─────────────────────────────────────────── */
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px; padding: 8px 18px;
+    color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .back-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+
+  /* ── Streak flame ────────────────────────────────────────── */
+  .streak-display {
+    text-align: center; margin: 6px 0; min-height: 30px;
+  }
+  .streak-flame {
+    font-size: 1.1rem; font-weight: 800;
+    animation: flamePulse 0.5s ease infinite alternate;
+  }
+  @keyframes flamePulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+
+  /* ── Modal ───────────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.75); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+  .modal {
+    background: var(--card); border-radius: 25px;
+    padding: 35px; text-align: center; max-width: 400px;
+    border: 3px solid var(--gold);
+    animation: modalPop 0.5s ease;
+  }
+  @keyframes modalPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .modal h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--gold); }
+  .modal .big-emoji { font-size: 3.5rem; margin: 12px 0; }
+  .modal p { color: #ccc; margin: 8px 0; font-size: 0.95rem; }
+  .modal button {
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: #fff; border: none; border-radius: 12px;
+    padding: 12px 28px; font-family: 'Fredoka One', cursive;
+    font-size: 1rem; cursor: pointer; margin-top: 12px;
+    transition: transform 0.2s;
+  }
+  .modal button:hover { transform: scale(1.08); }
+
+  /* Death screen */
+  .modal.death-modal { border-color: var(--accent); }
+  .modal.death-modal h2 { color: var(--accent); }
+
+  /* ── Damage flash ────────────────────────────────────────── */
+  @keyframes damageFlash {
+    0%, 100% { opacity: 1; }
+    25% { opacity: 0.3; }
+    50% { opacity: 1; }
+    75% { opacity: 0.3; }
+  }
+  .damage-flash {
+    animation: damageFlash 0.6s ease;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 2rem; }
+    .question-text { font-size: 2.2rem; }
+    .answer-btn { font-size: 1.3rem; padding: 12px; }
+    .stats-bar { gap: 8px; }
+    .stat-box { min-width: 70px; padding: 6px 10px; }
+    .stat-box .value { font-size: 1.3rem; }
+    .chase-arena { height: 140px; }
+    .chase-astronaut svg { width: 45px; height: 64px; }
+    .chase-monster svg { width: 55px; height: 72px; }
+    .customize-layout { gap: 15px; }
+    .astronaut-preview { width: 180px; height: 250px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Space Portals</h1>
+    <div class="subtitle">Solve math to escape the Space Monster!</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-box score">
+      <div class="label">Score</div>
+      <div class="value" id="score">0</div>
+    </div>
+    <div class="stat-box streak">
+      <div class="label">Streak</div>
+      <div class="value" id="streak">0</div>
+    </div>
+    <div class="stat-box level">
+      <div class="label">Level</div>
+      <div class="value" id="level">1</div>
+    </div>
+    <div class="stat-box stars-count">
+      <div class="label">Stars</div>
+      <div class="value" id="total-stars">0</div>
+    </div>
+  </div>
+
+  <!-- XP bar -->
+  <div class="xp-bar-container">
+    <div class="xp-bar" id="xp-bar" style="width: 0%"></div>
+  </div>
+  <div class="xp-label" id="xp-label">0 / 100 XP to Level 2</div>
+
+  <!-- Trophy shelf -->
+  <div class="trophy-shelf" id="trophy-shelf"></div>
+
+  <!-- ═══════════════ START SCREEN ═══════════════ -->
+  <div id="start-screen" class="screen active">
+    <h2 style="margin-bottom:5px;">Choose Your Mission!</h2>
+    <div class="mode-grid">
+      <button class="mode-btn multiply" onclick="showLevelSelect('multiply')">
+        <span class="icon">&#x2716;</span> Multiplication
+      </button>
+      <button class="mode-btn add" onclick="showLevelSelect('add')">
+        <span class="icon">&#x2795;</span> Addition
+      </button>
+      <button class="mode-btn subtract" onclick="showLevelSelect('subtract')">
+        <span class="icon">&#x2796;</span> Subtraction
+      </button>
+      <button class="mode-btn divide" onclick="showLevelSelect('divide')">
+        <span class="icon">&#x2797;</span> Division
+      </button>
+      <button class="mode-btn mixed" onclick="showLevelSelect('mixed')">
+        <span class="icon">&#x1F500;</span> Mix It Up!
+      </button>
+      <button class="mode-btn challenge" onclick="showLevelSelect('challenge')">
+        <span class="icon">&#x1F525;</span> Speed Challenge
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ LEVEL SELECT SCREEN ═══════════════ -->
+  <div id="level-select-screen" class="screen">
+    <button class="back-btn" onclick="backToModes()" style="margin-bottom:12px;">&#x2B05; Back to Modes</button>
+    <div class="section-title" id="level-select-title">Pick Your Level!</div>
+    <div class="section-subtitle" id="level-select-subtitle">Choose the number range to practice</div>
+    <div class="level-grid" id="level-grid"></div>
+  </div>
+
+  <!-- ═══════════════ CUSTOMIZE SCREEN ═══════════════ -->
+  <div id="customize-screen" class="screen">
+    <div class="section-title">Design Your Astronaut!</div>
+    <div class="section-subtitle">Make them look awesome before launch</div>
+
+    <div class="customize-layout">
+      <!-- Live Preview -->
+      <div class="astronaut-preview" id="astro-preview">
+        <div class="mini-stars" id="mini-stars"></div>
+        <!-- SVG drawn by JS -->
+      </div>
+
+      <!-- Options -->
+      <div class="customize-options">
+        <!-- Hair Style -->
+        <div class="option-group">
+          <div class="opt-label">Hair Style</div>
+          <div class="style-row" id="hair-style-row"></div>
+        </div>
+
+        <!-- Hair Color -->
+        <div class="option-group">
+          <div class="opt-label">Hair Color</div>
+          <div class="color-row" id="hair-color-row"></div>
+        </div>
+
+        <!-- Skin Color -->
+        <div class="option-group">
+          <div class="opt-label">Skin Color</div>
+          <div class="color-row" id="skin-color-row"></div>
+        </div>
+
+        <!-- Eye Color -->
+        <div class="option-group">
+          <div class="opt-label">Eye Color</div>
+          <div class="color-row" id="eye-color-row"></div>
+        </div>
+
+        <!-- Suit Color -->
+        <div class="option-group">
+          <div class="opt-label">Suit Color</div>
+          <div class="color-row" id="suit-color-row"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="launch-btn" onclick="launchGame()">Launch Into Space!</button>
+  </div>
+
+  <!-- ═══════════════ GAME SCREEN ═══════════════ -->
+  <div id="game-screen" class="screen">
+    <div class="game-top-bar">
+      <button class="back-btn" onclick="goHome()">&#x2B05; Home</button>
+      <div id="mode-label" style="font-weight:700; color:#aaa;"></div>
+      <div id="q-counter" style="font-weight:700; color:#aaa;"></div>
+    </div>
+
+    <!-- Chase Arena -->
+    <div class="chase-arena" id="chase-arena">
+      <div class="arena-stars" id="arena-stars"></div>
+      <div class="planet planet-1"></div>
+      <div class="planet planet-2"></div>
+      <div class="chase-monster" id="chase-monster"></div>
+      <div class="chase-astronaut" id="chase-astronaut"></div>
+    </div>
+
+    <!-- Health / Distance -->
+    <div class="health-bar-wrapper">
+      <span class="health-label">HP</span>
+      <div class="health-bar-bg">
+        <div class="health-bar" id="health-bar" style="width:100%"></div>
+      </div>
+      <span class="distance-label" id="distance-label">Safe</span>
+    </div>
+
+    <div class="streak-display" id="streak-display"></div>
+
+    <div class="question-card">
+      <div class="timer-bar" id="timer-bar" style="width:100%"></div>
+      <div class="portal-label">Solve to open the portal!</div>
+      <div style="color:#aaa; font-size:0.85rem;" id="hint-text"></div>
+      <div class="question-text" id="question"></div>
+    </div>
+
+    <div class="answers-grid" id="answers"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════════════════
+let score = 0, streak = 0, bestStreak = 0, level = 1, xp = 0, totalStars = 0;
+let currentAnswer = 0, questionNum = 0, totalQuestions = 15;
+let mode = 'multiply';
+let timerInterval = null, timeLeft = 0, maxTime = 15;
+let answered = false;
+let trophies = [];
+let numberRange = { min: 1, max: 12 };
+let pendingMode = null;
+
+// Monster chase state
+let astronautHP = 100;
+let monsterDistance = 80; // % from left, higher = farther = safer
+let astronautPos = 85;
+
+const XP_PER_LEVEL = 100;
+const MAX_HP = 100;
+const MONSTER_DAMAGE = 25; // damage per wrong/timeout
+const MONSTER_APPROACH = 12; // monster gets closer on wrong
+const ASTRONAUT_ESCAPE = 10; // astronaut escapes on correct
+
+// Astronaut customization
+let astroConfig = {
+  hairStyle: 'spiky',
+  hairColor: '#f5c542',
+  skinColor: '#fdbcb4',
+  eyeColor: '#3498db',
+  suitColor: '#3498db',
+};
+
+const hairStyles = [
+  { id: 'spiky', name: 'Spiky' },
+  { id: 'curly', name: 'Curly' },
+  { id: 'mohawk', name: 'Mohawk' },
+  { id: 'long', name: 'Long' },
+  { id: 'buzz', name: 'Buzz' },
+  { id: 'pigtails', name: 'Pigtails' },
+];
+
+const hairColors = ['#f5c542','#e67e22','#c0392b','#8e44ad','#2c3e50','#ecf0f1','#e84393','#00cec9'];
+const skinColors = ['#fce4d6','#fdbcb4','#d4a574','#c68642','#8d5524','#614335'];
+const eyeColors = ['#3498db','#2ecc71','#8e44ad','#c0392b','#795548','#1a1a2e'];
+const suitColors = ['#3498db','#e94560','#2ecc71','#9b59b6','#e67e22','#e84393','#00cec9','#f5c542'];
+
+const feedbackMessages = {
+  correct: [
+    { text: 'AWESOME!', color: '#2ecc71' },
+    { text: 'GREAT JOB!', color: '#3498db' },
+    { text: 'PERFECT!', color: '#9b59b6' },
+    { text: 'SUPERSTAR!', color: '#f5c542' },
+    { text: 'AMAZING!', color: '#e84393' },
+    { text: 'ESCAPED!', color: '#00cec9' },
+    { text: 'WARP SPEED!', color: '#e67e22' },
+    { text: 'PORTAL OPEN!', color: '#fd79a8' },
+  ],
+  wrong: [
+    { text: 'WATCH OUT!', color: '#e94560' },
+    { text: 'IT\'S CLOSER!', color: '#e67e22' },
+    { text: 'RUN FASTER!', color: '#e94560' },
+    { text: 'HURRY!', color: '#e67e22' },
+  ]
+};
+
+const modeLabels = {
+  multiply: 'Multiplication Mission',
+  add: 'Addition Adventure',
+  subtract: 'Subtraction Safari',
+  divide: 'Division Discovery',
+  mixed: 'Mix It Up!',
+  challenge: 'Speed Challenge'
+};
+
+const trophyRewards = [
+  { at: 5,   emoji: '&#x1F31F;', name: 'First Star' },
+  { at: 10,  emoji: '&#x1F3C5;', name: 'Bronze Medal' },
+  { at: 20,  emoji: '&#x1F947;', name: 'Gold Medal' },
+  { at: 30,  emoji: '&#x1F48E;', name: 'Diamond' },
+  { at: 50,  emoji: '&#x1F680;', name: 'Rocket' },
+  { at: 75,  emoji: '&#x1F451;', name: 'Crown' },
+  { at: 100, emoji: '&#x1F3C6;', name: 'Trophy' },
+  { at: 150, emoji: '&#x2B50;', name: 'Super Star' },
+  { at: 200, emoji: '&#x1F409;', name: 'Dragon' },
+];
+
+const levelConfigs = {
+  multiply: [
+    { id: 'easy',   icon: '&#x1F331;', name: 'Warm Up',         desc: 'Numbers you already know!',           range: [1,5],   cls: 'easy' },
+    { id: 'medium', icon: '&#x1F525;', name: 'Level Up!',       desc: 'Practice 6, 7, 8, 9!', range: [6,9],   cls: 'medium' },
+    { id: 'hard',   icon: '&#x1F4AA;', name: 'Big Numbers',     desc: 'Multiply up to 12!',                  range: [1,12],  cls: 'hard' },
+    { id: 'master', icon: '&#x1F9E0;', name: 'Math Master',     desc: 'Challenge with big facts!',  range: [7,12],  cls: 'master' },
+    { id: 't6',     icon: '6&#xFE0F;&#x20E3;', name: '6 Times Table',   desc: 'Focus on the 6s',  table: 6, cls: 'tables' },
+    { id: 't7',     icon: '7&#xFE0F;&#x20E3;', name: '7 Times Table',   desc: 'Focus on the 7s',  table: 7, cls: 'tables' },
+    { id: 't8',     icon: '8&#xFE0F;&#x20E3;', name: '8 Times Table',   desc: 'Focus on the 8s',  table: 8, cls: 'tables' },
+    { id: 't9',     icon: '9&#xFE0F;&#x20E3;', name: '9 Times Table',   desc: 'Focus on the 9s',  table: 9, cls: 'tables' },
+  ],
+  add: [
+    { id: 'easy',   icon: '&#x1F331;', name: 'Small Sums',      desc: 'Add numbers up to 20',     range: [1,10],  cls: 'easy' },
+    { id: 'medium', icon: '&#x1F525;', name: 'Getting Bigger',  desc: 'Add numbers up to 50',     range: [10,50], cls: 'medium' },
+    { id: 'hard',   icon: '&#x1F4AA;', name: 'Big Sums',        desc: 'Add numbers up to 100',    range: [20,100],cls: 'hard' },
+  ],
+  subtract: [
+    { id: 'easy',   icon: '&#x1F331;', name: 'Easy Take Away',  desc: 'Subtract within 20',       range: [1,20],  cls: 'easy' },
+    { id: 'medium', icon: '&#x1F525;', name: 'Medium',          desc: 'Subtract within 50',       range: [10,50], cls: 'medium' },
+    { id: 'hard',   icon: '&#x1F4AA;', name: 'Challenge',       desc: 'Subtract within 100',      range: [20,100],cls: 'hard' },
+  ],
+  divide: [
+    { id: 'easy',   icon: '&#x1F331;', name: 'Easy Division',   desc: 'Divide by 1-5',            range: [1,5],   cls: 'easy' },
+    { id: 'medium', icon: '&#x1F525;', name: 'Harder Division', desc: 'Divide by 6-9',            range: [6,9],   cls: 'medium' },
+    { id: 'hard',   icon: '&#x1F4AA;', name: 'All Division',    desc: 'Divide by 1-12',           range: [1,12],  cls: 'hard' },
+  ],
+  mixed: [
+    { id: 'easy',   icon: '&#x1F331;', name: 'Easy Mix',        desc: 'Small numbers, all ops', range: [1,5],  cls: 'easy' },
+    { id: 'medium', icon: '&#x1F525;', name: 'Medium Mix',      desc: 'Medium numbers, all ops',range: [1,9],  cls: 'medium' },
+    { id: 'hard',   icon: '&#x1F4AA;', name: 'Hard Mix',        desc: 'Big numbers, all ops',   range: [1,12], cls: 'hard' },
+  ],
+  challenge: [
+    { id: 'easy',   icon: '&#x26A1;', name: 'Quick Fire 1-5',  desc: '8 seconds, small numbers', range: [1,5],  cls: 'easy' },
+    { id: 'medium', icon: '&#x26A1;', name: 'Quick Fire 6-9',  desc: '8 seconds, harder numbers',range: [6,9],  cls: 'medium' },
+    { id: 'hard',   icon: '&#x26A1;', name: 'Quick Fire All',  desc: '8 seconds, any number!',   range: [1,12], cls: 'hard' },
+  ],
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SVG GENERATORS
+// ══════════════════════════════════════════════════════════════════════════════
+
+function getHairSVG(style, color, scale = 1) {
+  const s = (v) => v * scale;
+  switch(style) {
+    case 'spiky':
+      return `<path d="M${s(45)} ${s(18)} L${s(50)} ${s(5)} L${s(55)} ${s(18)} L${s(60)} ${s(8)} L${s(65)} ${s(20)} L${s(70)} ${s(12)} L${s(73)} ${s(24)} L${s(27)} ${s(24)} L${s(30)} ${s(12)} L${s(35)} ${s(20)} L${s(40)} ${s(8)} Z" fill="${color}"/>`;
+    case 'curly':
+      return `<circle cx="${s(35)}" cy="${s(18)}" r="${s(8)}" fill="${color}"/>
+              <circle cx="${s(50)}" cy="${s(13)}" r="${s(9)}" fill="${color}"/>
+              <circle cx="${s(65)}" cy="${s(18)}" r="${s(8)}" fill="${color}"/>
+              <circle cx="${s(42)}" cy="${s(14)}" r="${s(7)}" fill="${color}"/>
+              <circle cx="${s(58)}" cy="${s(14)}" r="${s(7)}" fill="${color}"/>`;
+    case 'mohawk':
+      return `<path d="M${s(44)} ${s(24)} L${s(47)} ${s(2)} L${s(50)} ${s(6)} L${s(53)} ${s(2)} L${s(56)} ${s(24)} Z" fill="${color}"/>`;
+    case 'long':
+      return `<path d="M${s(27)} ${s(24)} Q${s(27)} ${s(10)} ${s(50)} ${s(8)} Q${s(73)} ${s(10)} ${s(73)} ${s(24)} L${s(76)} ${s(55)} Q${s(73)} ${s(60)} ${s(70)} ${s(55)} L${s(70)} ${s(24)} L${s(30)} ${s(24)} L${s(30)} ${s(55)} Q${s(27)} ${s(60)} ${s(24)} ${s(55)} Z" fill="${color}" opacity="0.9"/>`;
+    case 'buzz':
+      return `<path d="M${s(30)} ${s(24)} Q${s(30)} ${s(14)} ${s(50)} ${s(12)} Q${s(70)} ${s(14)} ${s(70)} ${s(24)} Z" fill="${color}"/>`;
+    case 'pigtails':
+      return `<path d="M${s(30)} ${s(24)} Q${s(30)} ${s(14)} ${s(50)} ${s(12)} Q${s(70)} ${s(14)} ${s(70)} ${s(24)} Z" fill="${color}"/>
+              <circle cx="${s(24)}" cy="${s(32)}" r="${s(8)}" fill="${color}"/>
+              <circle cx="${s(76)}" cy="${s(32)}" r="${s(8)}" fill="${color}"/>
+              <rect x="${s(26)}" y="${s(24)}" width="${s(5)}" height="${s(10)}" fill="${color}" rx="${s(2)}"/>
+              <rect x="${s(69)}" y="${s(24)}" width="${s(5)}" height="${s(10)}" fill="${color}" rx="${s(2)}"/>`;
+    default:
+      return '';
+  }
+}
+
+function buildAstronautSVG(config, width = 140, height = 200) {
+  const w = width, h = height;
+  const s = (v) => v * (w / 140); // scale factor
+
+  // Helmet visor shows the face
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <!-- Suit body -->
+    <ellipse cx="${s(70)}" cy="${s(140)}" rx="${s(38)}" ry="${s(45)}" fill="${config.suitColor}"/>
+    <!-- Suit highlights -->
+    <ellipse cx="${s(60)}" cy="${s(135)}" rx="${s(20)}" ry="${s(30)}" fill="rgba(255,255,255,0.1)"/>
+
+    <!-- Legs -->
+    <rect x="${s(45)}" y="${s(165)}" width="${s(18)}" height="${s(28)}" rx="${s(8)}" fill="${config.suitColor}"/>
+    <rect x="${s(77)}" y="${s(165)}" width="${s(18)}" height="${s(28)}" rx="${s(8)}" fill="${config.suitColor}"/>
+    <!-- Boots -->
+    <ellipse cx="${s(54)}" cy="${s(192)}" rx="${s(12)}" ry="${s(7)}" fill="#555"/>
+    <ellipse cx="${s(86)}" cy="${s(192)}" rx="${s(12)}" ry="${s(7)}" fill="#555"/>
+
+    <!-- Arms -->
+    <rect x="${s(22)}" y="${s(110)}" width="${s(16)}" height="${s(35)}" rx="${s(8)}" fill="${config.suitColor}" transform="rotate(-15 ${s(30)} ${s(115)})"/>
+    <rect x="${s(102)}" y="${s(110)}" width="${s(16)}" height="${s(35)}" rx="${s(8)}" fill="${config.suitColor}" transform="rotate(15 ${s(110)} ${s(115)})"/>
+    <!-- Gloves -->
+    <circle cx="${s(25)}" cy="${s(148)}" r="${s(8)}" fill="#ddd"/>
+    <circle cx="${s(115)}" cy="${s(148)}" r="${s(8)}" fill="#ddd"/>
+
+    <!-- Backpack (life support) -->
+    <rect x="${s(55)}" y="${s(105)}" width="${s(30)}" height="${s(40)}" rx="${s(5)}" fill="#888"/>
+    <rect x="${s(60)}" y="${s(110)}" width="${s(8)}" height="${s(12)}" rx="${s(2)}" fill="#aaa"/>
+    <rect x="${s(72)}" y="${s(110)}" width="${s(8)}" height="${s(12)}" rx="${s(2)}" fill="#aaa"/>
+    <circle cx="${s(70)}" cy="${s(135)}" r="${s(4)}" fill="#e94560"/>
+
+    <!-- Helmet -->
+    <circle cx="${s(70)}" cy="${s(55)}" r="${s(36)}" fill="#ddd"/>
+    <circle cx="${s(70)}" cy="${s(55)}" r="${s(32)}" fill="#e8e8e8"/>
+    <!-- Visor (face visible) -->
+    <ellipse cx="${s(70)}" cy="${s(58)}" rx="${s(25)}" ry="${s(22)}" fill="${config.skinColor}"/>
+    <!-- Visor glass reflection -->
+    <ellipse cx="${s(62)}" cy="${s(50)}" rx="${s(8)}" ry="${s(5)}" fill="rgba(255,255,255,0.25)" transform="rotate(-20 ${s(62)} ${s(50)})"/>
+
+    <!-- Hair (visible through visor top) -->
+    <clipPath id="visor-clip">
+      <ellipse cx="${s(70)}" cy="${s(58)}" rx="${s(25)}" ry="${s(22)}"/>
+    </clipPath>
+    <g clip-path="url(#visor-clip)" transform="translate(${s(20)},${s(32)}) scale(${w/140 * 0.6})">
+      ${getHairSVG(config.hairStyle, config.hairColor, 1)}
+    </g>
+
+    <!-- Eyes -->
+    <ellipse cx="${s(60)}" cy="${s(57)}" rx="${s(5)}" ry="${s(5.5)}" fill="#fff"/>
+    <ellipse cx="${s(80)}" cy="${s(57)}" rx="${s(5)}" ry="${s(5.5)}" fill="#fff"/>
+    <circle cx="${s(61)}" cy="${s(57)}" r="${s(3)}" fill="${config.eyeColor}"/>
+    <circle cx="${s(81)}" cy="${s(57)}" r="${s(3)}" fill="${config.eyeColor}"/>
+    <circle cx="${s(62)}" cy="${s(56)}" r="${s(1.2)}" fill="#fff"/>
+    <circle cx="${s(82)}" cy="${s(56)}" r="${s(1.2)}" fill="#fff"/>
+
+    <!-- Mouth (happy smile) -->
+    <path d="M${s(64)} ${s(67)} Q${s(70)} ${s(73)} ${s(76)} ${s(67)}" stroke="#c0392b" stroke-width="${s(2)}" fill="none" stroke-linecap="round"/>
+
+    <!-- Suit details -->
+    <line x1="${s(70)}" y1="${s(95)}" x2="${s(70)}" y2="${s(175)}" stroke="rgba(255,255,255,0.15)" stroke-width="${s(2)}"/>
+    <circle cx="${s(70)}" cy="${s(100)}" r="${s(3)}" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="${s(70)}" cy="${s(112)}" r="${s(3)}" fill="rgba(255,255,255,0.3)"/>
+    <!-- Mission patch -->
+    <circle cx="${s(85)}" cy="${s(105)}" r="${s(7)}" fill="rgba(255,255,255,0.15)" stroke="var(--gold)" stroke-width="${s(1)}"/>
+    <text x="${s(85)}" y="${s(108)}" text-anchor="middle" font-size="${s(7)}" fill="var(--gold)">&#9733;</text>
+  </svg>`;
+}
+
+function buildMonsterSVG(width = 75, height = 95) {
+  const w = width, h = height;
+  const s = (v) => v * (w / 75);
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <!-- Monster body -->
+    <ellipse cx="${s(37)}" cy="${s(50)}" rx="${s(30)}" ry="${s(35)}" fill="#5c1a5c"/>
+    <ellipse cx="${s(37)}" cy="${s(50)}" rx="${s(28)}" ry="${s(33)}" fill="#7b2d8e"/>
+    <!-- Dark spots -->
+    <circle cx="${s(25)}" cy="${s(42)}" r="${s(5)}" fill="rgba(0,0,0,0.15)"/>
+    <circle cx="${s(48)}" cy="${s(55)}" r="${s(7)}" fill="rgba(0,0,0,0.1)"/>
+
+    <!-- Tentacles -->
+    <path d="M${s(15)} ${s(75)} Q${s(5)} ${s(85)} ${s(10)} ${s(93)}" stroke="#7b2d8e" stroke-width="${s(6)}" fill="none" stroke-linecap="round"/>
+    <path d="M${s(28)} ${s(78)} Q${s(22)} ${s(88)} ${s(25)} ${s(93)}" stroke="#7b2d8e" stroke-width="${s(5)}" fill="none" stroke-linecap="round"/>
+    <path d="M${s(46)} ${s(78)} Q${s(52)} ${s(88)} ${s(49)} ${s(93)}" stroke="#7b2d8e" stroke-width="${s(5)}" fill="none" stroke-linecap="round"/>
+    <path d="M${s(59)} ${s(75)} Q${s(69)} ${s(85)} ${s(64)} ${s(93)}" stroke="#7b2d8e" stroke-width="${s(6)}" fill="none" stroke-linecap="round"/>
+
+    <!-- Horns -->
+    <path d="M${s(18)} ${s(22)} L${s(8)} ${s(3)} L${s(22)} ${s(18)}" fill="#e94560"/>
+    <path d="M${s(56)} ${s(22)} L${s(66)} ${s(3)} L${s(52)} ${s(18)}" fill="#e94560"/>
+
+    <!-- Eyes (3 glowing eyes!) -->
+    <ellipse cx="${s(22)}" cy="${s(38)}" rx="${s(8)}" ry="${s(9)}" fill="#1a1a2e"/>
+    <ellipse cx="${s(52)}" cy="${s(38)}" rx="${s(8)}" ry="${s(9)}" fill="#1a1a2e"/>
+    <ellipse cx="${s(37)}" cy="${s(30)}" rx="${s(6)}" ry="${s(7)}" fill="#1a1a2e"/>
+    <!-- Glowing pupils -->
+    <circle cx="${s(24)}" cy="${s(38)}" r="${s(4)}" fill="#e94560"/>
+    <circle cx="${s(54)}" cy="${s(38)}" r="${s(4)}" fill="#e94560"/>
+    <circle cx="${s(38)}" cy="${s(30)}" r="${s(3)}" fill="#e94560"/>
+    <!-- Eye glow -->
+    <circle cx="${s(25)}" cy="${s(37)}" r="${s(1.5)}" fill="#ff8a8a"/>
+    <circle cx="${s(55)}" cy="${s(37)}" r="${s(1.5)}" fill="#ff8a8a"/>
+    <circle cx="${s(39)}" cy="${s(29)}" r="${s(1)}" fill="#ff8a8a"/>
+
+    <!-- Mouth with teeth -->
+    <path d="M${s(20)} ${s(55)} Q${s(37)} ${s(72)} ${s(54)} ${s(55)}" fill="#1a1a2e"/>
+    <polygon points="${s(24)},${s(55)} ${s(28)},${s(62)} ${s(32)},${s(55)}" fill="#fff"/>
+    <polygon points="${s(34)},${s(55)} ${s(37)},${s(64)} ${s(40)},${s(55)}" fill="#fff"/>
+    <polygon points="${s(42)},${s(55)} ${s(46)},${s(62)} ${s(50)},${s(55)}" fill="#fff"/>
+
+    <!-- Drool / energy particles -->
+    <circle cx="${s(30)}" cy="${s(68)}" r="${s(2)}" fill="#e94560" opacity="0.6"/>
+    <circle cx="${s(44)}" cy="${s(70)}" r="${s(1.5)}" fill="#e94560" opacity="0.4"/>
+  </svg>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BACKGROUND STARS
+// ══════════════════════════════════════════════════════════════════════════════
+
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    container.appendChild(star);
+  }
+}
+
+function createMiniStars(containerId, count) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.style.cssText = `position:absolute;background:#fff;border-radius:50%;
+      width:${Math.random()*2+1}px;height:${Math.random()*2+1}px;
+      left:${Math.random()*100}%;top:${Math.random()*100}%;
+      opacity:${Math.random()*0.6+0.2};`;
+    container.appendChild(star);
+  }
+}
+
+function createArenaStars() {
+  const container = document.getElementById('arena-stars');
+  container.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const star = document.createElement('div');
+    star.className = 'arena-star';
+    const size = Math.random() * 2 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    container.appendChild(star);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SOUND EFFECTS (Web Audio API)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
+
+function playCorrectSound() {
+  ensureAudio();
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sine';
+  const now = audioCtx.currentTime;
+  o.frequency.setValueAtTime(523, now);
+  o.frequency.setValueAtTime(659, now + 0.1);
+  o.frequency.setValueAtTime(784, now + 0.2);
+  g.gain.setValueAtTime(0.3, now);
+  g.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+  o.start(now); o.stop(now + 0.4);
+}
+
+function playWrongSound() {
+  ensureAudio();
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sawtooth';
+  const now = audioCtx.currentTime;
+  o.frequency.setValueAtTime(200, now);
+  o.frequency.setValueAtTime(150, now + 0.15);
+  g.gain.setValueAtTime(0.2, now);
+  g.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+  o.start(now); o.stop(now + 0.3);
+}
+
+function playDamageSound() {
+  ensureAudio();
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'square';
+  const now = audioCtx.currentTime;
+  o.frequency.setValueAtTime(120, now);
+  o.frequency.setValueAtTime(80, now + 0.2);
+  g.gain.setValueAtTime(0.15, now);
+  g.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+  o.start(now); o.stop(now + 0.4);
+}
+
+function playDeathSound() {
+  ensureAudio();
+  const notes = [300, 250, 200, 150, 100];
+  notes.forEach((freq, i) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sawtooth';
+    const t = audioCtx.currentTime + i * 0.15;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.2, t);
+    g.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+    o.start(t); o.stop(t + 0.3);
+  });
+}
+
+function playLevelUpSound() {
+  ensureAudio();
+  [523, 659, 784, 1047].forEach((freq, i) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sine';
+    const t = audioCtx.currentTime + i * 0.15;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.25, t);
+    g.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+    o.start(t); o.stop(t + 0.3);
+  });
+}
+
+function playEscapeSound() {
+  ensureAudio();
+  [784, 988, 1175].forEach((freq, i) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sine';
+    const t = audioCtx.currentTime + i * 0.1;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.2, t);
+    g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+    o.start(t); o.stop(t + 0.25);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// VISUAL EFFECTS
+// ══════════════════════════════════════════════════════════════════════════════
+
+function showFeedback(isCorrect) {
+  const list = isCorrect ? feedbackMessages.correct : feedbackMessages.wrong;
+  const msg = list[Math.floor(Math.random() * list.length)];
+  const el = document.createElement('div');
+  el.className = 'feedback';
+  el.textContent = msg.text;
+  el.style.color = msg.color;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+function spawnConfetti() {
+  const colors = ['#e94560','#f5c542','#2ecc71','#3498db','#9b59b6','#e67e22','#e84393','#00cec9'];
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.top = '-10px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.width = (Math.random() * 8 + 5) + 'px';
+    c.style.height = (Math.random() * 8 + 5) + 'px';
+    c.style.animationDuration = (Math.random() * 1 + 1) + 's';
+    c.style.animationDelay = Math.random() * 0.3 + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+
+function spawnEmojis(emojis) {
+  emojis.forEach((emoji, i) => {
+    const el = document.createElement('div');
+    el.className = 'emoji-float';
+    el.textContent = emoji;
+    el.style.left = (30 + Math.random() * 40) + 'vw';
+    el.style.top = (40 + Math.random() * 20) + 'vh';
+    el.style.animationDelay = (i * 0.15) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SCREEN MANAGEMENT
+// ══════════════════════════════════════════════════════════════════════════════
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CUSTOMIZATION SCREEN
+// ══════════════════════════════════════════════════════════════════════════════
+
+function initCustomizeScreen() {
+  // Hair styles
+  const hsRow = document.getElementById('hair-style-row');
+  hsRow.innerHTML = '';
+  hairStyles.forEach(hs => {
+    const btn = document.createElement('button');
+    btn.className = 'style-btn' + (astroConfig.hairStyle === hs.id ? ' selected' : '');
+    btn.textContent = hs.name;
+    btn.onclick = () => {
+      astroConfig.hairStyle = hs.id;
+      hsRow.querySelectorAll('.style-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      renderAstronautPreview();
+    };
+    hsRow.appendChild(btn);
+  });
+
+  // Color pickers
+  setupColorRow('hair-color-row', hairColors, 'hairColor');
+  setupColorRow('skin-color-row', skinColors, 'skinColor');
+  setupColorRow('eye-color-row', eyeColors, 'eyeColor');
+  setupColorRow('suit-color-row', suitColors, 'suitColor');
+
+  createMiniStars('mini-stars', 25);
+  renderAstronautPreview();
+}
+
+function setupColorRow(rowId, colors, configKey) {
+  const row = document.getElementById(rowId);
+  row.innerHTML = '';
+  colors.forEach(color => {
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch' + (astroConfig[configKey] === color ? ' selected' : '');
+    swatch.style.background = color;
+    swatch.onclick = () => {
+      astroConfig[configKey] = color;
+      row.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+      swatch.classList.add('selected');
+      renderAstronautPreview();
+    };
+    row.appendChild(swatch);
+  });
+}
+
+function renderAstronautPreview() {
+  const preview = document.getElementById('astro-preview');
+  // Keep mini stars, replace SVG
+  let svg = preview.querySelector('.astro-svg');
+  if (!svg) {
+    svg = document.createElement('div');
+    svg.className = 'astro-svg';
+    preview.appendChild(svg);
+  }
+  svg.innerHTML = buildAstronautSVG(astroConfig, 140, 200);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LOBBY / LEVEL SELECT (same as math_game)
+// ══════════════════════════════════════════════════════════════════════════════
+
+function showLevelSelect(selectedMode) {
+  pendingMode = selectedMode;
+  showScreen('level-select-screen');
+
+  const configs = levelConfigs[selectedMode] || levelConfigs.multiply;
+  document.getElementById('level-select-title').textContent =
+    modeLabels[selectedMode] + ' — Pick Your Level!';
+
+  const grid = document.getElementById('level-grid');
+  grid.innerHTML = '';
+  configs.forEach(cfg => {
+    const btn = document.createElement('button');
+    btn.className = 'level-btn ' + cfg.cls;
+    const numbersLabel = cfg.table
+      ? `${cfg.table} × 1 through ${cfg.table} × 12`
+      : `Numbers ${cfg.range[0]} to ${cfg.range[1]}`;
+    btn.innerHTML = `
+      <span class="level-icon">${cfg.icon}</span>
+      <div class="level-name">${cfg.name}</div>
+      <div class="level-desc">${cfg.desc}</div>
+      <div class="level-numbers">${numbersLabel}</div>
+    `;
+    btn.onclick = () => {
+      if (cfg.table) {
+        numberRange = { min: 1, max: 12, fixedFactor: cfg.table };
+      } else {
+        numberRange = { min: cfg.range[0], max: cfg.range[1] };
+      }
+      // Go to customization screen
+      showScreen('customize-screen');
+      initCustomizeScreen();
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function backToModes() {
+  showScreen('start-screen');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// QUESTION GENERATION (same as math_game)
+// ══════════════════════════════════════════════════════════════════════════════
+
+function randInRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateQuestion() {
+  let a, b, op, answer, opSymbol;
+  const rMin = numberRange.min, rMax = numberRange.max;
+  const fixed = numberRange.fixedFactor;
+
+  const ops = mode === 'mixed' || mode === 'challenge'
+    ? ['add','subtract','multiply','divide']
+    : [mode];
+  op = ops[Math.floor(Math.random() * ops.length)];
+
+  switch (op) {
+    case 'multiply':
+      if (fixed) {
+        a = fixed; b = randInRange(1, 12);
+        if (Math.random() > 0.5) [a, b] = [b, a];
+      } else {
+        a = randInRange(rMin, rMax); b = randInRange(rMin, rMax);
+      }
+      answer = a * b; opSymbol = '\u00D7'; break;
+    case 'add':
+      a = randInRange(rMin, rMax); b = randInRange(rMin, rMax);
+      answer = a + b; opSymbol = '+'; break;
+    case 'subtract':
+      a = randInRange(rMin, rMax); b = randInRange(rMin, Math.max(rMin, a));
+      if (a < b) [a, b] = [b, a];
+      answer = a - b; opSymbol = '\u2212'; break;
+    case 'divide':
+      if (fixed) { b = fixed; answer = randInRange(1, 12); }
+      else { b = randInRange(Math.max(1, rMin), rMax); answer = randInRange(Math.max(1, rMin), rMax); }
+      a = b * answer; opSymbol = '\u00F7'; break;
+  }
+  return { a, b, answer, opSymbol };
+}
+
+function generateWrongAnswers(correct) {
+  const wrongs = new Set();
+  while (wrongs.size < 3) {
+    let offset = Math.floor(Math.random() * 10) + 1;
+    if (Math.random() > 0.5) offset = -offset;
+    let wrong = correct + offset;
+    if (wrong < 0) wrong = correct + Math.abs(offset);
+    if (wrong !== correct && wrong >= 0) wrongs.add(wrong);
+  }
+  return Array.from(wrongs);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// GAME FLOW
+// ══════════════════════════════════════════════════════════════════════════════
+
+function launchGame() {
+  startGame(pendingMode);
+}
+
+function startGame(selectedMode) {
+  mode = selectedMode;
+  questionNum = 0;
+  totalQuestions = mode === 'challenge' ? 20 : 15;
+  maxTime = mode === 'challenge' ? 8 : 15;
+  astronautHP = MAX_HP;
+  monsterDistance = 10; // monster starts at left
+  astronautPos = 80;  // astronaut starts at right
+
+  showScreen('game-screen');
+  document.getElementById('mode-label').textContent = modeLabels[mode];
+
+  // Place characters
+  createArenaStars();
+  updateChasePositions();
+  updateHealthBar();
+
+  // Place astronaut SVG in chase arena
+  document.getElementById('chase-astronaut').innerHTML =
+    buildAstronautSVG(astroConfig, 60, 85);
+  document.getElementById('chase-monster').innerHTML = buildMonsterSVG(75, 95);
+
+  nextQuestion();
+}
+
+function goHome() {
+  clearInterval(timerInterval);
+  showScreen('start-screen');
+}
+
+function nextQuestion() {
+  if (astronautHP <= 0) {
+    astronautDied();
+    return;
+  }
+  if (questionNum >= totalQuestions) {
+    endRound();
+    return;
+  }
+  questionNum++;
+  answered = false;
+  document.getElementById('q-counter').textContent = `${questionNum} / ${totalQuestions}`;
+  updateStreakDisplay();
+
+  const q = generateQuestion();
+  currentAnswer = q.answer;
+
+  document.getElementById('question').innerHTML =
+    `${q.a} <span class="operator">${q.opSymbol}</span> ${q.b} <span class="equals">=</span> ?`;
+  document.getElementById('hint-text').textContent = '';
+
+  const options = shuffle([q.answer, ...generateWrongAnswers(q.answer)]);
+  const grid = document.getElementById('answers');
+  grid.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt, btn);
+    grid.appendChild(btn);
+  });
+
+  // Timer
+  timeLeft = maxTime;
+  document.getElementById('timer-bar').style.width = '100%';
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft -= 0.1;
+    const pct = Math.max(0, (timeLeft / maxTime) * 100);
+    document.getElementById('timer-bar').style.width = pct + '%';
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timeUp();
+    }
+  }, 100);
+}
+
+function checkAnswer(selected, btnEl) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+
+  const allBtns = document.querySelectorAll('.answer-btn');
+
+  if (selected === currentAnswer) {
+    btnEl.classList.add('correct');
+    streak++;
+    if (streak > bestStreak) bestStreak = streak;
+
+    const timeBonus = Math.floor(timeLeft * 2);
+    const streakBonus = Math.min(streak, 10) * 2;
+    const points = 10 + timeBonus + streakBonus;
+    score += points;
+    xp += points;
+    totalStars += 1;
+
+    playCorrectSound();
+    showFeedback(true);
+
+    // Astronaut escapes further!
+    astronautPos = Math.min(90, astronautPos + ASTRONAUT_ESCAPE);
+    monsterDistance = Math.max(5, monsterDistance - 3);
+    playEscapeSound();
+
+    if (streak >= 3) spawnEmojis(['🔥','⭐','💪','🎯','✨'].slice(0, Math.min(streak, 5)));
+    if ([5, 10, 15, 20].includes(streak)) spawnConfetti();
+
+    checkLevelUp();
+    checkTrophies();
+  } else {
+    btnEl.classList.add('wrong');
+    streak = 0;
+    playWrongSound();
+    showFeedback(false);
+
+    allBtns.forEach(b => {
+      if (parseInt(b.textContent) === currentAnswer) b.classList.add('correct');
+    });
+    document.getElementById('hint-text').textContent = `The answer was ${currentAnswer}`;
+
+    // Monster attacks!
+    monsterApproaches();
+  }
+
+  updateChasePositions();
+  updateHealthBar();
+  updateUI();
+  setTimeout(nextQuestion, 1200);
+}
+
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  streak = 0;
+  playWrongSound();
+  showFeedback(false);
+
+  document.querySelectorAll('.answer-btn').forEach(b => {
+    if (parseInt(b.textContent) === currentAnswer) b.classList.add('correct');
+  });
+  document.getElementById('hint-text').textContent = `Time's up! Answer: ${currentAnswer}`;
+
+  // Monster attacks!
+  monsterApproaches();
+
+  updateChasePositions();
+  updateHealthBar();
+  updateUI();
+  setTimeout(nextQuestion, 1500);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MONSTER CHASE MECHANICS
+// ══════════════════════════════════════════════════════════════════════════════
+
+function monsterApproaches() {
+  monsterDistance = Math.min(astronautPos - 5, monsterDistance + MONSTER_APPROACH);
+  astronautHP = Math.max(0, astronautHP - MONSTER_DAMAGE);
+  playDamageSound();
+
+  // Flash the astronaut red
+  const astroEl = document.getElementById('chase-astronaut');
+  astroEl.classList.add('damage-flash');
+  setTimeout(() => astroEl.classList.remove('damage-flash'), 600);
+}
+
+function updateChasePositions() {
+  document.getElementById('chase-astronaut').style.left = astronautPos + '%';
+  document.getElementById('chase-monster').style.left = monsterDistance + '%';
+
+  // Distance label
+  const gap = astronautPos - monsterDistance;
+  const distLabel = document.getElementById('distance-label');
+  if (gap > 50) { distLabel.textContent = 'Safe!'; distLabel.style.color = 'var(--green)'; }
+  else if (gap > 30) { distLabel.textContent = 'Watch out!'; distLabel.style.color = 'var(--gold)'; }
+  else if (gap > 15) { distLabel.textContent = 'Danger!'; distLabel.style.color = 'var(--orange)'; }
+  else { distLabel.textContent = 'RUN!!!'; distLabel.style.color = 'var(--accent)'; }
+}
+
+function updateHealthBar() {
+  const pct = Math.max(0, (astronautHP / MAX_HP) * 100);
+  const bar = document.getElementById('health-bar');
+  bar.style.width = pct + '%';
+  if (pct > 50) bar.style.background = 'linear-gradient(90deg, var(--green), var(--cyan))';
+  else if (pct > 25) bar.style.background = 'linear-gradient(90deg, var(--orange), var(--gold))';
+  else bar.style.background = 'linear-gradient(90deg, var(--accent), var(--orange))';
+}
+
+function astronautDied() {
+  clearInterval(timerInterval);
+  playDeathSound();
+
+  // Monster reaches astronaut
+  monsterDistance = astronautPos - 5;
+  updateChasePositions();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal death-modal">
+      <h2>Oh No!</h2>
+      <div class="big-emoji">&#x1F47E;</div>
+      <p>The Space Monster caught you!<br>
+      Score: ${score} | Questions: ${questionNum - 1}<br>
+      Best Streak: ${bestStreak}</p>
+      <button onclick="this.closest('.modal-overlay').remove(); goHome()">Try Again</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LEVEL, XP, TROPHIES
+// ══════════════════════════════════════════════════════════════════════════════
+
+function checkLevelUp() {
+  const needed = level * XP_PER_LEVEL;
+  if (xp >= needed) {
+    xp -= needed;
+    level++;
+    playLevelUpSound();
+    spawnConfetti();
+    spawnEmojis(['🎉','🌟','🏆','🚀','👑']);
+    setTimeout(() => showModal('Level Up!', '🎉', `You reached Level ${level}!`, 'Keep Going!'), 600);
+  }
+}
+
+function checkTrophies() {
+  trophyRewards.forEach(t => {
+    if (totalStars >= t.at && !trophies.includes(t.at)) {
+      trophies.push(t.at);
+      renderTrophies();
+      setTimeout(() => showModal('New Trophy!', t.emoji, `You earned: ${t.name}`, 'Awesome!'), 400);
+    }
+  });
+}
+
+function renderTrophies() {
+  const shelf = document.getElementById('trophy-shelf');
+  shelf.innerHTML = '';
+  trophies.sort((a, b) => a - b).forEach(at => {
+    const t = trophyRewards.find(r => r.at === at);
+    if (t) {
+      const span = document.createElement('span');
+      span.className = 'trophy';
+      span.innerHTML = t.emoji;
+      span.title = t.name;
+      shelf.appendChild(span);
+    }
+  });
+}
+
+function endRound() {
+  clearInterval(timerInterval);
+  spawnConfetti();
+  const msg = score > 200 ? 'INCREDIBLE!' : score > 100 ? 'GREAT WORK!' : 'GOOD TRY!';
+  const emoji = score > 200 ? '🏆' : score > 100 ? '⭐' : '👍';
+  showModal(
+    'Mission Complete!',
+    emoji,
+    `${msg}\nScore: ${score} | HP Left: ${astronautHP}\nBest Streak: ${bestStreak}`,
+    'New Mission'
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// UI UPDATES
+// ══════════════════════════════════════════════════════════════════════════════
+
+function updateUI() {
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
+  document.getElementById('level').textContent = level;
+  document.getElementById('total-stars').textContent = totalStars;
+
+  const needed = level * XP_PER_LEVEL;
+  const pct = Math.min(100, (xp / needed) * 100);
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = `${xp} / ${needed} XP to Level ${level + 1}`;
+}
+
+function updateStreakDisplay() {
+  const el = document.getElementById('streak-display');
+  if (streak >= 3) {
+    const flames = '🔥'.repeat(Math.min(streak, 10));
+    el.innerHTML = `<span class="streak-flame">${flames} ${streak} in a row!</span>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function showModal(title, emoji, message, btnText) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h2>${title}</h2>
+      <div class="big-emoji">${emoji}</div>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+      <button onclick="this.closest('.modal-overlay').remove()">${btnText}</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+createStars();
+updateUI();
+</script>
+</body>
+</html>

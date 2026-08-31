@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learn Chinese - 学中文</title>
+    <style>
+/* ==================== DESIGN SYSTEM ==================== */
+:root {
+    --primary: #6C5CE7;
+    --primary-light: #A29BFE;
+    --primary-dark: #5A4BD1;
+    --secondary: #00CEC9;
+    --accent: #FD79A8;
+    --gold: #FDCB6E;
+    --gold-dark: #E17055;
+    --green: #00B894;
+    --green-light: #55EFC4;
+    --red: #FF7675;
+    --orange: #FAB1A0;
+    --bg: #F8F9FF;
+    --card: #FFFFFF;
+    --text: #2D3436;
+    --text-light: #636E72;
+    --text-muted: #B2BEC3;
+    --border: #E8ECF4;
+    --shadow: 0 4px 20px rgba(108, 92, 231, 0.12);
+    --shadow-lg: 0 8px 32px rgba(108, 92, 231, 0.18);
+    --radius: 16px;
+    --radius-lg: 24px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hidden { display: none !important; }
+
+/* ==================== COMMON ==================== */
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.screen.active { display: block; }
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0 16px;
+}
+.back-btn {
+    background: var(--card);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.back-btn:active { transform: scale(0.93); }
+
+.stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.stat-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--card);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 28px;
+    border-radius: var(--radius);
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:active { transform: scale(0.95); }
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 16px rgba(108,92,231,0.35); }
+.btn-secondary { background: var(--secondary); color: white; box-shadow: 0 4px 16px rgba(0,206,201,0.35); }
+.btn-accent { background: var(--accent); color: white; box-shadow: 0 4px 16px rgba(253,121,168,0.35); }
+.btn-gold { background: var(--gold); color: var(--text); box-shadow: 0 4px 16px rgba(253,203,110,0.35); }
+.btn-full { width: 100%; }
+.btn-sm { padding: 10px 18px; font-size: 14px; border-radius: 12px; }
+
+/* ==================== HOME SCREEN ==================== */
+.home-hero {
+    text-align: center;
+    padding: 40px 0 24px;
+}
+.home-hero h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.home-hero .subtitle {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+.home-hero .mascot {
+    font-size: 72px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.game-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.game-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s;
+    border: 2px solid transparent;
+}
+.game-card:active { transform: scale(0.97); }
+.game-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+.game-card-info h3 { font-size: 17px; font-weight: 700; }
+.game-card-info p { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+
+.progress-card {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    color: white;
+    margin-bottom: 20px;
+}
+.progress-card h3 { font-size: 15px; font-weight: 600; opacity: 0.85; margin-bottom: 12px; }
+.progress-bar-bg {
+    height: 12px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+}
+.progress-nums {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ==================== LEVEL SELECT ==================== */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.level-tile {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 14px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s;
+    border: 2px solid transparent;
+    position: relative;
+}
+.level-tile:active { transform: scale(0.95); }
+.level-tile.current { border-color: var(--primary); }
+.level-tile.locked { opacity: 0.45; pointer-events: none; }
+.level-tile .level-num { font-size: 13px; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+.level-tile .level-name { font-size: 15px; font-weight: 700; margin: 4px 0 6px; }
+.level-tile .level-progress { font-size: 12px; color: var(--text-light); }
+.level-tile .level-stars { font-size: 14px; margin-top: 4px; }
+.level-lock { font-size: 24px; }
+
+/* ==================== SESSION SELECT ==================== */
+.session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.session-tile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+.session-tile:active { transform: scale(0.97); }
+.session-tile.locked { opacity: 0.4; pointer-events: none; }
+.session-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+.session-tile.locked .session-num { background: var(--text-muted); }
+.session-chars {
+    flex: 1;
+    font-size: 20px;
+    letter-spacing: 4px;
+    font-weight: 500;
+}
+.session-status { font-size: 18px; flex-shrink: 0; }
+
+/* ==================== GAME MODE SELECT ==================== */
+.mode-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+.char-preview {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    margin-bottom: 8px;
+}
+.char-preview-item {
+    text-align: center;
+}
+.char-preview-item .char { font-size: 32px; font-weight: 700; }
+.char-preview-item .pinyin { font-size: 11px; color: var(--primary); margin-top: 2px; }
+.char-preview-item .eng { font-size: 10px; color: var(--text-light); }
+
+/* ==================== MEMORY GAME ==================== */
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+.memory-card {
+    aspect-ratio: 1;
+    perspective: 800px;
+    cursor: pointer;
+}
+.memory-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+    border-radius: var(--radius);
+}
+.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+.memory-card.matched .memory-card-inner { transform: rotateY(180deg); }
+.memory-card.matched { pointer-events: none; }
+
+.memory-front, .memory-back {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+.memory-front {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    font-size: 28px;
+    box-shadow: var(--shadow);
+}
+.memory-back {
+    transform: rotateY(180deg);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    padding: 4px;
+}
+.memory-back .char-display { font-size: 28px; font-weight: 700; }
+.memory-back .char-hint { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.memory-back .emoji-display { font-size: 32px; }
+
+.memory-card.matched .memory-back {
+    border-color: var(--green);
+    background: var(--green-light);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.game-header h2 { font-size: 20px; font-weight: 800; }
+.game-timer { font-size: 14px; font-weight: 700; color: var(--text-light); }
+.game-moves { font-size: 14px; font-weight: 700; color: var(--primary); }
+
+/* ==================== CHARACTER MAGIC ==================== */
+.magic-stage {
+    text-align: center;
+    padding: 24px 0;
+}
+.magic-target {
+    font-size: 80px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+}
+.magic-target-pinyin { font-size: 18px; color: var(--primary); font-weight: 600; }
+.magic-target-eng { font-size: 14px; color: var(--text-light); margin-top: 4px; }
+.magic-equation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px 0;
+    font-size: 36px;
+    font-weight: 700;
+}
+.magic-component {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+}
+.magic-plus { color: var(--primary); font-size: 28px; }
+.magic-equals { color: var(--gold-dark); font-size: 28px; }
+.magic-result {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: white;
+}
+.magic-story {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-light);
+    text-align: left;
+}
+.magic-quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+.magic-option {
+    padding: 18px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 28px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+}
+.magic-option:active { transform: scale(0.95); }
+.magic-option.correct { border-color: var(--green); background: #e6fff7; }
+.magic-option.wrong { border-color: var(--red); background: #fff0f0; }
+
+/* ==================== CHARADES ==================== */
+.charades-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin: 16px 0;
+}
+.charades-emoji { font-size: 72px; margin-bottom: 12px; display: block; }
+.charades-hint { font-size: 16px; color: var(--text-light); margin-bottom: 4px; }
+.charades-pinyin { font-size: 20px; color: var(--primary); font-weight: 600; margin-bottom: 16px; }
+.charades-pinyin.blurred { filter: blur(6px); cursor: pointer; }
+.charades-prompt {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.charades-choices {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+.charades-choice {
+    padding: 20px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 36px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 3px solid var(--border);
+    transition: all 0.2s;
+}
+.charades-choice:active { transform: scale(0.95); }
+.charades-choice.correct { border-color: var(--green); background: #e6fff7; }
+.charades-choice.wrong { border-color: var(--red); background: #fff0f0; }
+
+/* ==================== RESULTS ==================== */
+.results-screen { text-align: center; }
+.results-icon { font-size: 80px; margin: 20px 0 8px; display: block; }
+.results-title { font-size: 28px; font-weight: 900; }
+.results-subtitle { font-size: 16px; color: var(--text-light); margin: 4px 0 24px; }
+.results-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+}
+.result-stat {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+}
+.result-stat .val { font-size: 28px; font-weight: 800; color: var(--primary); }
+.result-stat .label { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+.review-list {
+    text-align: left;
+    margin: 16px 0;
+}
+.review-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+}
+.review-char { font-size: 28px; font-weight: 700; width: 44px; text-align: center; }
+.review-info { flex: 1; }
+.review-pinyin { font-size: 14px; color: var(--primary); font-weight: 600; }
+.review-eng { font-size: 13px; color: var(--text-light); }
+.review-result { font-size: 20px; }
+
+.results-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ==================== PINYIN TOGGLE ==================== */
+.pinyin-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 600;
+}
+.toggle-switch {
+    width: 44px;
+    height: 26px;
+    border-radius: 13px;
+    background: var(--text-muted);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.toggle-switch.on { background: var(--primary); }
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    transition: left 0.2s;
+}
+.toggle-switch.on::after { left: 21px; }
+
+/* ==================== CELEBRATION ==================== */
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+.pop-in { animation: popIn 0.4s ease-out; }
+.shake { animation: shake 0.3s ease; }
+.float { animation: float 2s ease-in-out infinite; }
+
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+.confetti {
+    position: absolute;
+    top: -10px;
+    font-size: 20px;
+    animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+    to { top: 110vh; transform: rotate(720deg); }
+}
+
+/* ==================== LIANKAN (连连看 Match) ==================== */
+.liankan-board {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    position: relative;
+}
+.liankan-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.liankan-item {
+    padding: 16px 10px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.liankan-item:active { transform: scale(0.95); }
+.liankan-item.selected { border-color: var(--primary); background: #F0EDFF; box-shadow: var(--shadow-lg); }
+.liankan-item.matched {
+    border-color: var(--green);
+    background: var(--green-light);
+    pointer-events: none;
+    opacity: 0.7;
+}
+.liankan-item.wrong {
+    border-color: var(--red);
+    background: #fff0f0;
+    animation: shake 0.3s ease;
+}
+.liankan-char { font-size: 32px; font-weight: 700; }
+.liankan-pinyin { font-size: 12px; color: var(--primary); margin-top: 2px; }
+.liankan-emoji { font-size: 36px; }
+.liankan-eng { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+.liankan-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+.liankan-lines line {
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.liankan-hint {
+    text-align: center;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-top: 8px;
+}
+.liankan-hint .step { color: var(--primary); }
+
+.liankan-score {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+}
+.liankan-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+}
+.liankan-dot.correct { background: var(--green); }
+.liankan-dot.wrong { background: var(--red); }
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 400px) {
+    .memory-grid { gap: 6px; }
+    .memory-back .char-display { font-size: 22px; }
+    .memory-back .emoji-display { font-size: 26px; }
+    .magic-target { font-size: 60px; }
+    .charades-emoji { font-size: 56px; }
+    .charades-choice { font-size: 28px; padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+    </style>
+</head>
+<body>
+
+<!-- ==================== HOME ==================== -->
+<div id="home-screen" class="screen active">
+    <div class="home-hero">
+        <span class="mascot float">🐼</span>
+        <h1>Learn Chinese</h1>
+        <p class="subtitle">学中文 · 500 字 + 100 词语</p>
+    </div>
+
+    <div class="progress-card">
+        <h3>Your Journey</h3>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="home-progress-bar" style="width:0%"></div></div>
+        <div class="progress-nums">
+            <span id="home-mastered">0 mastered</span>
+            <span id="home-total">/ 500</span>
+        </div>
+    </div>
+
+    <div class="game-cards">
+        <div class="game-card" onclick="showLevelSelect('liankan')">
+            <div class="game-card-icon" style="background:#E8F5E9;">🔗</div>
+            <div class="game-card-info">
+                <h3>Match 连连看</h3>
+                <p>Connect characters to the right picture</p>
+            </div>
+        </div>
+        <div class="game-card" onclick="showLevelSelect('memory')">
+            <div class="game-card-icon" style="background:#F0EDFF;">🃏</div>
+            <div class="game-card-info">
+                <h3>Memory Game 翻翻看</h3>
+                <p>Flip cards to find matching pairs</p>
+            </div>
+        </div>
+        <div class="game-card" onclick="showLevelSelect('magic')">
+            <div class="game-card-icon" style="background:#FFF3E0;">✨</div>
+            <div class="game-card-info">
+                <h3>Character Magic 变魔术</h3>
+                <p>See how characters are built</p>
+            </div>
+        </div>
+        <div class="game-card" onclick="showLevelSelect('charades')">
+            <div class="game-card-icon" style="background:#E8F5E9;">🎭</div>
+            <div class="game-card-info">
+                <h3>Charades 猜一猜</h3>
+                <p>Act it out and guess characters</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;gap:10px;">
+        <button class="btn btn-sm btn-full" style="background:var(--card);color:var(--text);box-shadow:var(--shadow);" onclick="showProgress()">📊 Progress</button>
+        <div class="pinyin-toggle" style="flex-shrink:0;">
+            <span>Pinyin</span>
+            <div class="toggle-switch on" id="pinyin-toggle" onclick="togglePinyin()"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LEVEL SELECT ==================== -->
+<div id="level-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">←</button>
+        <h2 id="level-screen-title" style="font-size:18px;font-weight:800;">Select Level</h2>
+        <div style="width:44px;"></div>
+    </div>
+    <div class="level-grid" id="level-grid"></div>
+</div>
+
+<!-- ==================== SESSION SELECT ==================== -->
+<div id="session-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="showLevelSelectBack()">←</button>
+        <h2 id="session-title" style="font-size:18px;font-weight:800;">Sessions</h2>
+        <div class="stats-bar"><span class="stat-badge" id="session-energy">⚡ 0</span></div>
+    </div>
+    <div class="session-list" id="session-list"></div>
+</div>
+
+<!-- ==================== GAME MODE SELECT ==================== -->
+<div id="mode-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="showSessionSelect()">←</button>
+        <h2 style="font-size:18px;font-weight:800;">Today's Characters</h2>
+        <div style="width:44px;"></div>
+    </div>
+    <div class="char-preview" id="char-preview"></div>
+    <div class="mode-cards">
+        <div class="game-card" onclick="startGame('liankan')">
+            <div class="game-card-icon" style="background:#E8F5E9;">🔗</div>
+            <div class="game-card-info"><h3>Match 连连看</h3><p>Connect words to pictures</p></div>
+        </div>
+        <div class="game-card" onclick="startGame('memory')">
+            <div class="game-card-icon" style="background:#F0EDFF;">🃏</div>
+            <div class="game-card-info"><h3>Memory Game</h3><p>Flip cards to match pairs</p></div>
+        </div>
+        <div class="game-card" onclick="startGame('magic')">
+            <div class="game-card-icon" style="background:#FFF3E0;">✨</div>
+            <div class="game-card-info"><h3>Character Magic</h3><p>Build characters from parts</p></div>
+        </div>
+        <div class="game-card" onclick="startGame('charades')">
+            <div class="game-card-icon" style="background:#E8F5E9;">🎭</div>
+            <div class="game-card-info"><h3>Charades</h3><p>Guess the character</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LIANKAN MATCH ==================== -->
+<div id="liankan-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="exitGame()">←</button>
+        <div style="flex:1;text-align:center;">
+            <h2 style="font-size:17px;font-weight:800;">🔗 连连看 Match</h2>
+        </div>
+        <span class="stat-badge" id="liankan-score-badge">0/5</span>
+    </div>
+    <div class="liankan-hint" id="liankan-hint">
+        <span class="step">Step 1:</span> Tap a character on the left, then tap its matching picture on the right!
+    </div>
+    <div class="liankan-score" id="liankan-dots"></div>
+    <div class="liankan-board" id="liankan-board"></div>
+</div>
+
+<!-- ==================== MEMORY GAME ==================== -->
+<div id="memory-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="exitGame()">←</button>
+        <div class="game-header" style="flex:1;margin-left:12px;">
+            <h2 style="font-size:17px;font-weight:800;">🃏 Memory</h2>
+            <span class="game-moves" id="memory-moves">Moves: 0</span>
+        </div>
+    </div>
+    <div class="memory-grid" id="memory-grid"></div>
+</div>
+
+<!-- ==================== CHARACTER MAGIC ==================== -->
+<div id="magic-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="exitGame()">←</button>
+        <div style="flex:1;text-align:center;">
+            <h2 style="font-size:17px;font-weight:800;">✨ Character Magic</h2>
+        </div>
+        <span class="stat-badge" id="magic-progress">1/5</span>
+    </div>
+    <div id="magic-content"></div>
+</div>
+
+<!-- ==================== CHARADES ==================== -->
+<div id="charades-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="exitGame()">←</button>
+        <div style="flex:1;text-align:center;">
+            <h2 style="font-size:17px;font-weight:800;">🎭 Charades</h2>
+        </div>
+        <span class="stat-badge" id="charades-progress">1/5</span>
+    </div>
+    <div id="charades-content"></div>
+</div>
+
+<!-- ==================== RESULTS ==================== -->
+<div id="results-screen" class="screen results-screen">
+    <div id="results-content"></div>
+</div>
+
+<!-- ==================== PROGRESS ==================== -->
+<div id="progress-screen" class="screen">
+    <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">←</button>
+        <h2 style="font-size:18px;font-weight:800;">📊 Progress</h2>
+        <div style="width:44px;"></div>
+    </div>
+    <div id="progress-content"></div>
+</div>
+
+<!-- Confetti container -->
+<div class="confetti-container" id="confetti-container"></div>
+
+<script>
+// ==================== CHARACTER DATABASE (500 chars, Grade 1-2 PEP Curriculum) ====================
+// Format: [character, pinyin, english, emoji, level(1-20), category]
+const CHARS = [
+// Level 1: Numbers & Counting
+["一","yī","one","1️⃣",1,"numbers"],["二","èr","two","2️⃣",1,"numbers"],["三","sān","three","3️⃣",1,"numbers"],["四","sì","four","4️⃣",1,"numbers"],["五","wǔ","five","5️⃣",1,"numbers"],
+["六","liù","six","6️⃣",1,"numbers"],["七","qī","seven","7️⃣",1,"numbers"],["八","bā","eight","8️⃣",1,"numbers"],["九","jiǔ","nine","9️⃣",1,"numbers"],["十","shí","ten","🔟",1,"numbers"],
+["百","bǎi","hundred","💯",1,"numbers"],["千","qiān","thousand","🔢",1,"numbers"],["万","wàn","ten thousand","🔢",1,"numbers"],["两","liǎng","two/pair","✌️",1,"numbers"],["半","bàn","half","½",1,"numbers"],
+["双","shuāng","pair","👫",1,"numbers"],["几","jǐ","how many","❓",1,"numbers"],["多","duō","many","📦",1,"numbers"],["少","shǎo","few","🤏",1,"numbers"],["第","dì","ordinal","🏅",1,"numbers"],
+["个","gè","unit","📎",1,"numbers"],["只","zhī","only/measure","☝️",1,"numbers"],["些","xiē","some","📋",1,"numbers"],["每","měi","every","🔄",1,"numbers"],["次","cì","time/occasion","🔁",1,"numbers"],
+// Level 2: Position & Direction
+["上","shàng","up","⬆️",2,"position"],["下","xià","down","⬇️",2,"position"],["左","zuǒ","left","⬅️",2,"position"],["右","yòu","right","➡️",2,"position"],["前","qián","front","🔼",2,"position"],
+["后","hòu","back","🔽",2,"position"],["里","lǐ","inside","📥",2,"position"],["外","wài","outside","📤",2,"position"],["中","zhōng","middle","⏺️",2,"position"],["东","dōng","east","🌅",2,"position"],
+["南","nán","south","🧭",2,"position"],["西","xī","west","🌇",2,"position"],["北","běi","north","❄️",2,"position"],["大","dà","big","🐘",2,"position"],["小","xiǎo","small","🐜",2,"position"],
+["长","cháng","long","📏",2,"position"],["短","duǎn","short","📐",2,"position"],["高","gāo","tall","🏔️",2,"position"],["远","yuǎn","far","🔭",2,"position"],["近","jìn","near","🤝",2,"position"],
+["方","fāng","direction","🧭",2,"position"],["向","xiàng","toward","👉",2,"position"],["边","biān","side","↔️",2,"position"],["面","miàn","face/side","🎭",2,"position"],["间","jiān","between","↕️",2,"position"],
+// Level 3: Sky & Weather
+["天","tiān","sky/day","🌤️",3,"weather"],["地","dì","earth","🌍",3,"weather"],["日","rì","sun/day","☀️",3,"weather"],["月","yuè","moon/month","🌙",3,"weather"],["星","xīng","star","⭐",3,"weather"],
+["风","fēng","wind","💨",3,"weather"],["雨","yǔ","rain","🌧️",3,"weather"],["雪","xuě","snow","❄️",3,"weather"],["云","yún","cloud","☁️",3,"weather"],["雷","léi","thunder","⚡",3,"weather"],
+["阳","yáng","sun/yang","🔆",3,"weather"],["阴","yīn","cloudy/yin","🌥️",3,"weather"],["春","chūn","spring","🌸",3,"weather"],["夏","xià","summer","☀️",3,"weather"],["秋","qiū","autumn","🍂",3,"weather"],
+["冬","dōng","winter","⛄",3,"weather"],["冷","lěng","cold","🥶",3,"weather"],["热","rè","hot","🥵",3,"weather"],["暖","nuǎn","warm","🧣",3,"weather"],["凉","liáng","cool","🌬️",3,"weather"],
+["晴","qíng","sunny","🌞",3,"weather"],["气","qì","air/gas","💭",3,"weather"],["温","wēn","temperature","🌡️",3,"weather"],["冰","bīng","ice","🧊",3,"weather"],["霜","shuāng","frost","🌫️",3,"weather"],
+// Level 4: Land & Water
+["山","shān","mountain","⛰️",4,"nature"],["水","shuǐ","water","💧",4,"nature"],["河","hé","river","🏞️",4,"nature"],["湖","hú","lake","🌊",4,"nature"],["海","hǎi","sea","🌊",4,"nature"],
+["江","jiāng","river","🌊",4,"nature"],["田","tián","field","🌾",4,"nature"],["土","tǔ","soil","🟤",4,"nature"],["石","shí","stone","🪨",4,"nature"],["沙","shā","sand","🏖️",4,"nature"],
+["岸","àn","shore","🏝️",4,"nature"],["岛","dǎo","island","🏝️",4,"nature"],["洋","yáng","ocean","🌏",4,"nature"],["池","chí","pond","💧",4,"nature"],["泉","quán","spring","⛲",4,"nature"],
+["路","lù","road","🛤️",4,"nature"],["桥","qiáo","bridge","🌉",4,"nature"],["坡","pō","slope","⛷️",4,"nature"],["洞","dòng","cave","🕳️",4,"nature"],["原","yuán","plain","🌿",4,"nature"],
+["野","yě","wild","🌲",4,"nature"],["林","lín","forest","🌲",4,"nature"],["森","sēn","dense forest","🌳",4,"nature"],["园","yuán","garden","🏡",4,"nature"],["村","cūn","village","🏘️",4,"nature"],
+// Level 5: Plants
+["木","mù","wood/tree","🌳",5,"plants"],["花","huā","flower","🌸",5,"plants"],["草","cǎo","grass","🌿",5,"plants"],["禾","hé","grain","🌾",5,"plants"],["竹","zhú","bamboo","🎋",5,"plants"],
+["叶","yè","leaf","🍃",5,"plants"],["果","guǒ","fruit","🍎",5,"plants"],["树","shù","tree","🌳",5,"plants"],["根","gēn","root","🌱",5,"plants"],["种","zhòng","plant/seed","🌱",5,"plants"],
+["苗","miáo","seedling","🌱",5,"plants"],["芽","yá","sprout","🌱",5,"plants"],["枝","zhī","branch","🌿",5,"plants"],["桃","táo","peach","🍑",5,"plants"],["杏","xìng","apricot","🍑",5,"plants"],
+["柳","liǔ","willow","🌳",5,"plants"],["松","sōng","pine","🌲",5,"plants"],["柏","bǎi","cypress","🌲",5,"plants"],["梅","méi","plum","🌺",5,"plants"],["莲","lián","lotus","🪷",5,"plants"],
+["菜","cài","vegetable","🥬",5,"plants"],["瓜","guā","melon","🍈",5,"plants"],["豆","dòu","bean","🫘",5,"plants"],["麦","mài","wheat","🌾",5,"plants"],["稻","dào","rice plant","🌾",5,"plants"],
+// Level 6: Animals
+["马","mǎ","horse","🐴",6,"animals"],["牛","niú","cow","🐮",6,"animals"],["羊","yáng","sheep","🐑",6,"animals"],["鸟","niǎo","bird","🐦",6,"animals"],["鱼","yú","fish","🐟",6,"animals"],
+["虫","chóng","insect","🐛",6,"animals"],["鸡","jī","chicken","🐔",6,"animals"],["鸭","yā","duck","🦆",6,"animals"],["鹅","é","goose","🦢",6,"animals"],["猫","māo","cat","🐱",6,"animals"],
+["狗","gǒu","dog","🐶",6,"animals"],["兔","tù","rabbit","🐰",6,"animals"],["龙","lóng","dragon","🐲",6,"animals"],["蛇","shé","snake","🐍",6,"animals"],["象","xiàng","elephant","🐘",6,"animals"],
+["猴","hóu","monkey","🐵",6,"animals"],["蛙","wā","frog","🐸",6,"animals"],["蝶","dié","butterfly","🦋",6,"animals"],["蚁","yǐ","ant","🐜",6,"animals"],["鹿","lù","deer","🦌",6,"animals"],
+["熊","xióng","bear","🐻",6,"animals"],["狼","láng","wolf","🐺",6,"animals"],["鼠","shǔ","mouse","🐭",6,"animals"],["蜂","fēng","bee","🐝",6,"animals"],["龟","guī","turtle","🐢",6,"animals"],
+// Level 7: People & Family
+["人","rén","person","🧑",7,"family"],["爸","bà","dad","👨",7,"family"],["妈","mā","mom","👩",7,"family"],["爷","yé","grandpa","👴",7,"family"],["奶","nǎi","grandma","👵",7,"family"],
+["哥","gē","big brother","👦",7,"family"],["姐","jiě","big sister","👧",7,"family"],["弟","dì","little brother","👦",7,"family"],["妹","mèi","little sister","👧",7,"family"],["儿","ér","son/child","👶",7,"family"],
+["女","nǚ","girl/daughter","👧",7,"family"],["子","zǐ","child","🧒",7,"family"],["男","nán","boy/male","👦",7,"family"],["友","yǒu","friend","🤗",7,"family"],["们","men","plural marker","👥",7,"family"],
+["家","jiā","home/family","🏠",7,"family"],["亲","qīn","relative","❤️",7,"family"],["老","lǎo","old","👴",7,"family"],["伙","huǒ","partner","🤝",7,"family"],["伴","bàn","companion","👫",7,"family"],
+["孩","hái","child","🧒",7,"family"],["娘","niáng","mother/girl","👩",7,"family"],["夫","fū","husband","👨",7,"family"],["妻","qī","wife","👩",7,"family"],["王","wáng","king","👑",7,"family"],
+// Level 8: Body
+["口","kǒu","mouth","👄",8,"body"],["目","mù","eye","👁️",8,"body"],["耳","ěr","ear","👂",8,"body"],["手","shǒu","hand","✋",8,"body"],["足","zú","foot","🦶",8,"body"],
+["头","tóu","head","🗣️",8,"body"],["心","xīn","heart","❤️",8,"body"],["牙","yá","tooth","🦷",8,"body"],["毛","máo","hair/fur","💇",8,"body"],["发","fà","hair","💇",8,"body"],
+["身","shēn","body","🧍",8,"body"],["体","tǐ","body/form","🏋️",8,"body"],["脚","jiǎo","foot","🦶",8,"body"],["腿","tuǐ","leg","🦵",8,"body"],["肩","jiān","shoulder","🤷",8,"body"],
+["背","bèi","back","🔙",8,"body"],["肚","dù","belly","🫃",8,"body"],["皮","pí","skin","✋",8,"body"],["骨","gǔ","bone","🦴",8,"body"],["血","xuè","blood","🩸",8,"body"],
+["脸","liǎn","face","😊",8,"body"],["眼","yǎn","eye","👀",8,"body"],["鼻","bí","nose","👃",8,"body"],["舌","shé","tongue","👅",8,"body"],["指","zhǐ","finger","👆",8,"body"],
+// Level 9: Colors & Descriptions
+["白","bái","white","⬜",9,"colors"],["红","hóng","red","🔴",9,"colors"],["绿","lǜ","green","🟢",9,"colors"],["黄","huáng","yellow","🟡",9,"colors"],["黑","hēi","black","⬛",9,"colors"],
+["蓝","lán","blue","🔵",9,"colors"],["紫","zǐ","purple","🟣",9,"colors"],["青","qīng","cyan/green","🟩",9,"colors"],["色","sè","color","🎨",9,"colors"],["明","míng","bright","💡",9,"colors"],
+["亮","liàng","bright","✨",9,"colors"],["暗","àn","dark","🌑",9,"colors"],["深","shēn","deep","🌊",9,"colors"],["浅","qiǎn","shallow","🏖️",9,"colors"],["美","měi","beautiful","🌺",9,"colors"],
+["丑","chǒu","ugly","👹",9,"colors"],["胖","pàng","fat","🐷",9,"colors"],["瘦","shòu","thin","🦴",9,"colors"],["粗","cū","thick","🪵",9,"colors"],["细","xì","thin/fine","🧵",9,"colors"],
+["新","xīn","new","🆕",9,"colors"],["旧","jiù","old","📜",9,"colors"],["干","gān","dry","🏜️",9,"colors"],["净","jìng","clean","🧹",9,"colors"],["脏","zāng","dirty","🤮",9,"colors"],
+// Level 10: Movement Actions
+["走","zǒu","walk","🚶",10,"actions"],["跑","pǎo","run","🏃",10,"actions"],["跳","tiào","jump","🤸",10,"actions"],["飞","fēi","fly","✈️",10,"actions"],["爬","pá","climb","🧗",10,"actions"],
+["游","yóu","swim","🏊",10,"actions"],["站","zhàn","stand","🧍",10,"actions"],["坐","zuò","sit","🪑",10,"actions"],["躺","tǎng","lie down","🛌",10,"actions"],["拉","lā","pull","🤏",10,"actions"],
+["推","tuī","push","🫸",10,"actions"],["拍","pāi","clap/pat","👏",10,"actions"],["抬","tái","lift","🏋️",10,"actions"],["扔","rēng","throw","🤾",10,"actions"],["捡","jiǎn","pick up","🫳",10,"actions"],
+["抓","zhuā","grab","✊",10,"actions"],["摸","mō","touch","👆",10,"actions"],["拿","ná","hold","🤲",10,"actions"],["放","fàng","put/release","📦",10,"actions"],["送","sòng","give/deliver","🎁",10,"actions"],
+["接","jiē","receive","🤲",10,"actions"],["追","zhuī","chase","🏃",10,"actions"],["赶","gǎn","hurry","⏰",10,"actions"],["逃","táo","escape","🏃",10,"actions"],["回","huí","return","↩️",10,"actions"],
+// Level 11: Communication
+["说","shuō","speak","🗣️",11,"actions"],["听","tīng","listen","👂",11,"actions"],["看","kàn","look","👀",11,"actions"],["读","dú","read","📖",11,"actions"],["写","xiě","write","✍️",11,"actions"],
+["画","huà","draw","🎨",11,"actions"],["唱","chàng","sing","🎤",11,"actions"],["喊","hǎn","shout","📢",11,"actions"],["叫","jiào","call","📣",11,"actions"],["问","wèn","ask","❓",11,"actions"],
+["答","dá","answer","💬",11,"actions"],["笑","xiào","laugh","😄",11,"actions"],["哭","kū","cry","😢",11,"actions"],["想","xiǎng","think","💭",11,"actions"],["念","niàn","read aloud","📖",11,"actions"],
+["讲","jiǎng","tell","🎙️",11,"actions"],["认","rèn","recognize","🔍",11,"actions"],["识","shí","know","🧠",11,"actions"],["知","zhī","know","💡",11,"actions"],["道","dào","way/know","🛤️",11,"actions"],
+["记","jì","remember","📝",11,"actions"],["忘","wàng","forget","🤔",11,"actions"],["教","jiāo","teach","👨‍🏫",11,"actions"],["学","xué","learn","📚",11,"actions"],["练","liàn","practice","🏋️",11,"actions"],
+// Level 12: Daily Life Actions
+["吃","chī","eat","🍽️",12,"actions"],["喝","hē","drink","🥤",12,"actions"],["穿","chuān","wear","👔",12,"actions"],["洗","xǐ","wash","🧼",12,"actions"],["睡","shuì","sleep","😴",12,"actions"],
+["醒","xǐng","wake up","⏰",12,"actions"],["起","qǐ","rise","🌅",12,"actions"],["开","kāi","open","🔓",12,"actions"],["关","guān","close","🔒",12,"actions"],["用","yòng","use","🔧",12,"actions"],
+["做","zuò","do/make","🛠️",12,"actions"],["找","zhǎo","find","🔍",12,"actions"],["买","mǎi","buy","🛒",12,"actions"],["卖","mài","sell","🏪",12,"actions"],["切","qiē","cut","🔪",12,"actions"],
+["煮","zhǔ","boil","🍲",12,"actions"],["烤","kǎo","roast","🔥",12,"actions"],["晒","shài","dry in sun","☀️",12,"actions"],["扫","sǎo","sweep","🧹",12,"actions"],["擦","cā","wipe","🧽",12,"actions"],
+["折","zhé","fold","📄",12,"actions"],["挑","tiāo","pick/carry","🪣",12,"actions"],["搬","bān","move","📦",12,"actions"],["来","lái","come","👋",12,"actions"],["去","qù","go","🚶",12,"actions"],
+// Level 13: School
+["校","xiào","school","🏫",13,"school"],["书","shū","book","📖",13,"school"],["本","běn","book/root","📕",13,"school"],["笔","bǐ","pen","🖊️",13,"school"],["字","zì","character","🔤",13,"school"],
+["文","wén","text","📝",13,"school"],["课","kè","lesson","📚",13,"school"],["班","bān","class","🏫",13,"school"],["师","shī","teacher","👨‍🏫",13,"school"],["生","shēng","student/life","🧑‍🎓",13,"school"],
+["桌","zhuō","desk","🪑",13,"school"],["椅","yǐ","chair","🪑",13,"school"],["板","bǎn","board","📋",13,"school"],["尺","chǐ","ruler","📏",13,"school"],["纸","zhǐ","paper","📄",13,"school"],
+["题","tí","question","❓",13,"school"],["考","kǎo","test","📝",13,"school"],["试","shì","exam/try","📋",13,"school"],["分","fēn","score/divide","💯",13,"school"],["成","chéng","become","🎯",13,"school"],
+["绩","jì","result","📊",13,"school"],["功","gōng","merit","🏆",13,"school"],["业","yè","work/industry","💼",13,"school"],["操","cāo","exercise","🏃",13,"school"],["语","yǔ","language","🗣️",13,"school"],
+// Level 14: Home & Furniture
+["门","mén","door","🚪",14,"home"],["窗","chuāng","window","🪟",14,"home"],["床","chuáng","bed","🛏️",14,"home"],["灯","dēng","light","💡",14,"home"],["墙","qiáng","wall","🧱",14,"home"],
+["房","fáng","room","🏠",14,"home"],["屋","wū","house","🏡",14,"home"],["厨","chú","kitchen","🍳",14,"home"],["厅","tīng","hall","🏛️",14,"home"],["院","yuàn","courtyard","🏡",14,"home"],
+["楼","lóu","building","🏢",14,"home"],["梯","tī","stairs","🪜",14,"home"],["柜","guì","cabinet","🗄️",14,"home"],["台","tái","table/platform","🖥️",14,"home"],["被","bèi","blanket","🛏️",14,"home"],
+["枕","zhěn","pillow","🛏️",14,"home"],["毯","tǎn","blanket","🛏️",14,"home"],["镜","jìng","mirror","🪞",14,"home"],["钟","zhōng","clock","🕐",14,"home"],["锁","suǒ","lock","🔒",14,"home"],
+["帘","lián","curtain","🪟",14,"home"],["席","xí","mat","🟫",14,"home"],["炉","lú","stove","🔥",14,"home"],["烟","yān","smoke","💨",14,"home"],["窝","wō","nest","🪹",14,"home"],
+// Level 15: Clothes & Objects
+["衣","yī","clothes","👕",15,"objects"],["帽","mào","hat","🧢",15,"objects"],["鞋","xié","shoes","👟",15,"objects"],["袜","wà","socks","🧦",15,"objects"],["裤","kù","pants","👖",15,"objects"],
+["裙","qún","skirt","👗",15,"objects"],["袋","dài","bag","👜",15,"objects"],["包","bāo","bag/wrap","🎒",15,"objects"],["伞","sǎn","umbrella","☂️",15,"objects"],["扣","kòu","button","🔘",15,"objects"],
+["布","bù","cloth","🧵",15,"objects"],["线","xiàn","thread","🧶",15,"objects"],["针","zhēn","needle","🪡",15,"objects"],["剪","jiǎn","scissors","✂️",15,"objects"],["绳","shéng","rope","🪢",15,"objects"],
+["碗","wǎn","bowl","🥣",15,"objects"],["杯","bēi","cup","🥤",15,"objects"],["盘","pán","plate","🍽️",15,"objects"],["筷","kuài","chopsticks","🥢",15,"objects"],["勺","sháo","spoon","🥄",15,"objects"],
+["壶","hú","pot","🫖",15,"objects"],["瓶","píng","bottle","🍼",15,"objects"],["盒","hé","box","📦",15,"objects"],["箱","xiāng","suitcase","🧳",15,"objects"],["桶","tǒng","bucket","🪣",15,"objects"],
+// Level 16: Food
+["米","mǐ","rice","🍚",16,"food"],["面","miàn","noodle/face","🍜",16,"food"],["肉","ròu","meat","🥩",16,"food"],["蛋","dàn","egg","🥚",16,"food"],["奶","nǎi","milk","🥛",16,"food"],
+["糖","táng","sugar/candy","🍬",16,"food"],["盐","yán","salt","🧂",16,"food"],["油","yóu","oil","🫒",16,"food"],["茶","chá","tea","🍵",16,"food"],["汤","tāng","soup","🍲",16,"food"],
+["饭","fàn","meal/rice","🍚",16,"food"],["饼","bǐng","cake/pancake","🥞",16,"food"],["粥","zhōu","porridge","🥣",16,"food"],["粉","fěn","powder/noodle","🍜",16,"food"],["酱","jiàng","sauce","🫙",16,"food"],
+["醋","cù","vinegar","🫙",16,"food"],["饺","jiǎo","dumpling","🥟",16,"food"],["糕","gāo","cake","🍰",16,"food"],["甜","tián","sweet","🍯",16,"food"],["酸","suān","sour","🍋",16,"food"],
+["苦","kǔ","bitter","😖",16,"food"],["辣","là","spicy","🌶️",16,"food"],["咸","xián","salty","🧂",16,"food"],["香","xiāng","fragrant","🌸",16,"food"],["鲜","xiān","fresh","🐟",16,"food"],
+// Level 17: Transport & Travel
+["车","chē","car","🚗",17,"transport"],["船","chuán","boat","🚢",17,"transport"],["机","jī","machine/plane","✈️",17,"transport"],["街","jiē","street","🏘️",17,"transport"],["站","zhàn","station","🚉",17,"transport"],
+["票","piào","ticket","🎫",17,"transport"],["座","zuò","seat","💺",17,"transport"],["轮","lún","wheel","☸️",17,"transport"],["翼","yì","wing","🪽",17,"transport"],["驾","jià","drive","🚗",17,"transport"],
+["骑","qí","ride","🚴",17,"transport"],["航","háng","navigate","🧭",17,"transport"],["停","tíng","stop","🛑",17,"transport"],["行","xíng","travel/go","🚶",17,"transport"],["交","jiāo","cross","🚦",17,"transport"],
+["通","tōng","through","🚇",17,"transport"],["快","kuài","fast","⚡",17,"transport"],["慢","màn","slow","🐌",17,"transport"],["进","jìn","enter","🚪",17,"transport"],["退","tuì","retreat","🔙",17,"transport"],
+["转","zhuǎn","turn","🔄",17,"transport"],["往","wǎng","toward","➡️",17,"transport"],["过","guò","pass","🚶",17,"transport"],["到","dào","arrive","📍",17,"transport"],["出","chū","exit","🚪",17,"transport"],
+// Level 18: Time
+["年","nián","year","📅",18,"time"],["时","shí","hour/time","🕐",18,"time"],["分","fēn","minute","⏱️",18,"time"],["秒","miǎo","second","⏱️",18,"time"],["今","jīn","today/now","📆",18,"time"],
+["昨","zuó","yesterday","⬅️",18,"time"],["早","zǎo","morning","🌅",18,"time"],["午","wǔ","noon","☀️",18,"time"],["晚","wǎn","evening","🌆",18,"time"],["夜","yè","night","🌙",18,"time"],
+["周","zhōu","week","📅",18,"time"],["节","jié","festival","🎊",18,"time"],["岁","suì","age/year","🎂",18,"time"],["初","chū","beginning","🌱",18,"time"],["末","mò","end","🔚",18,"time"],
+["始","shǐ","start","▶️",18,"time"],["终","zhōng","end","⏹️",18,"time"],["久","jiǔ","long time","⌛",18,"time"],["常","cháng","often","🔄",18,"time"],["曾","céng","once/ever","📜",18,"time"],
+["将","jiāng","will/future","🔮",18,"time"],["刚","gāng","just now","⏰",18,"time"],["正","zhèng","just/right","✅",18,"time"],["已","yǐ","already","✔️",18,"time"],["再","zài","again","🔁",18,"time"],
+// Level 19: Feelings & Traits
+["好","hǎo","good","👍",19,"feelings"],["坏","huài","bad","👎",19,"feelings"],["对","duì","correct","✅",19,"feelings"],["错","cuò","wrong","❌",19,"feelings"],["真","zhēn","true","💯",19,"feelings"],
+["假","jiǎ","false","🎭",19,"feelings"],["乐","lè","happy","😊",19,"feelings"],["怒","nù","angry","😠",19,"feelings"],["哀","āi","sad","😢",19,"feelings"],["爱","ài","love","❤️",19,"feelings"],
+["恨","hèn","hate","😤",19,"feelings"],["怕","pà","fear","😨",19,"feelings"],["急","jí","urgent","⏰",19,"feelings"],["忙","máng","busy","🏃",19,"feelings"],["闲","xián","free/idle","😌",19,"feelings"],
+["累","lèi","tired","😫",19,"feelings"],["饿","è","hungry","🍽️",19,"feelings"],["渴","kě","thirsty","💧",19,"feelings"],["困","kùn","sleepy","😪",19,"feelings"],["病","bìng","sick","🤒",19,"feelings"],
+["痛","tòng","pain","🤕",19,"feelings"],["伤","shāng","hurt","🩹",19,"feelings"],["难","nán","difficult","😓",19,"feelings"],["易","yì","easy","😎",19,"feelings"],["勇","yǒng","brave","💪",19,"feelings"],
+// Level 20: Common Words
+["是","shì","is/yes","✅",20,"common"],["有","yǒu","have","📦",20,"common"],["不","bù","not","🚫",20,"common"],["在","zài","at/in","📍",20,"common"],["了","le","(particle)","✔️",20,"common"],
+["的","de","(possessive)","📎",20,"common"],["和","hé","and","➕",20,"common"],["也","yě","also","➕",20,"common"],["都","dōu","all","🌍",20,"common"],["很","hěn","very","💯",20,"common"],
+["就","jiù","then","➡️",20,"common"],["还","hái","still","🔄",20,"common"],["又","yòu","again","🔁",20,"common"],["才","cái","just/only","☝️",20,"common"],["会","huì","can/will","💡",20,"common"],
+["能","néng","able to","💪",20,"common"],["可","kě","may","👌",20,"common"],["要","yào","want/need","🙋",20,"common"],["得","de","(complement)","📝",20,"common"],["把","bǎ","(object marker)","👉",20,"common"],
+["被","bèi","(passive)","📖",20,"common"],["让","ràng","let","👐",20,"common"],["给","gěi","give","🎁",20,"common"],["从","cóng","from","📍",20,"common"],["这","zhè","this","👈",20,"common"],
+];
+
+// Level metadata
+const LEVELS = [
+    {name:"Numbers 数字",emoji:"🔢"},{name:"Position 方位",emoji:"🧭"},{name:"Weather 天气",emoji:"🌤️"},
+    {name:"Land & Water 山水",emoji:"⛰️"},{name:"Plants 植物",emoji:"🌿"},{name:"Animals 动物",emoji:"🐾"},
+    {name:"Family 家人",emoji:"👨‍👩‍👧‍👦"},{name:"Body 身体",emoji:"🧍"},{name:"Colors 颜色",emoji:"🎨"},
+    {name:"Movement 动作",emoji:"🏃"},{name:"Communication 交流",emoji:"🗣️"},{name:"Daily Life 日常",emoji:"🍽️"},
+    {name:"School 学校",emoji:"🏫"},{name:"Home 家居",emoji:"🏠"},{name:"Objects 物品",emoji:"👕"},
+    {name:"Food 食物",emoji:"🍜"},{name:"Transport 交通",emoji:"🚗"},{name:"Time 时间",emoji:"⏰"},
+    {name:"Feelings 情感",emoji:"❤️"},{name:"Common 常用",emoji:"📝"}
+];
+
+// Character decomposition for Magic game
+const DECOMPOSE = {
+    "明":["日","月","sun + moon = bright"],"林":["木","木","tree + tree = forest"],"森":["木","林","tree + forest = dense forest"],
+    "好":["女","子","girl + child = good"],"男":["田","力","field + strength = male"],"休":["人","木","person + tree = rest"],
+    "从":["人","人","person + person = follow"],"众":["人","从","person + follow = crowd"],"花":["草","化","grass + change = flower"],
+    "看":["手","目","hand + eye = look"],"明":["日","月","sun + moon = bright"],"星":["日","生","sun + life = star"],
+    "鲜":["鱼","羊","fish + sheep = fresh"],"家":["宀","豕","roof + pig = home"],"安":["宀","女","roof + woman = safe"],
+    "字":["宀","子","roof + child = character"],"想":["相","心","each other + heart = think"],
+    "早":["日","十","sun + ten = early morning"],"草":["草","早","plants + early = grass"],
+    "尖":["小","大","small + big = sharp/pointed"],"尘":["小","土","small + earth = dust"],
+    "岩":["山","石","mountain + stone = rock"],"鸣":["口","鸟","mouth + bird = chirp"],
+    "晴":["日","青","sun + blue = sunny"],"清":["水","青","water + blue = clear"],
+    "情":["心","青","heart + blue = feeling"],"请":["言","青","words + blue = please"],
+    "红":["丝","工","silk + work = red"],"江":["水","工","water + work = river"],
+    "体":["人","本","person + root = body"],"伴":["人","半","person + half = companion"],
+};
+
+// Sentence patterns per level
+const SENTENCES = [
+    "这是___。(zhè shì ___ / This is ___.)","___在哪里？(___ zài nǎlǐ / Where is ___?)","今天___。(jīntiān ___ / Today is ___.)",
+    "我看见___。(wǒ kàn jiàn ___ / I see ___.)", "___很漂亮。(___ hěn piàoliang / ___ is pretty.)","我喜欢___。(wǒ xǐhuan ___ / I like ___.)",
+    "这是我的___。(zhè shì wǒ de ___ / This is my ___.)", "我的___很大。(wǒ de ___ hěn dà / My ___ is big.)","___是什么颜色？(___ shì shénme yánsè / What color is ___?)",
+    "我会___。(wǒ huì ___ / I can ___.)", "请___。(qǐng ___ / Please ___.)", "我每天___。(wǒ měitiān ___ / I ___ every day.)",
+    "我在___。(wǒ zài ___ / I am at ___.)", "___里有什么？(___ lǐ yǒu shénme / What's in ___?)", "我穿___。(wǒ chuān ___ / I wear ___.)",
+    "我想吃___。(wǒ xiǎng chī ___ / I want to eat ___.)", "我坐___去。(wǒ zuò ___ qù / I go by ___.)", "现在几点？(xiànzài jǐ diǎn / What time is it?)",
+    "我觉得___。(wǒ juéde ___ / I feel ___.)", "___是___的。(___ shì ___ de / ___ is ___.)"
+];
+
+// ==================== SVG ILLUSTRATIONS ====================
+// Helper: wrap inner shapes in an 80x80 SVG card
+function svgCard(bg, inner) {
+    return `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><rect width="80" height="80" rx="14" fill="${bg}"/>${inner}</svg>`;
+}
+
+// Map of character -> SVG illustration (concrete nouns, ~120 illustrations)
+const ILLUST = {
+    // === Nature & Weather ===
+    "日": svgCard("#FFF3E0",`<circle cx="40" cy="38" r="16" fill="#FFB300"/><g stroke="#FFD54F" stroke-width="3" stroke-linecap="round"><line x1="40" y1="14" x2="40" y2="8"/><line x1="40" y1="62" x2="40" y2="68"/><line x1="16" y1="38" x2="10" y2="38"/><line x1="64" y1="38" x2="70" y2="38"/><line x1="23" y1="21" x2="18" y2="16"/><line x1="57" y1="55" x2="62" y2="60"/><line x1="57" y1="21" x2="62" y2="16"/><line x1="23" y1="55" x2="18" y2="60"/></g>`),
+    "月": svgCard("#1A237E",`<circle cx="36" cy="38" r="18" fill="#FDD835"/><circle cx="46" cy="32" r="16" fill="#1A237E"/><circle cx="22" cy="18" r="1.5" fill="#E8EAF6"/><circle cx="60" cy="52" r="1" fill="#E8EAF6"/><circle cx="56" cy="22" r="1.2" fill="#E8EAF6"/>`),
+    "星": svgCard("#1A237E",`<polygon points="40,12 46,30 66,30 50,42 56,60 40,48 24,60 30,42 14,30 34,30" fill="#FDD835"/><circle cx="20" cy="18" r="1.5" fill="#E8EAF6"/><circle cx="62" cy="56" r="1" fill="#E8EAF6"/>`),
+    "山": svgCard("#E8F5E9",`<polygon points="40,16 64,62 16,62" fill="#4CAF50"/><polygon points="24,30 42,62 6,62" fill="#66BB6A"/><polygon points="58,28 74,62 42,62" fill="#388E3C"/>`),
+    "水": svgCard("#E3F2FD",`<path d="M16 36 Q28 28 40 36 Q52 44 64 36" stroke="#2196F3" stroke-width="4" fill="none"/><path d="M16 48 Q28 40 40 48 Q52 56 64 48" stroke="#42A5F5" stroke-width="3" fill="none"/><path d="M24 58 Q36 52 48 58 Q56 62 60 58" stroke="#90CAF9" stroke-width="2.5" fill="none"/>`),
+    "火": svgCard("#FBE9E7",`<path d="M40 14 Q52 30 48 44 Q46 56 40 62 Q34 56 32 44 Q28 30 40 14Z" fill="#FF5722"/><path d="M40 24 Q48 34 46 44 Q44 52 40 56 Q36 52 34 44 Q32 34 40 24Z" fill="#FF9800"/><ellipse cx="40" cy="46" rx="6" ry="10" fill="#FFC107"/>`),
+    "风": svgCard("#E3F2FD",`<path d="M14 30 Q40 24 52 30 Q60 34 56 26 Q54 20 62 24" stroke="#78909C" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M18 42 Q36 36 50 42 Q58 46 54 38" stroke="#90A4AE" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M22 54 Q38 48 48 54" stroke="#B0BEC5" stroke-width="2.5" fill="none" stroke-linecap="round"/>`),
+    "雨": svgCard("#E3F2FD",`<ellipse cx="40" cy="28" rx="24" ry="12" fill="#B0BEC5"/><ellipse cx="28" cy="26" rx="10" ry="8" fill="#CFD8DC"/><circle cx="24" cy="50" r="2.5" fill="#42A5F5"/><circle cx="36" cy="56" r="2.5" fill="#42A5F5"/><circle cx="48" cy="48" r="2.5" fill="#42A5F5"/><circle cx="56" cy="54" r="2.5" fill="#42A5F5"/><circle cx="32" cy="44" r="2" fill="#64B5F6"/>`),
+    "雪": svgCard("#E8EAF6",`<line x1="40" y1="16" x2="40" y2="64" stroke="#90CAF9" stroke-width="3"/><line x1="16" y1="40" x2="64" y2="40" stroke="#90CAF9" stroke-width="3"/><line x1="23" y1="23" x2="57" y2="57" stroke="#90CAF9" stroke-width="3"/><line x1="57" y1="23" x2="23" y2="57" stroke="#90CAF9" stroke-width="3"/><circle cx="40" cy="40" r="6" fill="#E3F2FD" stroke="#90CAF9" stroke-width="2"/>`),
+    "云": svgCard("#E3F2FD",`<ellipse cx="40" cy="42" rx="24" ry="14" fill="white"/><circle cx="28" cy="36" r="12" fill="white"/><circle cx="50" cy="34" r="14" fill="white"/><circle cx="40" cy="30" r="10" fill="white"/>`),
+    "天": svgCard("#BBDEFB",`<circle cx="40" cy="28" r="12" fill="#FFB300"/><path d="M0 52 Q20 42 40 48 Q60 54 80 44 L80 80 L0 80Z" fill="#4CAF50"/><path d="M10 20 Q14 16 18 20" stroke="white" stroke-width="2" fill="none"/><path d="M56 18 Q62 12 68 18" stroke="white" stroke-width="2" fill="none"/>`),
+    "地": svgCard("#E8F5E9",`<rect y="40" width="80" height="40" rx="0" fill="#8D6E63"/><rect y="36" width="80" height="8" fill="#A5D6A7"/><path d="M10 50 Q20 46 30 50" stroke="#6D4C41" stroke-width="2" fill="none"/><path d="M45 56 Q55 52 65 56" stroke="#6D4C41" stroke-width="2" fill="none"/><circle cx="20" cy="24" r="3" fill="#66BB6A"/><circle cx="50" cy="20" r="4" fill="#43A047"/><circle cx="62" cy="28" r="2.5" fill="#81C784"/>`),
+    "阳": svgCard("#FFF8E1",`<circle cx="40" cy="36" r="20" fill="#FFB300"/><g stroke="#FFD54F" stroke-width="2.5"><line x1="40" y1="8" x2="40" y2="2"/><line x1="40" y1="64" x2="40" y2="70"/><line x1="12" y1="36" x2="6" y2="36"/><line x1="68" y1="36" x2="74" y2="36"/></g>`),
+    "春": svgCard("#F1F8E9",`<circle cx="40" cy="28" r="10" fill="#FF8A80"/><circle cx="32" cy="32" r="8" fill="#FF80AB"/><circle cx="48" cy="32" r="8" fill="#F48FB1"/><circle cx="40" cy="28" r="4" fill="#FFEB3B"/><path d="M38 40 L38 62" stroke="#4CAF50" stroke-width="3"/><path d="M38 50 Q30 44 26 48" stroke="#4CAF50" stroke-width="2" fill="none"/><path d="M40 54 Q48 48 52 52" stroke="#4CAF50" stroke-width="2" fill="none"/>`),
+    "夏": svgCard("#FFF3E0",`<circle cx="40" cy="28" r="16" fill="#FF9800"/><path d="M0 50 Q20 40 40 46 Q60 52 80 42 L80 80 L0 80Z" fill="#FFE082"/><path d="M26 58 L30 50 L34 58Z" fill="#4CAF50"/><path d="M46 56 L50 48 L54 56Z" fill="#66BB6A"/>`),
+    "秋": svgCard("#FFF8E1",`<path d="M36 16 L36 60" stroke="#795548" stroke-width="4"/><circle cx="24" cy="28" r="12" fill="#FF8F00"/><circle cx="48" cy="24" r="10" fill="#F4511E"/><circle cx="36" cy="18" r="9" fill="#FFB300"/><path d="M30 48 Q22 56 16 52" stroke="#FF8F00" stroke-width="2" fill="none"/><circle cx="50" cy="54" r="5" fill="#FF6F00"/>`),
+    "冬": svgCard("#E8EAF6",`<polygon points="40,14 48,30 64,30 52,40 56,56 40,46 24,56 28,40 16,30 32,30" fill="#B0BEC5"/><circle cx="20" cy="58" r="4" fill="white"/><circle cx="50" cy="62" r="3" fill="white"/><circle cx="64" cy="52" r="3.5" fill="white"/><circle cx="40" cy="66" r="3" fill="white"/>`),
+    "晴": svgCard("#BBDEFB",`<circle cx="40" cy="34" r="14" fill="#FFB300"/><g stroke="#FFD54F" stroke-width="2"><line x1="40" y1="14" x2="40" y2="8"/><line x1="40" y1="54" x2="40" y2="60"/><line x1="20" y1="34" x2="14" y2="34"/><line x1="60" y1="34" x2="66" y2="34"/></g><path d="M12 66 Q26 58 40 64 Q54 70 68 62" stroke="#4CAF50" stroke-width="3" fill="none"/>`),
+    "冰": svgCard("#E3F2FD",`<rect x="26" y="20" width="28" height="40" rx="4" fill="#81D4FA"/><rect x="22" y="18" width="36" height="6" rx="3" fill="#B3E5FC"/><line x1="34" y1="30" x2="34" y2="54" stroke="#4FC3F7" stroke-width="1.5"/><line x1="46" y1="30" x2="46" y2="54" stroke="#4FC3F7" stroke-width="1.5"/>`),
+    // === Land & Water ===
+    "河": svgCard("#E3F2FD",`<path d="M10 20 Q24 30 40 24 Q56 18 70 28 Q80 34 70 42 Q56 50 40 44 Q24 38 10 48" stroke="#1E88E5" stroke-width="5" fill="none"/><path d="M0 58 Q20 50 40 56 Q60 62 80 54" stroke="#42A5F5" stroke-width="3" fill="none"/>`),
+    "海": svgCard("#1565C0",`<path d="M0 30 Q20 22 40 30 Q60 38 80 30 L80 80 L0 80Z" fill="#1976D2"/><path d="M0 42 Q20 34 40 42 Q60 50 80 42" stroke="#42A5F5" stroke-width="2" fill="none"/><path d="M0 54 Q20 48 40 54 Q60 60 80 54" stroke="#64B5F6" stroke-width="2" fill="none"/><circle cx="54" cy="18" r="2" fill="#E3F2FD"/><circle cx="30" cy="22" r="1.5" fill="#E3F2FD"/>`),
+    "湖": svgCard("#E3F2FD",`<ellipse cx="40" cy="42" rx="28" ry="18" fill="#42A5F5"/><polygon points="14,18 20,36 8,36" fill="#4CAF50"/><polygon points="62,14 70,34 54,34" fill="#388E3C"/><path d="M34 42 Q40 38 46 42" stroke="#90CAF9" stroke-width="1.5" fill="none"/>`),
+    "石": svgCard("#EFEBE9",`<ellipse cx="40" cy="44" rx="24" ry="18" fill="#9E9E9E"/><ellipse cx="36" cy="40" rx="18" ry="14" fill="#BDBDBD"/><path d="M28 36 Q34 32 40 36" stroke="#757575" stroke-width="1.5" fill="none"/>`),
+    "田": svgCard("#F1F8E9",`<rect x="16" y="20" width="48" height="40" rx="4" fill="#A5D6A7"/><line x1="40" y1="20" x2="40" y2="60" stroke="#66BB6A" stroke-width="2"/><line x1="16" y1="40" x2="64" y2="40" stroke="#66BB6A" stroke-width="2"/><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="#4CAF50" stroke-width="3"/>`),
+    "桥": svgCard("#E3F2FD",`<path d="M8 40 Q24 24 40 40 Q56 24 72 40" stroke="#795548" stroke-width="5" fill="none"/><line x1="24" y1="40" x2="24" y2="56" stroke="#795548" stroke-width="3"/><line x1="56" y1="40" x2="56" y2="56" stroke="#795548" stroke-width="3"/><path d="M4 56 Q40 48 76 56" stroke="#42A5F5" stroke-width="3" fill="none"/>`),
+    "路": svgCard("#EFEBE9",`<path d="M30 0 Q36 20 40 40 Q44 60 50 80" stroke="#9E9E9E" stroke-width="18" fill="none"/><line x1="38" y1="10" x2="38" y2="20" stroke="#FDD835" stroke-width="2" stroke-dasharray="4,4"/><line x1="40" y1="30" x2="40" y2="40" stroke="#FDD835" stroke-width="2" stroke-dasharray="4,4"/><line x1="42" y1="50" x2="44" y2="60" stroke="#FDD835" stroke-width="2" stroke-dasharray="4,4"/>`),
+    // === Plants ===
+    "木": svgCard("#E8F5E9",`<rect x="36" y="30" width="8" height="34" rx="2" fill="#795548"/><circle cx="40" cy="24" r="18" fill="#4CAF50"/><circle cx="30" cy="20" r="10" fill="#66BB6A"/><circle cx="50" cy="22" r="10" fill="#43A047"/>`),
+    "花": svgCard("#FCE4EC",`<circle cx="40" cy="28" r="8" fill="#FFEB3B"/><circle cx="40" cy="16" r="7" fill="#F48FB1"/><circle cx="50" cy="22" r="7" fill="#F06292"/><circle cx="50" cy="34" r="7" fill="#EC407A"/><circle cx="40" cy="40" r="7" fill="#F48FB1"/><circle cx="30" cy="34" r="7" fill="#F06292"/><circle cx="30" cy="22" r="7" fill="#EC407A"/><line x1="40" y1="44" x2="40" y2="66" stroke="#4CAF50" stroke-width="3"/><path d="M40 54 Q32 48 28 52" stroke="#4CAF50" stroke-width="2" fill="none"/>`),
+    "草": svgCard("#E8F5E9",`<path d="M16 60 Q20 36 24 60" stroke="#4CAF50" stroke-width="3" fill="none"/><path d="M28 60 Q34 30 38 60" stroke="#66BB6A" stroke-width="3" fill="none"/><path d="M40 60 Q44 26 48 60" stroke="#43A047" stroke-width="3" fill="none"/><path d="M52 60 Q56 34 60 60" stroke="#4CAF50" stroke-width="3" fill="none"/><line x1="10" y1="62" x2="70" y2="62" stroke="#388E3C" stroke-width="2"/>`),
+    "树": svgCard("#E8F5E9",`<rect x="36" y="36" width="8" height="30" rx="2" fill="#6D4C41"/><circle cx="40" cy="26" r="20" fill="#388E3C"/><circle cx="28" cy="22" r="12" fill="#4CAF50"/><circle cx="52" cy="24" r="12" fill="#43A047"/><circle cx="40" cy="16" r="10" fill="#66BB6A"/>`),
+    "林": svgCard("#E8F5E9",`<rect x="22" y="36" width="6" height="28" rx="2" fill="#6D4C41"/><circle cx="25" cy="28" r="14" fill="#388E3C"/><rect x="50" y="36" width="6" height="28" rx="2" fill="#795548"/><circle cx="53" cy="28" r="14" fill="#4CAF50"/>`),
+    "森": svgCard("#E8F5E9",`<rect x="36" y="28" width="6" height="22" rx="2" fill="#6D4C41"/><circle cx="39" cy="20" r="12" fill="#2E7D32"/><rect x="16" y="38" width="5" height="24" rx="2" fill="#795548"/><circle cx="18" cy="32" r="10" fill="#388E3C"/><rect x="56" y="38" width="5" height="24" rx="2" fill="#795548"/><circle cx="58" cy="32" r="10" fill="#4CAF50"/>`),
+    "果": svgCard("#FFF3E0",`<circle cx="40" cy="38" r="18" fill="#F44336"/><path d="M40 20 Q44 14 48 18" stroke="#4CAF50" stroke-width="2.5" fill="none"/><ellipse cx="40" cy="20" rx="3" ry="4" fill="#4CAF50"/><circle cx="34" cy="34" r="3" fill="rgba(255,255,255,0.3)"/>`),
+    "叶": svgCard("#E8F5E9",`<ellipse cx="40" cy="36" rx="22" ry="16" fill="#4CAF50" transform="rotate(-20,40,36)"/><line x1="24" y1="44" x2="56" y2="28" stroke="#388E3C" stroke-width="2"/><path d="M32 40 Q40 34 48 40" stroke="#388E3C" stroke-width="1.5" fill="none"/>`),
+    "竹": svgCard("#E8F5E9",`<line x1="28" y1="12" x2="28" y2="68" stroke="#66BB6A" stroke-width="5"/><line x1="52" y1="12" x2="52" y2="68" stroke="#4CAF50" stroke-width="5"/><ellipse cx="28" cy="30" rx="2.5" ry="1" fill="#388E3C"/><ellipse cx="28" cy="50" rx="2.5" ry="1" fill="#388E3C"/><ellipse cx="52" cy="24" rx="2.5" ry="1" fill="#2E7D32"/><ellipse cx="52" cy="44" rx="2.5" ry="1" fill="#2E7D32"/><path d="M30 28 Q38 20 36 14" stroke="#66BB6A" stroke-width="2" fill="none"/><path d="M54 22 Q62 14 60 8" stroke="#4CAF50" stroke-width="2" fill="none"/>`),
+    "桃": svgCard("#FCE4EC",`<circle cx="40" cy="38" r="18" fill="#E91E63"/><circle cx="36" cy="38" r="16" fill="#F06292"/><path d="M40 20 Q44 12 48 16" stroke="#4CAF50" stroke-width="2" fill="none"/><ellipse cx="42" cy="18" rx="4" ry="3" fill="#4CAF50"/>`),
+    // === Animals ===
+    "马": svgCard("#EFEBE9",`<ellipse cx="40" cy="42" rx="20" ry="14" fill="#8D6E63"/><circle cx="50" cy="28" r="12" fill="#795548"/><circle cx="56" cy="24" r="3" fill="white"/><circle cx="57" cy="24" r="1.5" fill="#333"/><path d="M60 30 Q64 34 62 36" stroke="#795548" stroke-width="2" fill="none"/><path d="M44 18 Q48 8 52 14" stroke="#5D4037" stroke-width="3" fill="none"/><line x1="26" y1="54" x2="24" y2="68" stroke="#6D4C41" stroke-width="3"/><line x1="36" y1="56" x2="34" y2="68" stroke="#6D4C41" stroke-width="3"/><line x1="46" y1="56" x2="48" y2="68" stroke="#6D4C41" stroke-width="3"/><line x1="54" y1="54" x2="56" y2="68" stroke="#6D4C41" stroke-width="3"/>`),
+    "牛": svgCard("#EFEBE9",`<circle cx="40" cy="40" r="20" fill="white"/><circle cx="32" cy="34" r="4" fill="#333"/><circle cx="48" cy="34" r="4" fill="#333"/><ellipse cx="40" cy="48" rx="10" ry="7" fill="#FFCCBC"/><circle cx="36" cy="48" r="2" fill="#333"/><circle cx="44" cy="48" r="2" fill="#333"/><path d="M16 28 Q20 18 26 24" stroke="#795548" stroke-width="3" fill="none"/><path d="M64 28 Q60 18 54 24" stroke="#795548" stroke-width="3" fill="none"/><ellipse cx="28" cy="44" rx="6" ry="4" fill="#333"/>`),
+    "羊": svgCard("#F3E5F5",`<circle cx="40" cy="38" r="20" fill="white"/><circle cx="30" cy="30" r="8" fill="white"/><circle cx="50" cy="30" r="8" fill="white"/><circle cx="40" cy="24" r="8" fill="white"/><circle cx="34" cy="38" r="3" fill="#333"/><circle cx="46" cy="38" r="3" fill="#333"/><path d="M38 46 Q40 50 42 46" stroke="#F48FB1" stroke-width="2" fill="none"/><line x1="40" y1="18" x2="36" y2="8" stroke="#9E9E9E" stroke-width="2.5"/><line x1="40" y1="18" x2="44" y2="8" stroke="#9E9E9E" stroke-width="2.5"/>`),
+    "鸟": svgCard("#E3F2FD",`<ellipse cx="40" cy="40" rx="16" ry="14" fill="#42A5F5"/><circle cx="48" cy="34" r="6" fill="#1E88E5"/><circle cx="50" cy="32" r="2.5" fill="white"/><circle cx="51" cy="32" r="1.2" fill="#333"/><path d="M54 36 L62 34 L54 38Z" fill="#FF9800"/><path d="M24 38 Q16 28 10 34" stroke="#42A5F5" stroke-width="3" fill="none"/><line x1="36" y1="54" x2="34" y2="64" stroke="#FF9800" stroke-width="2"/><line x1="44" y1="54" x2="46" y2="64" stroke="#FF9800" stroke-width="2"/>`),
+    "鱼": svgCard("#E3F2FD",`<ellipse cx="38" cy="40" rx="22" ry="14" fill="#FF9800"/><polygon points="60,40 74,28 74,52" fill="#FF9800"/><circle cx="28" cy="36" r="4" fill="white"/><circle cx="28" cy="36" r="2" fill="#333"/><path d="M20 44 Q28 46 36 44" stroke="#F57C00" stroke-width="1.5" fill="none"/><path d="M38 30 Q42 28 46 30" stroke="#FFB74D" stroke-width="1.5" fill="none"/>`),
+    "虫": svgCard("#F1F8E9",`<circle cx="40" cy="24" r="10" fill="#8BC34A"/><ellipse cx="40" cy="42" rx="8" ry="10" fill="#7CB342"/><ellipse cx="40" cy="58" rx="6" ry="7" fill="#689F38"/><circle cx="36" cy="22" r="2.5" fill="white"/><circle cx="44" cy="22" r="2.5" fill="white"/><circle cx="36" cy="22" r="1.2" fill="#333"/><circle cx="44" cy="22" r="1.2" fill="#333"/><line x1="34" y1="14" x2="30" y2="6" stroke="#558B2F" stroke-width="2"/><line x1="46" y1="14" x2="50" y2="6" stroke="#558B2F" stroke-width="2"/>`),
+    "猫": svgCard("#FFF3E0",`<circle cx="40" cy="42" r="20" fill="#FF9800"/><polygon points="22,30 18,10 32,24" fill="#FF9800"/><polygon points="58,30 62,10 48,24" fill="#FF9800"/><polygon points="22,30 18,10 32,24" fill="#FFB74D"/><circle cx="33" cy="38" r="4" fill="#FFEB3B"/><circle cx="47" cy="38" r="4" fill="#FFEB3B"/><circle cx="33" cy="39" r="2" fill="#333"/><circle cx="47" cy="39" r="2" fill="#333"/><ellipse cx="40" cy="48" rx="3" ry="2" fill="#F48FB1"/><path d="M34 52 Q40 56 46 52" stroke="#E65100" stroke-width="1.5" fill="none"/><line x1="18" y1="44" x2="8" y2="40" stroke="#FF9800" stroke-width="1.5"/><line x1="18" y1="48" x2="8" y2="50" stroke="#FF9800" stroke-width="1.5"/><line x1="62" y1="44" x2="72" y2="40" stroke="#FF9800" stroke-width="1.5"/><line x1="62" y1="48" x2="72" y2="50" stroke="#FF9800" stroke-width="1.5"/>`),
+    "狗": svgCard("#EFEBE9",`<circle cx="40" cy="42" r="20" fill="#8D6E63"/><ellipse cx="26" cy="26" rx="8" ry="12" fill="#795548" transform="rotate(-15,26,26)"/><ellipse cx="54" cy="26" rx="8" ry="12" fill="#795548" transform="rotate(15,54,26)"/><circle cx="34" cy="38" r="3.5" fill="white"/><circle cx="46" cy="38" r="3.5" fill="white"/><circle cx="34" cy="39" r="1.8" fill="#333"/><circle cx="46" cy="39" r="1.8" fill="#333"/><ellipse cx="40" cy="48" rx="4" ry="3" fill="#5D4037"/><circle cx="40" cy="46" r="3" fill="#333"/><path d="M34 54 Q40 58 46 54" stroke="#6D4C41" stroke-width="1.5" fill="none"/>`),
+    "兔": svgCard("#F3E5F5",`<circle cx="40" cy="46" r="18" fill="white"/><ellipse cx="32" cy="18" rx="6" ry="18" fill="white"/><ellipse cx="32" cy="18" rx="3" ry="14" fill="#F8BBD0"/><ellipse cx="48" cy="18" rx="6" ry="18" fill="white"/><ellipse cx="48" cy="18" rx="3" ry="14" fill="#F8BBD0"/><circle cx="34" cy="42" r="3" fill="#E91E63"/><circle cx="46" cy="42" r="3" fill="#E91E63"/><ellipse cx="40" cy="50" rx="2.5" ry="2" fill="#F48FB1"/><circle cx="34" cy="42" r="1.5" fill="#333"/><circle cx="46" cy="42" r="1.5" fill="#333"/>`),
+    "龙": svgCard("#FFF8E1",`<path d="M20 24 Q30 14 40 24 Q50 34 60 24 Q70 14 70 30 Q70 46 60 50 Q50 54 40 50 Q30 46 20 50 Q10 54 14 66" stroke="#4CAF50" stroke-width="5" fill="none"/><circle cx="28" cy="22" r="3" fill="#F44336"/><circle cx="20" cy="18" r="2" fill="#FFD600"/><path d="M16 22 L8 18 L10 26Z" fill="#F44336"/>`),
+    "蛇": svgCard("#E8F5E9",`<path d="M16 54 Q22 40 32 44 Q42 48 46 36 Q50 24 58 28 Q66 32 64 22" stroke="#4CAF50" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="64" cy="20" r="4" fill="#4CAF50"/><circle cx="63" cy="18" r="1.5" fill="#333"/><path d="M68 22 L74 20 L74 24Z" fill="#F44336"/>`),
+    "象": svgCard("#ECEFF1",`<circle cx="40" cy="34" r="20" fill="#9E9E9E"/><circle cx="30" cy="30" r="4" fill="white"/><circle cx="30" cy="30" r="2" fill="#333"/><ellipse cx="24" cy="38" rx="10" ry="8" fill="#BDBDBD"/><path d="M40 44 Q42 56 38 66" stroke="#9E9E9E" stroke-width="6" fill="none" stroke-linecap="round"/><ellipse cx="56" cy="38" rx="10" ry="8" fill="#BDBDBD"/>`),
+    "猴": svgCard("#EFEBE9",`<circle cx="40" cy="38" r="18" fill="#A1887F"/><circle cx="40" cy="42" r="12" fill="#FFCCBC"/><circle cx="34" cy="34" r="3" fill="white"/><circle cx="46" cy="34" r="3" fill="white"/><circle cx="34" cy="35" r="1.5" fill="#333"/><circle cx="46" cy="35" r="1.5" fill="#333"/><circle cx="26" cy="36" r="6" fill="#FFAB91"/><circle cx="54" cy="36" r="6" fill="#FFAB91"/><ellipse cx="40" cy="46" rx="3" ry="2" fill="#333"/>`),
+    "蛙": svgCard("#E8F5E9",`<ellipse cx="40" cy="46" rx="22" ry="16" fill="#4CAF50"/><circle cx="30" cy="28" r="9" fill="#4CAF50"/><circle cx="50" cy="28" r="9" fill="#4CAF50"/><circle cx="30" cy="26" r="5" fill="white"/><circle cx="50" cy="26" r="5" fill="white"/><circle cx="31" cy="26" r="2.5" fill="#333"/><circle cx="51" cy="26" r="2.5" fill="#333"/><path d="M32 52 Q40 58 48 52" stroke="#388E3C" stroke-width="2" fill="none"/>`),
+    "蝶": svgCard("#F3E5F5",`<rect x="38" y="24" width="4" height="30" rx="2" fill="#333"/><ellipse cx="26" cy="34" rx="14" ry="12" fill="#CE93D8"/><ellipse cx="54" cy="34" rx="14" ry="12" fill="#AB47BC"/><ellipse cx="26" cy="52" rx="10" ry="8" fill="#E1BEE7"/><ellipse cx="54" cy="52" rx="10" ry="8" fill="#CE93D8"/><circle cx="22" cy="32" r="3" fill="#7B1FA2"/><circle cx="58" cy="32" r="3" fill="#6A1B9A"/><line x1="36" y1="24" x2="30" y2="14" stroke="#333" stroke-width="1.5"/><line x1="44" y1="24" x2="50" y2="14" stroke="#333" stroke-width="1.5"/>`),
+    "鸡": svgCard("#FFF3E0",`<ellipse cx="40" cy="44" rx="18" ry="16" fill="white"/><circle cx="46" cy="30" r="10" fill="white"/><circle cx="50" cy="28" r="3" fill="white"/><circle cx="50" cy="28" r="1.5" fill="#333"/><path d="M56 30 L64 28 L56 34Z" fill="#FF9800"/><path d="M42 20 Q46 12 50 20" fill="#F44336"/><path d="M46 20 Q50 14 52 20" fill="#E53935"/><line x1="36" y1="60" x2="32" y2="70" stroke="#FF9800" stroke-width="2"/><line x1="44" y1="60" x2="48" y2="70" stroke="#FF9800" stroke-width="2"/>`),
+    "鸭": svgCard("#E3F2FD",`<ellipse cx="38" cy="46" rx="20" ry="14" fill="white"/><circle cx="50" cy="32" r="12" fill="white"/><circle cx="54" cy="28" r="3" fill="#333"/><path d="M58 34 L70 32 L66 38Z" fill="#FF9800"/><path d="M22 48 Q16 52 20 56" stroke="white" stroke-width="3" fill="none"/>`),
+    "鹅": svgCard("#E8F5E9",`<ellipse cx="38" cy="50" rx="20" ry="14" fill="white"/><path d="M48 50 Q56 40 54 30 Q52 20 46 16" stroke="white" stroke-width="8" fill="none"/><circle cx="44" cy="16" r="7" fill="white"/><circle cx="46" cy="14" r="2.5" fill="#333"/><path d="M50 18 L58 16 L54 22Z" fill="#FF9800"/><path d="M40 10 Q44 4 48 8" fill="#F44336"/>`),
+    "熊": svgCard("#EFEBE9",`<circle cx="40" cy="42" r="22" fill="#795548"/><circle cx="24" cy="22" r="8" fill="#795548"/><circle cx="56" cy="22" r="8" fill="#795548"/><circle cx="24" cy="22" r="4" fill="#A1887F"/><circle cx="56" cy="22" r="4" fill="#A1887F"/><circle cx="34" cy="36" r="3" fill="#333"/><circle cx="46" cy="36" r="3" fill="#333"/><ellipse cx="40" cy="46" rx="8" ry="6" fill="#A1887F"/><ellipse cx="40" cy="44" rx="3" ry="2" fill="#333"/>`),
+    "龟": svgCard("#E8F5E9",`<ellipse cx="40" cy="44" rx="24" ry="16" fill="#4CAF50"/><ellipse cx="40" cy="44" rx="20" ry="13" fill="#66BB6A"/><line x1="26" y1="38" x2="54" y2="38" stroke="#388E3C" stroke-width="1.5"/><line x1="26" y1="48" x2="54" y2="48" stroke="#388E3C" stroke-width="1.5"/><line x1="40" y1="32" x2="40" y2="56" stroke="#388E3C" stroke-width="1.5"/><circle cx="60" cy="36" r="6" fill="#66BB6A"/><circle cx="62" cy="34" r="2" fill="#333"/>`),
+    "蜂": svgCard("#FFF8E1",`<ellipse cx="40" cy="44" rx="14" ry="16" fill="#FDD835"/><ellipse cx="40" cy="38" rx="14" ry="6" fill="#333"/><ellipse cx="40" cy="52" rx="14" ry="5" fill="#333"/><circle cx="40" cy="26" r="8" fill="#FDD835"/><circle cx="37" cy="24" r="2" fill="#333"/><circle cx="43" cy="24" r="2" fill="#333"/><path d="M26 34 Q14 24 10 30" stroke="#90CAF9" stroke-width="2" fill="none"/><path d="M54 34 Q66 24 70 30" stroke="#90CAF9" stroke-width="2" fill="none"/><ellipse cx="18" cy="30" rx="10" ry="4" fill="rgba(144,202,249,0.4)" transform="rotate(-20,18,30)"/><ellipse cx="62" cy="30" rx="10" ry="4" fill="rgba(144,202,249,0.4)" transform="rotate(20,62,30)"/>`),
+    // === Body Parts ===
+    "口": svgCard("#FFEBEE",`<ellipse cx="40" cy="42" rx="16" ry="14" fill="#EF5350"/><ellipse cx="40" cy="46" rx="10" ry="8" fill="#C62828"/><path d="M30 40 Q40 36 50 40" stroke="#FFCDD2" stroke-width="2" fill="none"/>`),
+    "目": svgCard("#E3F2FD",`<ellipse cx="40" cy="40" rx="22" ry="14" fill="white" stroke="#333" stroke-width="3"/><circle cx="40" cy="40" r="10" fill="#795548"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="44" cy="38" r="2" fill="white"/>`),
+    "耳": svgCard("#FFF3E0",`<path d="M32 20 Q24 20 22 32 Q20 44 24 54 Q28 62 36 62 Q40 62 42 56 Q44 50 40 44 Q36 38 38 32 Q40 26 36 20Z" fill="#FFCCBC" stroke="#E0A080" stroke-width="2"/>`),
+    "手": svgCard("#FFF3E0",`<rect x="30" y="34" width="20" height="28" rx="10" fill="#FFCCBC"/><rect x="18" y="22" width="8" height="22" rx="4" fill="#FFCCBC"/><rect x="28" y="16" width="7" height="24" rx="3.5" fill="#FFCCBC"/><rect x="37" y="14" width="7" height="26" rx="3.5" fill="#FFCCBC"/><rect x="46" y="18" width="7" height="22" rx="3.5" fill="#FFCCBC"/><rect x="54" y="24" width="7" height="18" rx="3.5" fill="#FFCCBC"/>`),
+    "心": svgCard("#FCE4EC",`<path d="M40 60 Q12 40 16 26 Q20 14 30 14 Q38 14 40 24 Q42 14 50 14 Q60 14 64 26 Q68 40 40 60Z" fill="#E91E63"/><path d="M28 26 Q32 20 36 26" stroke="#F48FB1" stroke-width="2" fill="none"/>`),
+    "眼": svgCard("#E3F2FD",`<ellipse cx="40" cy="40" rx="24" ry="16" fill="white" stroke="#333" stroke-width="2.5"/><circle cx="40" cy="40" r="12" fill="#42A5F5"/><circle cx="40" cy="40" r="6" fill="#333"/><circle cx="44" cy="36" r="3" fill="white"/><path d="M16 40 Q24 28 40 24" stroke="#333" stroke-width="1.5" fill="none"/><path d="M64 40 Q56 28 40 24" stroke="#333" stroke-width="1.5" fill="none"/>`),
+    "牙": svgCard("#F5F5F5",`<rect x="26" y="18" width="28" height="38" rx="14" fill="white" stroke="#E0E0E0" stroke-width="2"/><path d="M40 18 L40 56" stroke="#EEEEEE" stroke-width="1.5"/><circle cx="40" cy="62" r="4" fill="#E0E0E0"/>`),
+    // === Colors ===
+    "白": svgCard("#F5F5F5",`<circle cx="40" cy="40" r="24" fill="white" stroke="#E0E0E0" stroke-width="2"/><path d="M30 34 Q40 28 50 34" stroke="#E0E0E0" stroke-width="2" fill="none"/>`),
+    "红": svgCard("#F44336",`<circle cx="40" cy="40" r="24" fill="#F44336"/><circle cx="40" cy="40" r="16" fill="#E53935"/><circle cx="40" cy="40" r="8" fill="#C62828"/>`),
+    "绿": svgCard("#4CAF50",`<circle cx="40" cy="40" r="24" fill="#4CAF50"/><circle cx="40" cy="40" r="16" fill="#43A047"/><circle cx="40" cy="40" r="8" fill="#388E3C"/>`),
+    "黄": svgCard("#FFEB3B",`<circle cx="40" cy="40" r="24" fill="#FDD835"/><circle cx="40" cy="40" r="16" fill="#FBC02D"/><circle cx="40" cy="40" r="8" fill="#F9A825"/>`),
+    "黑": svgCard("#333",`<circle cx="40" cy="40" r="24" fill="#424242"/><circle cx="40" cy="40" r="16" fill="#333"/><circle cx="40" cy="40" r="8" fill="#212121"/>`),
+    "蓝": svgCard("#2196F3",`<circle cx="40" cy="40" r="24" fill="#2196F3"/><circle cx="40" cy="40" r="16" fill="#1E88E5"/><circle cx="40" cy="40" r="8" fill="#1565C0"/>`),
+    // === Food ===
+    "米": svgCard("#FFF3E0",`<path d="M24 52 Q32 38 40 52 Q48 38 56 52" fill="white"/><path d="M20 52 Q40 44 60 52 Q58 62 40 66 Q22 62 20 52Z" fill="#FFECB3"/><rect x="20" y="50" width="40" height="4" rx="2" fill="#FF9800"/>`),
+    "蛋": svgCard("#FFF8E1",`<ellipse cx="40" cy="42" rx="18" ry="22" fill="#FFE0B2"/><ellipse cx="40" cy="40" rx="14" ry="18" fill="#FFECB3"/><path d="M34 36 Q40 30 46 36" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none"/>`),
+    "茶": svgCard("#E8F5E9",`<path d="M22 34 L58 34 L54 58 Q40 64 26 58Z" fill="#8D6E63"/><path d="M22 34 Q40 28 58 34" fill="#A1887F"/><path d="M60 40 Q68 40 68 48 Q68 56 60 54" stroke="#8D6E63" stroke-width="3" fill="none"/><path d="M30 30 Q34 20 38 28" stroke="#BDBDBD" stroke-width="2" fill="none"/><path d="M40 28 Q44 18 48 26" stroke="#BDBDBD" stroke-width="2" fill="none"/>`),
+    "饺": svgCard("#FFF3E0",`<path d="M14 44 Q40 16 66 44 Q40 54 14 44Z" fill="#FFE0B2" stroke="#FFB74D" stroke-width="2"/><path d="M20 42 Q28 36 36 42 Q44 36 52 42 Q58 36 62 42" stroke="#FFB74D" stroke-width="2" fill="none"/>`),
+    // === Objects ===
+    "书": svgCard("#E3F2FD",`<rect x="18" y="16" width="44" height="48" rx="4" fill="#42A5F5"/><rect x="22" y="16" width="40" height="48" rx="4" fill="#E3F2FD"/><line x1="30" y1="28" x2="54" y2="28" stroke="#90CAF9" stroke-width="2"/><line x1="30" y1="36" x2="50" y2="36" stroke="#90CAF9" stroke-width="2"/><line x1="30" y1="44" x2="46" y2="44" stroke="#90CAF9" stroke-width="2"/>`),
+    "笔": svgCard("#FFF8E1",`<rect x="34" y="12" width="12" height="50" rx="2" fill="#FF9800"/><polygon points="34,62 40,74 46,62" fill="#333"/><rect x="34" y="12" width="12" height="8" rx="2" fill="#FFB74D"/>`),
+    "车": svgCard("#E3F2FD",`<rect x="12" y="30" width="56" height="22" rx="6" fill="#F44336"/><rect x="18" y="22" width="20" height="14" rx="4" fill="#BBDEFB"/><rect x="42" y="22" width="20" height="14" rx="4" fill="#BBDEFB"/><circle cx="24" cy="56" r="7" fill="#333"/><circle cx="56" cy="56" r="7" fill="#333"/><circle cx="24" cy="56" r="3" fill="#9E9E9E"/><circle cx="56" cy="56" r="3" fill="#9E9E9E"/>`),
+    "船": svgCard("#E3F2FD",`<path d="M8 50 Q16 38 40 38 Q64 38 72 50Z" fill="#795548"/><rect x="36" y="18" width="4" height="22" fill="#795548"/><polygon points="40,18 64,30 40,30" fill="white"/><path d="M4 54 Q20 46 40 52 Q60 58 76 50" stroke="#42A5F5" stroke-width="3" fill="none"/>`),
+    "门": svgCard("#EFEBE9",`<rect x="20" y="14" width="40" height="52" rx="4" fill="#8D6E63"/><rect x="20" y="14" width="40" height="52" rx="4" fill="none" stroke="#6D4C41" stroke-width="3"/><circle cx="52" cy="42" r="3" fill="#FFD600"/><line x1="40" y1="14" x2="40" y2="66" stroke="#6D4C41" stroke-width="2"/>`),
+    "床": svgCard("#EFEBE9",`<rect x="10" y="36" width="60" height="22" rx="4" fill="#5D4037"/><rect x="12" y="28" width="56" height="12" rx="3" fill="#90CAF9"/><rect x="12" y="28" width="18" height="12" rx="3" fill="#E3F2FD"/><line x1="10" y1="58" x2="10" y2="66" stroke="#5D4037" stroke-width="4"/><line x1="70" y1="58" x2="70" y2="66" stroke="#5D4037" stroke-width="4"/><rect x="8" y="24" width="8" height="14" rx="3" fill="#6D4C41"/>`),
+    "灯": svgCard("#FFF8E1",`<path d="M28 44 Q28 20 40 20 Q52 20 52 44Z" fill="#FDD835"/><rect x="36" y="44" width="8" height="6" fill="#9E9E9E"/><rect x="34" y="50" width="12" height="4" rx="2" fill="#BDBDBD"/><path d="M32 32 Q36 28 40 32" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none"/><line x1="22" y1="20" x2="16" y2="14" stroke="#FFD54F" stroke-width="2"/><line x1="58" y1="20" x2="64" y2="14" stroke="#FFD54F" stroke-width="2"/><line x1="40" y1="14" x2="40" y2="8" stroke="#FFD54F" stroke-width="2"/>`),
+    "伞": svgCard("#E8EAF6",`<path d="M12 40 Q12 16 40 16 Q68 16 68 40Z" fill="#7C4DFF"/><line x1="40" y1="16" x2="40" y2="64" stroke="#5D4037" stroke-width="3"/><path d="M40 64 Q36 68 34 66" stroke="#5D4037" stroke-width="3" fill="none"/>`),
+    "帽": svgCard("#FFF3E0",`<ellipse cx="40" cy="52" rx="28" ry="6" fill="#1565C0"/><rect x="20" y="26" width="40" height="28" rx="6" fill="#1976D2"/><rect x="24" y="18" width="32" height="12" rx="6" fill="#1E88E5"/>`),
+    "碗": svgCard("#FFF3E0",`<path d="M14 30 Q14 58 40 60 Q66 58 66 30Z" fill="white" stroke="#BDBDBD" stroke-width="2"/><ellipse cx="40" cy="64" rx="10" ry="3" fill="#BDBDBD"/><path d="M20 38 Q30 34 40 38 Q50 42 60 38" stroke="#E0E0E0" stroke-width="1.5" fill="none"/>`),
+    "杯": svgCard("#E3F2FD",`<path d="M24 22 L28 60 Q40 64 52 60 L56 22Z" fill="white" stroke="#BDBDBD" stroke-width="2"/><path d="M56 30 Q66 30 66 40 Q66 50 56 48" stroke="#BDBDBD" stroke-width="2.5" fill="none"/><ellipse cx="40" cy="36" rx="12" ry="8" fill="#81D4FA" opacity="0.5"/>`),
+    // === People ===
+    "人": svgCard("#FFF3E0",`<circle cx="40" cy="22" r="10" fill="#FFCCBC"/><path d="M40 32 L40 52" stroke="#5D4037" stroke-width="3"/><path d="M40 36 L24 50" stroke="#5D4037" stroke-width="3"/><path d="M40 36 L56 50" stroke="#5D4037" stroke-width="3"/><path d="M40 52 L28 68" stroke="#5D4037" stroke-width="3"/><path d="M40 52 L52 68" stroke="#5D4037" stroke-width="3"/>`),
+    "爸": svgCard("#E3F2FD",`<circle cx="40" cy="20" r="12" fill="#FFCCBC"/><rect x="28" y="32" width="24" height="28" rx="4" fill="#1976D2"/><circle cx="36" cy="18" r="2" fill="#333"/><circle cx="44" cy="18" r="2" fill="#333"/><path d="M36 24 Q40 28 44 24" stroke="#333" stroke-width="1.5" fill="none"/><rect x="26" y="10" width="28" height="6" rx="3" fill="#333"/>`),
+    "妈": svgCard("#FCE4EC",`<circle cx="40" cy="20" r="12" fill="#FFCCBC"/><rect x="28" y="32" width="24" height="28" rx="4" fill="#E91E63"/><circle cx="36" cy="18" r="2" fill="#333"/><circle cx="44" cy="18" r="2" fill="#333"/><path d="M36 24 Q40 28 44 24" stroke="#333" stroke-width="1.5" fill="none"/><path d="M26 10 Q30 4 40 8 Q50 4 54 10" stroke="#333" stroke-width="3" fill="none"/>`),
+    // === Actions ===
+    "走": svgCard("#E8EAF6",`<circle cx="40" cy="16" r="8" fill="#FFCCBC"/><path d="M40 24 L40 44" stroke="#5D4037" stroke-width="3"/><path d="M40 30 L28 40" stroke="#5D4037" stroke-width="2.5"/><path d="M40 30 L52 38" stroke="#5D4037" stroke-width="2.5"/><path d="M40 44 L28 62" stroke="#5D4037" stroke-width="3"/><path d="M40 44 L54 58" stroke="#5D4037" stroke-width="3"/><path d="M28 62 L22 60" stroke="#5D4037" stroke-width="2.5"/><path d="M54 58 L60 56" stroke="#5D4037" stroke-width="2.5"/>`),
+    "跑": svgCard("#E8EAF6",`<circle cx="42" cy="14" r="8" fill="#FFCCBC"/><path d="M42 22 L38 40" stroke="#5D4037" stroke-width="3"/><path d="M40 28 L26 22" stroke="#5D4037" stroke-width="2.5"/><path d="M40 28 L56 32" stroke="#5D4037" stroke-width="2.5"/><path d="M38 40 L22 58" stroke="#5D4037" stroke-width="3"/><path d="M38 40 L56 52" stroke="#5D4037" stroke-width="3"/><path d="M56 52 L64 44" stroke="#5D4037" stroke-width="2.5"/>`),
+    "跳": svgCard("#E8EAF6",`<circle cx="40" cy="12" r="8" fill="#FFCCBC"/><path d="M40 20 L40 38" stroke="#5D4037" stroke-width="3"/><path d="M40 26 L28 34" stroke="#5D4037" stroke-width="2.5"/><path d="M40 26 L52 20" stroke="#5D4037" stroke-width="2.5"/><path d="M40 38 L30 54" stroke="#5D4037" stroke-width="3"/><path d="M40 38 L50 54" stroke="#5D4037" stroke-width="3"/><path d="M8 60 Q40 50 72 60" stroke="#90CAF9" stroke-width="2" fill="none"/>`),
+    "飞": svgCard("#BBDEFB",`<path d="M10 40 L36 36 L40 28 L44 36 L70 40 L44 44 L40 52 L36 44Z" fill="white" stroke="#90CAF9" stroke-width="1.5"/><circle cx="40" cy="40" r="4" fill="#42A5F5"/>`),
+    "吃": svgCard("#FFF3E0",`<circle cx="36" cy="24" r="12" fill="#FFCCBC"/><circle cx="32" cy="22" r="2" fill="#333"/><circle cx="40" cy="22" r="2" fill="#333"/><path d="M34 30 L50 26" stroke="#F44336" stroke-width="3" stroke-linecap="round"/><path d="M48 24 Q54 20 52 28" fill="#F44336"/><rect x="28" y="44" width="24" height="16" rx="4" fill="#42A5F5"/>`),
+    "喝": svgCard("#E3F2FD",`<circle cx="34" cy="24" r="12" fill="#FFCCBC"/><circle cx="30" cy="22" r="2" fill="#333"/><circle cx="38" cy="22" r="2" fill="#333"/><path d="M44 28 L56 22 L60 26 L48 32Z" fill="white" stroke="#BDBDBD" stroke-width="1.5"/><rect x="26" y="44" width="24" height="16" rx="4" fill="#42A5F5"/>`),
+    "睡": svgCard("#E8EAF6",`<circle cx="40" cy="34" r="14" fill="#FFCCBC"/><path d="M32 32 Q36 30 40 32" stroke="#333" stroke-width="2" fill="none"/><path d="M42 32 Q46 30 50 32" stroke="#333" stroke-width="2" fill="none"/><path d="M36 40 Q40 42 44 40" stroke="#333" stroke-width="1.5" fill="none"/><text x="54" y="22" fill="#90CAF9" font-size="14" font-weight="900">Z</text><text x="60" y="16" fill="#90CAF9" font-size="10" font-weight="900">z</text><rect x="16" y="52" width="48" height="10" rx="4" fill="#7986CB"/>`),
+    "笑": svgCard("#FFF8E1",`<circle cx="40" cy="38" r="22" fill="#FDD835"/><circle cx="32" cy="32" r="3" fill="#333"/><circle cx="48" cy="32" r="3" fill="#333"/><path d="M28 44 Q40 56 52 44" stroke="#333" stroke-width="2.5" fill="none"/>`),
+    "哭": svgCard("#E3F2FD",`<circle cx="40" cy="38" r="22" fill="#FDD835"/><path d="M30 32 Q34 28 38 32" stroke="#333" stroke-width="2" fill="none"/><path d="M42 32 Q46 28 50 32" stroke="#333" stroke-width="2" fill="none"/><path d="M32 50 Q40 44 48 50" stroke="#333" stroke-width="2.5" fill="none"/><path d="M28 38 Q26 50 24 56" stroke="#42A5F5" stroke-width="2.5" fill="none"/><path d="M52 38 Q54 50 56 56" stroke="#42A5F5" stroke-width="2.5" fill="none"/>`),
+    "爱": svgCard("#FCE4EC",`<path d="M40 64 Q8 40 16 24 Q22 12 32 14 Q40 16 40 26 Q40 16 48 14 Q58 12 64 24 Q72 40 40 64Z" fill="#E91E63"/><path d="M28 26 Q32 20 38 28" stroke="#F48FB1" stroke-width="2" fill="none"/>`),
+};
+
+// Category colors for fallback illustrations
+const CAT_COLORS = {
+    numbers:["#7C4DFF","#B388FF"], position:["#00BCD4","#80DEEA"], weather:["#FF9800","#FFE0B2"],
+    nature:["#4CAF50","#C8E6C9"], plants:["#8BC34A","#DCEDC8"], animals:["#795548","#D7CCC8"],
+    family:["#E91E63","#F8BBD0"], body:["#FF5722","#FFCCBC"], colors:["#9C27B0","#E1BEE7"],
+    actions:["#3F51B5","#C5CAE9"], school:["#2196F3","#BBDEFB"], home:["#607D8B","#CFD8DC"],
+    objects:["#009688","#B2DFDB"], food:["#FF5722","#FFCCBC"], transport:["#F44336","#FFCDD2"],
+    time:["#673AB7","#D1C4E9"], feelings:["#E91E63","#FCE4EC"], common:["#455A64","#CFD8DC"],
+};
+
+// Get illustration HTML for a character
+function getCharImage(charData, size) {
+    const char = charData[0];
+    const sz = size || 64;
+    if (ILLUST[char]) {
+        return `<div style="width:${sz}px;height:${sz}px;">${ILLUST[char]}</div>`;
+    }
+    // Fallback: colorful card with English
+    const cat = charData[5] || 'common';
+    const colors = CAT_COLORS[cat] || CAT_COLORS.common;
+    return `<div style="width:${sz}px;height:${sz}px;border-radius:14px;background:linear-gradient(135deg,${colors[0]},${colors[1]});display:flex;align-items:center;justify-content:center;flex-direction:column;padding:4px;">
+        <span style="font-size:${sz*0.22}px;color:white;font-weight:800;text-align:center;line-height:1.2;word-break:break-word;">${charData[2]}</span>
+    </div>`;
+}
+
+// ==================== WORDS (词语) DATABASE ====================
+// Format: [word, pinyin, english, level, illustrationChar (use first char's image)]
+const WORDS = [
+    // Level 1 - Numbers
+    ["多少","duō shǎo","how many",1],["一个","yí gè","one (item)",1],["几个","jǐ gè","how many",1],["两个","liǎng gè","two (items)",1],["一百","yì bǎi","one hundred",1],
+    // Level 2 - Position
+    ["上面","shàng miàn","above",2],["下面","xià miàn","below",2],["里面","lǐ miàn","inside",2],["外面","wài miàn","outside",2],["大小","dà xiǎo","size",2],
+    // Level 3 - Weather
+    ["天气","tiān qì","weather",3],["下雨","xià yǔ","raining",3],["春天","chūn tiān","spring",3],["夏天","xià tiān","summer",3],["冬天","dōng tiān","winter",3],
+    // Level 4 - Nature
+    ["山水","shān shuǐ","landscape",4],["大海","dà hǎi","ocean",4],["小河","xiǎo hé","stream",4],["石头","shí tou","stone",4],["大山","dà shān","big mountain",4],
+    // Level 5 - Plants
+    ["大树","dà shù","big tree",5],["小花","xiǎo huā","little flower",5],["花草","huā cǎo","plants",5],["树叶","shù yè","tree leaf",5],["水果","shuǐ guǒ","fruit",5],
+    // Level 6 - Animals
+    ["小鸟","xiǎo niǎo","little bird",6],["小鱼","xiǎo yú","little fish",6],["小猫","xiǎo māo","kitten",6],["小狗","xiǎo gǒu","puppy",6],["小兔","xiǎo tù","bunny",6],
+    // Level 7 - Family
+    ["爸爸","bà ba","dad",7],["妈妈","mā ma","mom",7],["爷爷","yé ye","grandpa",7],["奶奶","nǎi nai","grandma",7],["朋友","péng yǒu","friend",7],
+    // Level 8 - Body
+    ["耳朵","ěr duo","ear",8],["眼睛","yǎn jing","eye",8],["嘴巴","zuǐ ba","mouth",8],["头发","tóu fa","hair",8],["身体","shēn tǐ","body",8],
+    // Level 9 - Colors
+    ["红色","hóng sè","red color",9],["白色","bái sè","white color",9],["黄色","huáng sè","yellow color",9],["蓝色","lán sè","blue color",9],["绿色","lǜ sè","green color",9],
+    // Level 10 - Movement
+    ["走路","zǒu lù","walk",10],["跑步","pǎo bù","run",10],["跳高","tiào gāo","high jump",10],["回来","huí lái","come back",10],["回去","huí qù","go back",10],
+    // Level 11 - Communication
+    ["说话","shuō huà","speak",11],["看书","kàn shū","read",11],["写字","xiě zì","write",11],["问好","wèn hǎo","greet",11],["学习","xué xí","study",11],
+    // Level 12 - Daily Life
+    ["吃饭","chī fàn","eat",12],["喝水","hē shuǐ","drink water",12],["睡觉","shuì jiào","sleep",12],["起床","qǐ chuáng","get up",12],["上学","shàng xué","go to school",12],
+    // Level 13 - School
+    ["学校","xué xiào","school",13],["老师","lǎo shī","teacher",13],["同学","tóng xué","classmate",13],["上课","shàng kè","in class",13],["考试","kǎo shì","exam",13],
+    // Level 14 - Home
+    ["房间","fáng jiān","room",14],["开门","kāi mén","open door",14],["开灯","kāi dēng","turn on light",14],["回家","huí jiā","go home",14],["窗户","chuāng hu","window",14],
+    // Level 15 - Objects
+    ["衣服","yī fu","clothes",15],["鞋子","xié zi","shoes",15],["帽子","mào zi","hat",15],["杯子","bēi zi","cup",15],["筷子","kuài zi","chopsticks",15],
+    // Level 16 - Food
+    ["米饭","mǐ fàn","rice",16],["鸡蛋","jī dàn","egg",16],["水果","shuǐ guǒ","fruit",16],["饺子","jiǎo zi","dumpling",16],["面条","miàn tiáo","noodles",16],
+    // Level 17 - Transport
+    ["火车","huǒ chē","train",17],["汽车","qì chē","car",17],["飞机","fēi jī","airplane",17],["公交","gōng jiāo","bus",17],["出发","chū fā","depart",17],
+    // Level 18 - Time
+    ["今天","jīn tiān","today",18],["明天","míng tiān","tomorrow",18],["昨天","zuó tiān","yesterday",18],["现在","xiàn zài","now",18],["早上","zǎo shang","morning",18],
+    // Level 19 - Feelings
+    ["开心","kāi xīn","happy",19],["高兴","gāo xìng","glad",19],["害怕","hài pà","scared",19],["生气","shēng qì","angry",19],["好吃","hǎo chī","delicious",19],
+    // Level 20 - Common
+    ["不是","bú shì","is not",20],["可以","kě yǐ","can/may",20],["因为","yīn wèi","because",20],["所以","suǒ yǐ","so/therefore",20],["谢谢","xiè xie","thank you",20],
+];
+
+function getWordsForLevel(lvl) { return WORDS.filter(w => w[3] === lvl + 1); }
+function getWordImage(word, size) {
+    // Use illustration of first character if available
+    const firstChar = word[0][0];
+    const charData = CHARS.find(c => c[0] === firstChar);
+    if (charData) return getCharImage(charData, size);
+    const cat = ['numbers','position','weather','nature','plants','animals','family','body','colors','actions','actions','actions','school','home','objects','food','transport','time','feelings','common'][word[3]-1] || 'common';
+    const colors = CAT_COLORS[cat];
+    return `<div style="width:${size||64}px;height:${size||64}px;border-radius:14px;background:linear-gradient(135deg,${colors[0]},${colors[1]});display:flex;align-items:center;justify-content:center;"><span style="font-size:${(size||64)*0.22}px;color:white;font-weight:800;text-align:center;">${word[2]}</span></div>`;
+}
+
+// ==================== STATE ====================
+let state = JSON.parse(localStorage.getItem('learnCN') || 'null') || {
+    energy: 0,
+    mastered: {},    // charIndex -> stars (0-3)
+    sessions: {},    // "L1S1" -> {played: true, stars: 3}
+    totalGames: 0,
+};
+
+let currentMode = '';
+let currentLevel = 0;
+let currentSession = 0;
+let currentChars = [];
+let showPinyin = true;
+let gameState = {};
+
+function saveState() { localStorage.setItem('learnCN', JSON.stringify(state)); }
+function getCharsForLevel(lvl) { return CHARS.filter(c => c[4] === lvl + 1); }
+function getSessionChars(lvl, sess) {
+    const levelChars = getCharsForLevel(lvl);
+    return levelChars.slice(sess * 5, sess * 5 + 5);
+}
+function getSessionKey(lvl, sess) { return `L${lvl}S${sess}`; }
+function getMasteredCount() { return Object.keys(state.mastered).length; }
+
+// ==================== NAVIGATION ====================
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function goHome() {
+    updateHomeScreen();
+    showScreen('home-screen');
+}
+
+function updateHomeScreen() {
+    const count = getMasteredCount();
+    document.getElementById('home-mastered').textContent = `${count} mastered`;
+    document.getElementById('home-progress-bar').style.width = `${(count / 500) * 100}%`;
+}
+
+function togglePinyin() {
+    showPinyin = !showPinyin;
+    const toggle = document.getElementById('pinyin-toggle');
+    toggle.classList.toggle('on', showPinyin);
+}
+
+// ==================== LEVEL SELECT ====================
+function showLevelSelect(mode) {
+    currentMode = mode;
+    document.getElementById('level-screen-title').textContent = mode === 'liankan' ? '🔗 连连看 Match' : mode === 'memory' ? '🃏 Memory Game' : mode === 'magic' ? '✨ Character Magic' : '🎭 Charades';
+    const grid = document.getElementById('level-grid');
+    grid.innerHTML = '';
+
+    LEVELS.forEach((lvl, i) => {
+        const chars = getCharsForLevel(i);
+        const masteredInLevel = chars.filter((c, ci) => {
+            const globalIdx = CHARS.indexOf(c);
+            return state.mastered[globalIdx] >= 1;
+        }).length;
+        const unlocked = i === 0 || masteredInLevel > 0 || getCharsForLevel(i - 1).some((c) => state.mastered[CHARS.indexOf(c)] >= 1) || i < 3;
+
+        const tile = document.createElement('div');
+        tile.className = `level-tile ${!unlocked ? 'locked' : ''} ${i === 0 ? 'current' : ''}`;
+        tile.innerHTML = unlocked
+            ? `<div class="level-num">${lvl.emoji} Level ${i + 1}</div><div class="level-name">${lvl.name}</div><div class="level-progress">${masteredInLevel}/25</div>`
+            : `<div class="level-lock">🔒</div><div class="level-name">${lvl.name}</div>`;
+        if (unlocked) tile.onclick = () => showSessionSelectScreen(i);
+        grid.appendChild(tile);
+    });
+    showScreen('level-screen');
+}
+
+function showLevelSelectBack() { showLevelSelect(currentMode); }
+
+// ==================== SESSION SELECT ====================
+function showSessionSelectScreen(lvl) {
+    currentLevel = lvl;
+    document.getElementById('session-title').textContent = `${LEVELS[lvl].emoji} ${LEVELS[lvl].name}`;
+    document.getElementById('session-energy').textContent = `⚡ ${state.energy}`;
+    const list = document.getElementById('session-list');
+    list.innerHTML = '';
+
+    // Add sentence pattern
+    const sentenceDiv = document.createElement('div');
+    sentenceDiv.style.cssText = 'background:var(--card);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow);';
+    sentenceDiv.innerHTML = `<div style="font-size:12px;color:var(--primary);font-weight:700;margin-bottom:4px;">SENTENCE PATTERN</div><div style="font-size:14px;color:var(--text-light);">${SENTENCES[lvl] || SENTENCES[0]}</div>`;
+    list.appendChild(sentenceDiv);
+
+    for (let s = 0; s < 5; s++) {
+        const chars = getSessionChars(lvl, s);
+        if (chars.length === 0) continue;
+        const key = getSessionKey(lvl, s);
+        const sessData = state.sessions[key];
+        const unlocked = s === 0 || state.sessions[getSessionKey(lvl, s - 1)];
+
+        const tile = document.createElement('div');
+        tile.className = `session-tile ${!unlocked ? 'locked' : ''}`;
+        tile.innerHTML = `
+            <div class="session-num">${s + 1}</div>
+            <div class="session-chars">${chars.map(c => c[0]).join(' ')}</div>
+            <div class="session-status">${sessData ? (sessData.stars >= 2 ? '⭐' : '✅') : unlocked ? '▶️' : '🔒'}</div>
+        `;
+        if (unlocked) tile.onclick = () => showModeSelect(lvl, s);
+        list.appendChild(tile);
+    }
+
+    // Word session
+    const words = getWordsForLevel(lvl);
+    if (words.length > 0) {
+        const wLabel = document.createElement('div');
+        wLabel.style.cssText = 'font-size:13px;font-weight:700;color:var(--primary);text-transform:uppercase;margin:16px 0 8px;letter-spacing:0.05em;';
+        wLabel.textContent = '📝 Words 词语';
+        list.appendChild(wLabel);
+
+        const wKey = `L${lvl}W0`;
+        const wData = state.sessions[wKey];
+        const wTile = document.createElement('div');
+        wTile.className = 'session-tile';
+        wTile.innerHTML = `
+            <div class="session-num" style="background:var(--accent);">词</div>
+            <div class="session-chars" style="font-size:16px;letter-spacing:2px;">${words.map(w => w[0]).join(' ')}</div>
+            <div class="session-status">${wData ? (wData.stars >= 2 ? '⭐' : '✅') : '▶️'}</div>
+        `;
+        wTile.onclick = () => showWordModeSelect(lvl);
+        list.appendChild(wTile);
+    }
+    showScreen('session-screen');
+}
+
+function showSessionSelect() { showSessionSelectScreen(currentLevel); }
+
+// ==================== MODE SELECT ====================
+function showModeSelect(lvl, sess) {
+    currentLevel = lvl;
+    currentSession = sess;
+    isWordMode = false;
+    currentChars = getSessionChars(lvl, sess);
+
+    const preview = document.getElementById('char-preview');
+    preview.innerHTML = currentChars.map(c => `
+        <div class="char-preview-item">
+            <div class="char">${c[0]}</div>
+            ${showPinyin ? `<div class="pinyin">${c[1]}</div>` : ''}
+            <div class="eng">${c[2]}</div>
+        </div>
+    `).join('');
+    showScreen('mode-screen');
+}
+
+// ==================== WORD MODE ====================
+let isWordMode = false;
+let currentWords = [];
+
+function showWordModeSelect(lvl) {
+    currentLevel = lvl;
+    currentWords = getWordsForLevel(lvl);
+    isWordMode = true;
+
+    // Reuse mode screen but show words
+    const preview = document.getElementById('char-preview');
+    preview.innerHTML = currentWords.map(w => `
+        <div class="char-preview-item">
+            <div class="char" style="font-size:22px;">${w[0]}</div>
+            ${showPinyin ? `<div class="pinyin">${w[1]}</div>` : ''}
+            <div class="eng">${w[2]}</div>
+        </div>
+    `).join('');
+    showScreen('mode-screen');
+}
+
+function startGame(mode) {
+    currentMode = mode;
+    // In word mode, convert words to char-like format for game engines
+    if (isWordMode && currentWords.length > 0) {
+        currentChars = currentWords.map(w => [w[0], w[1], w[2], '', w[3], ['numbers','position','weather','nature','plants','animals','family','body','colors','actions','actions','actions','school','home','objects','food','transport','time','feelings','common'][w[3]-1]]);
+    }
+    if (mode === 'liankan') startLiankanGame();
+    else if (mode === 'memory') startMemoryGame();
+    else if (mode === 'magic') startMagicGame();
+    else if (mode === 'charades') startCharadesGame();
+}
+
+function exitGame() { showModeSelect(currentLevel, currentSession); }
+
+// ==================== LIANKAN MATCH 连连看 ====================
+function startLiankanGame() {
+    gameState = { selected: null, matches: 0, correct: 0, attempts: 0, results: {} };
+    const board = document.getElementById('liankan-board');
+    board.innerHTML = '';
+
+    // Shuffle right column (images) independently
+    const shuffledRight = [...currentChars].sort(() => Math.random() - 0.5);
+
+    // Create left column (characters)
+    const leftCol = document.createElement('div');
+    leftCol.className = 'liankan-col';
+    leftCol.id = 'liankan-left';
+
+    currentChars.forEach((c, i) => {
+        const item = document.createElement('div');
+        item.className = 'liankan-item';
+        item.dataset.idx = String(i);
+        item.dataset.char = c[0];
+        item.dataset.side = 'left';
+        item.innerHTML = `
+            <div class="liankan-char">${c[0]}</div>
+            ${showPinyin ? `<div class="liankan-pinyin">${c[1]}</div>` : ''}
+        `;
+        item.onclick = () => selectLiankan(item);
+        leftCol.appendChild(item);
+    });
+
+    // Create right column (emojis/images), shuffled
+    const rightCol = document.createElement('div');
+    rightCol.className = 'liankan-col';
+    rightCol.id = 'liankan-right';
+
+    shuffledRight.forEach((c) => {
+        const origIdx = currentChars.indexOf(c);
+        const item = document.createElement('div');
+        item.className = 'liankan-item';
+        item.dataset.idx = String(origIdx);
+        item.dataset.char = c[0];
+        item.dataset.side = 'right';
+        item.innerHTML = `
+            <div style="display:flex;justify-content:center;">${getCharImage(c, 56)}</div>
+            <div class="liankan-eng">${c[2]}</div>
+        `;
+        item.onclick = () => selectLiankan(item);
+        rightCol.appendChild(item);
+    });
+
+    board.appendChild(leftCol);
+    board.appendChild(rightCol);
+
+    // Progress dots
+    const dots = document.getElementById('liankan-dots');
+    dots.innerHTML = currentChars.map((_, i) => `<div class="liankan-dot" id="liankan-dot-${i}"></div>`).join('');
+
+    document.getElementById('liankan-score-badge').textContent = `0/${currentChars.length}`;
+    document.getElementById('liankan-hint').innerHTML = '<span class="step">Step 1:</span> Tap a character on the left, then tap its matching picture!';
+
+    showScreen('liankan-screen');
+}
+
+function selectLiankan(item) {
+    if (item.classList.contains('matched')) return;
+
+    const side = item.dataset.side;
+
+    // If nothing selected yet, select this item
+    if (!gameState.selected) {
+        item.classList.add('selected');
+        gameState.selected = item;
+        const stepText = side === 'left'
+            ? 'Now tap the matching picture on the right! 👉'
+            : 'Now tap the matching character on the left! 👈';
+        document.getElementById('liankan-hint').innerHTML = `<span class="step">Step 2:</span> ${stepText}`;
+        playSound(400, 0.06);
+        return;
+    }
+
+    // If clicking same side, switch selection
+    if (side === gameState.selected.dataset.side) {
+        gameState.selected.classList.remove('selected');
+        item.classList.add('selected');
+        gameState.selected = item;
+        playSound(400, 0.06);
+        return;
+    }
+
+    // Two different sides selected — check match
+    const first = gameState.selected;
+    const second = item;
+    const isMatch = first.dataset.char === second.dataset.char;
+
+    gameState.attempts++;
+
+    if (isMatch) {
+        // Correct match!
+        first.classList.remove('selected');
+        first.classList.add('matched');
+        second.classList.add('matched');
+        gameState.matches++;
+        gameState.correct++;
+
+        const charIdx = parseInt(first.dataset.side === 'left' ? first.dataset.idx : second.dataset.idx);
+        gameState.results[charIdx] = true;
+
+        // Update dot
+        document.getElementById(`liankan-dot-${gameState.matches - 1}`).classList.add('correct');
+        document.getElementById('liankan-score-badge').textContent = `${gameState.matches}/${currentChars.length}`;
+
+        playSound(600, 0.1);
+        setTimeout(() => playSound(800, 0.1), 100);
+
+        document.getElementById('liankan-hint').innerHTML = `<span class="step">✅ Correct!</span> ${first.dataset.char} = ${second.querySelector('.liankan-eng')?.textContent || ''}`;
+
+        // Check if game complete
+        if (gameState.matches >= currentChars.length) {
+            setTimeout(() => finishGame(), 600);
+        } else {
+            setTimeout(() => {
+                document.getElementById('liankan-hint').innerHTML = '<span class="step">Keep going!</span> Tap a character, then its picture!';
+            }, 800);
+        }
+    } else {
+        // Wrong match
+        first.classList.remove('selected');
+        first.classList.add('wrong');
+        second.classList.add('wrong');
+        playSound(200, 0.08);
+
+        document.getElementById('liankan-hint').innerHTML = '<span class="step">❌ Try again!</span> Those don\'t match.';
+
+        setTimeout(() => {
+            first.classList.remove('wrong');
+            second.classList.remove('wrong');
+            document.getElementById('liankan-hint').innerHTML = '<span class="step">Step 1:</span> Tap a character, then its matching picture!';
+        }, 600);
+    }
+
+    gameState.selected = null;
+}
+
+// ==================== MEMORY GAME ====================
+function startMemoryGame() {
+    gameState = { moves: 0, matches: 0, flipped: [], results: {} };
+    const grid = document.getElementById('memory-grid');
+    grid.innerHTML = '';
+    document.getElementById('memory-moves').textContent = 'Moves: 0';
+
+    // Create pairs: character card + meaning card
+    const pairs = [];
+    currentChars.forEach((c, i) => {
+        pairs.push({ type: 'char', char: c, idx: i });
+        pairs.push({ type: 'meaning', char: c, idx: i });
+    });
+
+    // Shuffle
+    for (let i = pairs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+    }
+
+    // If odd count, add extra pair from random existing
+    if (pairs.length % 2 !== 0) {
+        const extra = currentChars[0];
+        pairs.push({ type: 'char', char: extra, idx: 0 });
+        pairs.push({ type: 'meaning', char: extra, idx: 0 });
+    }
+
+    pairs.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.idx = p.idx;
+        card.dataset.type = p.type;
+        card.innerHTML = `
+            <div class="memory-card-inner">
+                <div class="memory-front">?</div>
+                <div class="memory-back">
+                    ${p.type === 'char'
+                        ? `<div class="char-display">${p.char[0]}</div>${showPinyin ? `<div class="char-hint">${p.char[1]}</div>` : ''}`
+                        : `${getCharImage(p.char, 48)}<div class="char-hint">${p.char[2]}</div>`
+                    }
+                </div>
+            </div>
+        `;
+        card.onclick = () => flipCard(card);
+        grid.appendChild(card);
+    });
+
+    showScreen('memory-screen');
+}
+
+function flipCard(card) {
+    if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    if (gameState.flipped.length >= 2) return;
+
+    card.classList.add('flipped');
+    gameState.flipped.push(card);
+    playSound(400, 0.08);
+
+    if (gameState.flipped.length === 2) {
+        gameState.moves++;
+        document.getElementById('memory-moves').textContent = `Moves: ${gameState.moves}`;
+
+        const [a, b] = gameState.flipped;
+        const match = a.dataset.idx === b.dataset.idx && a.dataset.type !== b.dataset.type;
+
+        setTimeout(() => {
+            if (match) {
+                a.classList.add('matched');
+                b.classList.add('matched');
+                gameState.matches++;
+                const charIdx = parseInt(a.dataset.idx);
+                gameState.results[charIdx] = true;
+                playSound(600, 0.1);
+                setTimeout(() => playSound(800, 0.1), 100);
+
+                if (gameState.matches === currentChars.length) {
+                    setTimeout(() => finishGame(), 500);
+                }
+            } else {
+                a.classList.remove('flipped');
+                b.classList.remove('flipped');
+                playSound(200, 0.08);
+            }
+            gameState.flipped = [];
+        }, match ? 300 : 800);
+    }
+}
+
+// ==================== CHARACTER MAGIC ====================
+function startMagicGame() {
+    gameState = { current: 0, correct: 0, results: {} };
+    showMagicCard();
+    showScreen('magic-screen');
+}
+
+function showMagicCard() {
+    const c = currentChars[gameState.current];
+    const decomp = DECOMPOSE[c[0]];
+    document.getElementById('magic-progress').textContent = `${gameState.current + 1}/${currentChars.length}`;
+
+    const content = document.getElementById('magic-content');
+
+    if (decomp) {
+        // Show decomposition + quiz
+        const distractors = currentChars.filter((x, i) => i !== gameState.current).map(x => x[0]);
+        while (distractors.length < 3) distractors.push(CHARS[Math.floor(Math.random() * CHARS.length)][0]);
+        const options = [c[0], ...distractors.slice(0, 3)].sort(() => Math.random() - 0.5);
+
+        content.innerHTML = `
+            <div class="magic-stage">
+                <div class="magic-equation">
+                    <div class="magic-component pop-in">${decomp[0]}</div>
+                    <span class="magic-plus">+</span>
+                    <div class="magic-component pop-in" style="animation-delay:0.15s">${decomp[1]}</div>
+                    <span class="magic-equals">=</span>
+                    <div class="magic-result pop-in" style="animation-delay:0.3s">?</div>
+                </div>
+                <div class="magic-story">
+                    <strong>Story:</strong> ${decomp[2]}
+                    ${showPinyin ? `<br><strong>Pinyin:</strong> ${c[1]}` : ''}
+                    <br><strong>Meaning:</strong> ${c[2]}
+                </div>
+                <p style="font-size:14px;font-weight:700;color:var(--text-light);margin-bottom:8px;">Which character is it?</p>
+                <div class="magic-quiz-options">
+                    ${options.map(o => `<div class="magic-option" onclick="checkMagic(this,'${o}','${c[0]}')">${o}</div>`).join('')}
+                </div>
+            </div>
+        `;
+    } else {
+        // No decomposition - show character study + confirm
+        content.innerHTML = `
+            <div class="magic-stage">
+                <div class="magic-target pop-in">${c[0]}</div>
+                <div class="magic-target-pinyin">${showPinyin ? c[1] : ''}</div>
+                <div class="magic-target-eng">${c[2]} ${c[3]}</div>
+                <div class="magic-story">
+                    <strong>Stroke tip:</strong> Practice writing 「${c[0]}」 in the air with your finger!
+                    <br>Say it out loud: <strong>${c[1]}</strong>
+                </div>
+                <button class="btn btn-primary btn-full" onclick="magicNext(true)" style="margin-top:16px;">I learned it! ✨</button>
+            </div>
+        `;
+    }
+}
+
+function checkMagic(el, chosen, correct) {
+    if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+    const isCorrect = chosen === correct;
+    el.classList.add(isCorrect ? 'correct' : 'wrong');
+
+    if (isCorrect) {
+        playSound(600, 0.1);
+        setTimeout(() => playSound(800, 0.1), 100);
+        document.querySelectorAll('.magic-result')[0].textContent = correct;
+        setTimeout(() => magicNext(true), 800);
+    } else {
+        playSound(200, 0.08);
+        el.classList.add('shake');
+        // Show correct
+        document.querySelectorAll('.magic-option').forEach(o => {
+            if (o.textContent === correct) o.classList.add('correct');
+        });
+        setTimeout(() => magicNext(false), 1200);
+    }
+}
+
+function magicNext(correct) {
+    gameState.results[gameState.current] = correct;
+    if (correct) gameState.correct++;
+    gameState.current++;
+    if (gameState.current >= currentChars.length) {
+        finishGame();
+    } else {
+        showMagicCard();
+    }
+}
+
+// ==================== CHARADES ====================
+function startCharadesGame() {
+    gameState = { current: 0, correct: 0, results: {} };
+    showCharadesCard();
+    showScreen('charades-screen');
+}
+
+function showCharadesCard() {
+    const c = currentChars[gameState.current];
+    document.getElementById('charades-progress').textContent = `${gameState.current + 1}/${currentChars.length}`;
+
+    // Get distractors from same level
+    const levelChars = getCharsForLevel(currentLevel);
+    const distractors = levelChars.filter(x => x[0] !== c[0]).sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [c, ...distractors].sort(() => Math.random() - 0.5);
+
+    const content = document.getElementById('charades-content');
+    content.innerHTML = `
+        <div class="charades-card">
+            <div class="charades-prompt">Point at things! Act it out! 表演一下！</div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">${getCharImage(c, 100)}</div>
+            <div class="charades-hint">${c[2]}</div>
+            <div class="charades-pinyin ${showPinyin ? '' : 'blurred'}" onclick="this.classList.remove('blurred')">${c[1]}</div>
+        </div>
+        <p style="text-align:center;font-size:15px;font-weight:700;color:var(--text-light);margin:12px 0 8px;">Which character matches?</p>
+        <div class="charades-choices">
+            ${options.map(o => `<div class="charades-choice" onclick="checkCharades(this,'${o[0]}','${c[0]}')">${o[0]}</div>`).join('')}
+        </div>
+    `;
+}
+
+function checkCharades(el, chosen, correct) {
+    if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+    const isCorrect = chosen === correct;
+    el.classList.add(isCorrect ? 'correct' : 'wrong');
+
+    if (isCorrect) {
+        playSound(600, 0.1);
+        setTimeout(() => playSound(800, 0.1), 100);
+        gameState.results[gameState.current] = true;
+        gameState.correct++;
+    } else {
+        playSound(200, 0.08);
+        el.classList.add('shake');
+        gameState.results[gameState.current] = false;
+        document.querySelectorAll('.charades-choice').forEach(o => {
+            if (o.textContent === correct) o.classList.add('correct');
+        });
+    }
+
+    setTimeout(() => {
+        gameState.current++;
+        if (gameState.current >= currentChars.length) {
+            finishGame();
+        } else {
+            showCharadesCard();
+        }
+    }, 1000);
+}
+
+// ==================== RESULTS ====================
+function finishGame() {
+    let correct, total;
+    if (currentMode === 'memory' || currentMode === 'liankan') {
+        correct = gameState.matches;
+        total = currentChars.length;
+    } else {
+        correct = gameState.correct;
+        total = currentChars.length;
+    }
+
+    const stars = correct === total ? 3 : correct >= total * 0.8 ? 2 : correct >= total * 0.5 ? 1 : 0;
+    const energy = correct * 10 + (stars === 3 ? 20 : 0);
+    state.energy += energy;
+
+    // Update mastery
+    currentChars.forEach((c, i) => {
+        const globalIdx = CHARS.indexOf(c);
+        const wasCorrect = gameState.results[i] || (currentMode === 'memory' && gameState.results[i] !== undefined);
+        if (wasCorrect) {
+            state.mastered[globalIdx] = Math.min(3, (state.mastered[globalIdx] || 0) + 1);
+        }
+    });
+
+    // Update session
+    const key = getSessionKey(currentLevel, currentSession);
+    const prev = state.sessions[key];
+    if (!prev || stars > prev.stars) {
+        state.sessions[key] = { played: true, stars };
+    }
+    state.totalGames++;
+    saveState();
+
+    // Show confetti for perfect
+    if (stars === 3) showConfetti();
+
+    const icon = stars === 3 ? '🏆' : stars >= 2 ? '⭐' : stars >= 1 ? '👏' : '💪';
+    const title = stars === 3 ? 'Perfect!' : stars >= 2 ? 'Great Job!' : stars >= 1 ? 'Good Try!' : 'Keep Practicing!';
+
+    const content = document.getElementById('results-content');
+    content.innerHTML = `
+        <span class="results-icon pop-in">${icon}</span>
+        <div class="results-title">${title}</div>
+        <div class="results-subtitle">${['⭐','⭐','⭐'].map((s,i) => i < stars ? '⭐' : '☆').join(' ')}</div>
+        <div class="results-stats">
+            <div class="result-stat"><div class="val">${correct}/${total}</div><div class="label">Correct</div></div>
+            <div class="result-stat"><div class="val">+${energy}</div><div class="label">Energy</div></div>
+            <div class="result-stat"><div class="val">${getMasteredCount()}</div><div class="label">Mastered</div></div>
+        </div>
+        <div class="section-title" style="font-size:16px;">Post-Game Review</div>
+        <div class="review-list">
+            ${currentChars.map((c, i) => {
+                const ok = currentMode === 'memory' ? gameState.results[i] : gameState.results[i];
+                return `<div class="review-item">
+                    <div class="review-char">${c[0]}</div>
+                    <div class="review-info">
+                        <div class="review-pinyin">${c[1]}</div>
+                        <div class="review-eng">${c[2]}</div>
+                    </div>
+                    <div class="review-result">${ok ? '✅' : '🔄'}</div>
+                </div>`;
+            }).join('')}
+        </div>
+        <div class="results-buttons">
+            <button class="btn btn-primary btn-full" onclick="startGame('${currentMode}')">Play Again 🔄</button>
+            <button class="btn btn-secondary btn-full" onclick="showSessionSelect()">Back to Sessions</button>
+            <button class="btn btn-full" style="background:var(--card);color:var(--text);box-shadow:var(--shadow);" onclick="goHome()">Home 🏠</button>
+        </div>
+    `;
+    showScreen('results-screen');
+}
+
+// ==================== PROGRESS ====================
+function showProgress() {
+    const content = document.getElementById('progress-content');
+    const mastered = getMasteredCount();
+
+    let levelStats = '';
+    LEVELS.forEach((lvl, i) => {
+        const chars = getCharsForLevel(i);
+        const m = chars.filter(c => state.mastered[CHARS.indexOf(c)] >= 1).length;
+        const pct = Math.round((m / 25) * 100);
+        levelStats += `
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card);border-radius:12px;margin-bottom:8px;box-shadow:var(--shadow);">
+                <span style="font-size:24px;">${lvl.emoji}</span>
+                <div style="flex:1;">
+                    <div style="font-size:14px;font-weight:700;">${lvl.name}</div>
+                    <div class="progress-bar-bg" style="height:8px;margin:6px 0 2px;"><div class="progress-bar-fill" style="width:${pct}%;"></div></div>
+                    <div style="font-size:12px;color:var(--text-light);">${m}/25 characters</div>
+                </div>
+            </div>
+        `;
+    });
+
+    content.innerHTML = `
+        <div class="progress-card">
+            <h3>Total Progress</h3>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${(mastered/500)*100}%"></div></div>
+            <div class="progress-nums"><span>${mastered} mastered</span><span>/ 500</span></div>
+        </div>
+        <div class="results-stats" style="margin-bottom:20px;">
+            <div class="result-stat"><div class="val">⚡ ${state.energy}</div><div class="label">Energy</div></div>
+            <div class="result-stat"><div class="val">🎮 ${state.totalGames}</div><div class="label">Games</div></div>
+            <div class="result-stat"><div class="val">📚 ${mastered}</div><div class="label">Chars</div></div>
+        </div>
+        <div class="section-title">Levels</div>
+        ${levelStats}
+        <button class="btn btn-full btn-sm" style="margin-top:16px;background:var(--red);color:white;" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('learnCN');location.reload();}">Reset Progress</button>
+    `;
+    showScreen('progress-screen');
+}
+
+// ==================== SOUND ====================
+function playSound(freq, dur) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        gain.gain.value = 0.08;
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        osc.start();
+        osc.stop(ctx.currentTime + dur);
+    } catch(e) {}
+}
+
+// ==================== CONFETTI ====================
+function showConfetti() {
+    const container = document.getElementById('confetti-container');
+    const emojis = ['⭐','🌟','✨','💫','🎉','🎊','🏆'];
+    for (let i = 0; i < 30; i++) {
+        const el = document.createElement('span');
+        el.className = 'confetti';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        el.style.animationDelay = Math.random() * 0.5 + 's';
+        container.appendChild(el);
+    }
+    setTimeout(() => { container.innerHTML = ''; }, 4000);
+}
+
+// ==================== INIT ====================
+updateHomeScreen();
+</script>
+</body>
+</html>

@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JimmyLearn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #F0F4FF;
+  --bg-card: #FFFFFF;
+  --bg-surface: #E8EEFB;
+  --bg-surface2: #DDE5F8;
+  --text-1: #111827;
+  --text-2: #374151;
+  --text-3: #6B7280;
+  --text-4: #9CA3AF;
+  --border: #DDE3F0;
+  --shadow-sm: 0 1px 4px rgba(60,70,120,0.08);
+  --shadow: 0 3px 14px rgba(60,70,120,0.10);
+  --shadow-lg: 0 8px 32px rgba(60,70,120,0.14);
+  --accent: #5B4FE8;
+  --accent-warm: #F97316;
+  --radius: 18px;
+  --radius-sm: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1117;
+    --bg-card: #141B2D;
+    --bg-surface: #1C2438;
+    --bg-surface2: #222C42;
+    --text-1: #F1F5FF;
+    --text-2: #C8D3F0;
+    --text-3: #8899BB;
+    --text-4: #556080;
+    --border: #253050;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+    --shadow: 0 3px 14px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1117;
+  --bg-card: #141B2D;
+  --bg-surface: #1C2438;
+  --bg-surface2: #222C42;
+  --text-1: #F1F5FF;
+  --text-2: #C8D3F0;
+  --text-3: #8899BB;
+  --text-4: #556080;
+  --border: #253050;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+  --shadow: 0 3px 14px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text-1);font-family:'Inter',system-ui,sans-serif;min-height:100vh;transition:background .25s}
+h1,h2,h3,h4,.display{font-family:'Nunito',sans-serif}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+
+/* ── APP SHELL ── */
+#app{min-height:100vh;display:flex;flex-direction:column}
+
+/* ── TOP NAV ── */
+.nav{background:var(--bg-card);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.nav-brand{display:flex;align-items:center;gap:8px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.25rem;color:var(--accent)}
+.nav-brand span.emoji{font-size:1.4rem}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;transition:all .15s;border:2px solid transparent}
+.nav-btn.outline{border-color:var(--border);color:var(--text-2);background:var(--bg-surface)}
+.nav-btn.outline:hover{border-color:var(--accent);color:var(--accent)}
+.nav-btn.primary{background:var(--accent);color:#fff}
+.nav-btn.primary:hover{opacity:.88}
+
+/* ── SCREENS ── */
+.screen{display:none;flex:1;padding:32px 20px 64px;max-width:900px;margin:0 auto;width:100%}
+.screen.active{display:block}
+
+/* ── WELCOME SCREEN ── */
+.welcome-hero{text-align:center;padding:48px 0 36px}
+.welcome-hero h1{font-size:2.8rem;font-weight:900;line-height:1.1;text-wrap:balance;margin-bottom:10px}
+.welcome-hero h1 .hi{color:var(--accent-warm)}
+.welcome-hero p{color:var(--text-3);font-size:1.05rem;margin-bottom:8px}
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+@media(max-width:600px){.topic-grid{grid-template-columns:repeat(2,1fr)}}
+.topic-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;transition:all .18s;box-shadow:var(--shadow-sm)}
+.topic-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--tc)}
+.topic-card .tc-emoji{font-size:2.4rem;display:block;margin-bottom:8px}
+.topic-card .tc-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--text-1);margin-bottom:4px}
+.topic-card .tc-tag{font-size:.77rem;color:var(--text-3)}
+.topic-card.selected{border-color:var(--tc);background:var(--tc-muted)}
+.topic-card.selected .tc-name{color:var(--tc)}
+
+/* ── PLAN SCREEN ── */
+.plan-header{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding:22px 24px;background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+.plan-header .topic-badge{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.plan-header h2{font-size:1.5rem;font-weight:900;margin-bottom:2px}
+.plan-header p{color:var(--text-3);font-size:.9rem}
+.week-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:580px){.week-grid{grid-template-columns:repeat(2,1fr)}}
+.day-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:16px;cursor:pointer;transition:all .16s;box-shadow:var(--shadow-sm)}
+.day-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:var(--tc)}
+.day-card .dc-day{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:6px}
+.day-card .dc-emoji{font-size:1.6rem;display:block;margin-bottom:6px}
+.day-card .dc-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;color:var(--text-1);line-height:1.3;margin-bottom:4px}
+.day-card .dc-type{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:6px;display:inline-block}
+.plan-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.plan-actions button{flex:1;min-width:130px;padding:13px 16px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;border:2px solid transparent}
+.btn-books{background:var(--bg-surface);color:var(--text-2);border-color:var(--border)}
+.btn-books:hover{border-color:var(--tc);color:var(--tc)}
+.btn-download{background:var(--bg-surface);color:var(--text-2);border-color:var(--border)}
+.btn-download:hover{border-color:#22C55E;color:#16A34A}
+.btn-quiz{background:var(--accent-warm);color:#fff}
+.btn-quiz:hover{opacity:.88}
+.btn-back{background:var(--bg-surface);color:var(--text-2);border-color:var(--border)}
+.btn-back:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── DAY SCREEN ── */
+.day-nav{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.day-badge{padding:5px 14px;border-radius:20px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:#fff}
+.day-title{font-size:1.7rem;font-weight:900;margin-bottom:6px;text-wrap:balance}
+.day-subtitle{color:var(--text-3);font-size:.9rem;margin-bottom:24px}
+.content-section{background:var(--bg-card);border-radius:var(--radius);padding:24px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.content-section h3{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.passage{font-size:1.02rem;line-height:1.78;color:var(--text-2)}
+.passage p{margin-bottom:1em}
+.passage p:last-child{margin-bottom:0}
+.vocab-list{display:flex;flex-direction:column;gap:10px}
+.vocab-item{padding:12px 14px;background:var(--bg-surface);border-radius:10px;border-left:3px solid var(--tc,var(--accent))}
+.vocab-word{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--tc,var(--accent));margin-bottom:2px}
+.vocab-def{font-size:.87rem;color:var(--text-2);line-height:1.5}
+.questions-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.questions-list li{padding:12px 14px;background:var(--bg-surface);border-radius:10px;font-size:.92rem;color:var(--text-2);line-height:1.5;display:flex;gap:10px}
+.questions-list li::before{content:attr(data-n);font-family:'Nunito',sans-serif;font-weight:900;font-size:.85rem;color:var(--tc,var(--accent));flex-shrink:0;width:22px;height:22px;background:var(--tc-muted,var(--bg-surface2));border-radius:6px;display:flex;align-items:center;justify-content:center}
+.materials-list,.steps-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.materials-list li{padding:8px 12px;background:var(--bg-surface);border-radius:8px;font-size:.9rem;color:var(--text-2);display:flex;align-items:center;gap:8px}
+.materials-list li::before{content:'•';color:var(--tc,var(--accent));font-size:1.2rem;line-height:1}
+.steps-list li{padding:10px 14px;background:var(--bg-surface);border-radius:10px;font-size:.9rem;color:var(--text-2);line-height:1.5;display:flex;gap:12px}
+.step-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:.85rem;color:#fff;background:var(--tc,var(--accent));width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wonder-box{margin-top:14px;padding:14px;background:var(--tc-muted,var(--bg-surface2));border-radius:12px;border:1.5px dashed var(--tc,var(--accent));font-size:.9rem;color:var(--text-2);line-height:1.55}
+.wonder-box strong{color:var(--tc,var(--accent));font-family:'Nunito',sans-serif}
+.writing-prompts{display:flex;flex-direction:column;gap:12px}
+.writing-prompt-card{padding:16px;background:var(--bg-surface);border-radius:12px;border:2px solid var(--border);cursor:pointer;transition:border-color .15s}
+.writing-prompt-card:hover,.writing-prompt-card.selected{border-color:var(--tc,var(--accent));background:var(--tc-muted)}
+.writing-prompt-card .wp-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:.77rem;color:var(--tc,var(--accent));text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.writing-prompt-card .wp-text{font-size:.92rem;color:var(--text-2);line-height:1.55}
+.mindmap-center{text-align:center;padding:18px;margin-bottom:16px}
+.mindmap-bubble{display:inline-block;padding:12px 24px;background:var(--tc,var(--accent));color:#fff;border-radius:40px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem}
+.mindmap-nodes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
+.mindmap-node{padding:7px 14px;background:var(--tc-muted);border:2px solid var(--tc,var(--accent));border-radius:20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;color:var(--tc,var(--accent))}
+.tip-box{padding:12px 16px;background:var(--bg-surface);border-radius:10px;font-size:.88rem;color:var(--text-3);line-height:1.5}
+.book-reading-card{display:flex;gap:16px;align-items:flex-start}
+.book-spine{width:60px;height:90px;border-radius:4px 10px 10px 4px;background:var(--tc,var(--accent));display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.book-info h4{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-bottom:2px}
+.book-info .book-author{font-size:.82rem;color:var(--text-3);margin-bottom:8px}
+.book-info .book-read{font-size:.9rem;color:var(--text-2);line-height:1.5}
+.disc-questions{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.disc-questions li{font-size:.9rem;color:var(--text-2);padding:10px 14px;background:var(--bg-surface);border-radius:9px;line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+.disc-questions li::before{content:'💬';font-size:.9rem;flex-shrink:0;margin-top:1px}
+
+/* ── BOOKS SCREEN ── */
+.books-header{text-align:center;margin-bottom:28px}
+.books-header h2{font-size:1.8rem;font-weight:900;margin-bottom:6px}
+.books-header p{color:var(--text-3)}
+.book-cards{display:flex;flex-direction:column;gap:16px}
+.book-card{background:var(--bg-card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);display:flex;gap:18px;align-items:flex-start;border:1.5px solid var(--border)}
+.book-card-spine{width:72px;height:104px;border-radius:5px 12px 12px 5px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;flex-shrink:0;box-shadow:3px 3px 10px rgba(0,0,0,.15)}
+.book-card-body{flex:1}
+.book-card-body h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.05rem;margin-bottom:2px;line-height:1.3}
+.book-card-body .author{font-size:.82rem;color:var(--text-3);margin-bottom:8px}
+.book-card-body .age-badge{display:inline-block;padding:2px 10px;border-radius:8px;font-size:.75rem;font-weight:700;font-family:'Nunito',sans-serif;margin-bottom:8px}
+.book-card-body .why{font-size:.88rem;color:var(--text-2);line-height:1.6}
+
+/* ── QUIZ SCREEN ── */
+.quiz-header{text-align:center;margin-bottom:32px}
+.quiz-header h2{font-size:1.8rem;font-weight:900;margin-bottom:6px}
+.quiz-progress{display:flex;gap:6px;justify-content:center;margin-bottom:28px}
+.quiz-pip{width:32px;height:8px;border-radius:4px;background:var(--border);transition:background .2s}
+.quiz-pip.active{background:var(--tc,var(--accent))}
+.quiz-pip.done{background:var(--tc,var(--accent));opacity:.45}
+.quiz-card{background:var(--bg-card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+.quiz-q{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.45;margin-bottom:22px;text-wrap:balance}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-option{padding:14px 18px;border-radius:12px;border:2px solid var(--border);background:var(--bg-surface);font-size:.95rem;color:var(--text-2);text-align:left;transition:all .14s;cursor:pointer;font-family:'Inter',sans-serif;line-height:1.4}
+.quiz-option:hover:not(:disabled){border-color:var(--tc,var(--accent));background:var(--tc-muted)}
+.quiz-option.correct{border-color:#22C55E!important;background:rgba(34,197,94,.12)!important;color:#166534}
+.quiz-option.wrong{border-color:#EF4444!important;background:rgba(239,68,68,.1)!important;color:#991B1B}
+.quiz-option:disabled{cursor:default}
+.quiz-explain{margin-top:14px;padding:12px 14px;background:var(--bg-surface);border-radius:10px;font-size:.88rem;color:var(--text-2);line-height:1.55;border-left:3px solid #22C55E}
+.quiz-next-btn{display:block;width:100%;margin-top:16px;padding:14px;background:var(--tc,var(--accent));color:#fff;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;text-align:center;transition:opacity .15s}
+.quiz-next-btn:hover{opacity:.88}
+.quiz-result{text-align:center;padding:40px 20px}
+.quiz-result .score-ring{width:110px;height:110px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px;background:var(--tc-muted)}
+.quiz-result .score-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:2.2rem;line-height:1;color:var(--tc,var(--accent))}
+.quiz-result .score-label{font-size:.72rem;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.quiz-result h3{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.quiz-result p{color:var(--text-3);margin-bottom:24px}
+.quiz-result .btn-try{padding:13px 28px;background:var(--tc,var(--accent));color:#fff;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:opacity .15s;border:none}
+.quiz-result .btn-try:hover{opacity:.88}
+
+/* ── UTILS ── */
+.back-row{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:700;font-family:'Nunito',sans-serif}
+.section-label{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:10px}
+.day-nav-row{display:flex;gap:8px;margin-top:24px;flex-wrap:wrap}
+.day-nav-row button{flex:1;min-width:120px;padding:12px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
+.btn-prev{background:var(--bg-surface);color:var(--text-2);border:2px solid var(--border)}
+.btn-next{background:var(--tc,var(--accent));color:#fff;border:none}
+.btn-next:hover,.btn-prev:hover{opacity:.85}
+
+@media (prefers-reduced-motion: reduce) {
+  *{transition:none!important;animation:none!important}
+}
+@media(max-width:480px){
+  .plan-actions{flex-direction:column}
+  .book-card{flex-direction:column}
+  .book-card-spine{width:100%;height:80px;border-radius:12px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <nav class="nav">
+    <div class="nav-brand"><span class="emoji">🎒</span> JimmyLearn</div>
+    <div class="nav-right">
+      <button class="nav-btn outline" onclick="goHome()" id="nav-home" style="display:none">← Home</button>
+    </div>
+  </nav>
+  <div id="screen-welcome" class="screen active"></div>
+  <div id="screen-plan"    class="screen"></div>
+  <div id="screen-day"     class="screen"></div>
+  <div id="screen-books"   class="screen"></div>
+  <div id="screen-quiz"    class="screen"></div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────
+   CONTENT DATA
+───────────────────────────────────────────── */
+const TOPICS = {
+space: {
+  id:'space', name:'Space & Planets', emoji:'🚀',
+  tagline:'Blast off into the cosmos!',
+  color:'#6366F1', colorMuted:'rgba(99,102,241,0.13)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#6366F1',
+      title:'The Red Planet Calls',
+      passage:`<p>Every night, if you look up at the sky, you might spot a tiny reddish dot — one that doesn't twinkle like the stars around it. That's Mars, our Solar System's most famous neighbor!</p>
+<p>Mars is called the "Red Planet" because its entire surface is covered in iron oxide — which is basically rust. Imagine a whole world painted in orange-red dust, with swirling dust storms that can cover the entire planet for months at a time!</p>
+<p>Scientists have sent robotic explorers called rovers to investigate. In February 2021, NASA's Perseverance rover made a perfect landing in an ancient lake bed called Jezero Crater. Its mission: hunt for signs that tiny life forms might have existed billions of years ago. Perseverance also carried a small helicopter named Ingenuity, which made history by becoming the first aircraft ever to fly on another planet!</p>
+<p>Mars holds some truly record-breaking landmarks. Olympus Mons is the tallest volcano in the entire Solar System — three times taller than Mount Everest! And Valles Marineris is a canyon system so wide it would stretch across the entire United States.</p>
+<p>Here's the most exciting part: Mars has frozen water at its poles. The first human to set foot on Mars is probably alive right now — possibly about your age. Could it be you?</p>`,
+      vocab:[
+        {word:'iron oxide',def:'A reddish-brown substance made from iron and oxygen — basically rust! It gives Mars its famous color.'},
+        {word:'rover',def:'A robot vehicle designed to move across and explore the surface of another planet.'},
+        {word:'atmosphere',def:'The layer of gases surrounding a planet. Earth\'s atmosphere gives us air to breathe.'},
+        {word:'crater',def:'A bowl-shaped depression on the surface of a planet or moon, often made by a meteor impact.'},
+        {word:'orbit',def:'To travel in a circular or oval path around something, like Earth orbits the Sun each year.'},
+        {word:'mission',def:'An important journey or project with a specific purpose or goal.'}
+      ],
+      questions:[
+        'Why is Mars called the "Red Planet"? What is iron oxide?',
+        'What is Perseverance, and what first did the helicopter Ingenuity achieve?',
+        'Compare Olympus Mons to something on Earth. How does that help you picture its size?',
+        'If you could send a rover to any place in the Solar System, where would you send it and what three things would you want it to discover?'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'Map the Solar System',
+      center:'Solar System',
+      nodes:['8 Planets','The Sun','Asteroids & Comets','Moons','Dwarf Planets','Space Missions'],
+      tip:'On paper, write "Solar System" in the middle and draw a branch for each node above. Under each branch, add at least 2 facts you already know — then look up one more surprising fact to add!',
+      challenge:'⭐ Challenge: Can you add one weird or funny fact to each branch?'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'Make a Crater!',
+      intro:'When meteors crash into planets, they create craters. Let\'s recreate that in your kitchen!',
+      materials:['A deep tray or cardboard box','Flour (2–3 cups)','Cocoa powder (a few tablespoons)','Marbles or small rocks of different sizes','A ruler'],
+      steps:[
+        'Pour flour about 5 cm deep into the tray.',
+        'Sprinkle a thin, even layer of cocoa powder on top (like the top layer of a planet).',
+        'Hold a marble at waist height and DROP it — don\'t throw it.',
+        'Carefully remove the marble and measure the crater: width and depth.',
+        'Try dropping from different heights. Try different-sized rocks. Record your results!',
+        'Now throw one at an angle. What shape is that crater?'
+      ],
+      wonder:'🌌 Wonder: Why do craters have raised, rocky rings around the edges? What does crater depth tell us about how fast the meteor was traveling?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'Space Explorer\'s Log',
+      intro:'Great science fiction writers are also great scientists. Choose ONE prompt and write at least 150 words.',
+      prompts:[
+        {num:'Prompt 1',text:'You\'ve just landed on Mars in 2045. Write your very first log entry: describe what you see through your helmet visor, how it feels to take your first steps, and what surprises you most about being there.'},
+        {num:'Prompt 2',text:'Write a letter from Earth to an alien civilization that has just discovered our planet. Explain in three paragraphs what makes Earth special and worth visiting. Try to convince them we\'re friendly!'},
+        {num:'Prompt 3',text:'You discover a brand new planet beyond Pluto. Name it, describe what it looks like, what the sky looks like from its surface, and invent one unique life form that has adapted to live there.'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#6366F1',
+      title:'Featured Reading',
+      bookEmoji:'🚀',
+      book:'George\'s Secret Key to the Universe',
+      author:'by Lucy & Stephen Hawking',
+      readThis:'Read Chapter 3 this week. Follow George and his computer Cosmos as they zip through space and discover something unexpected about black holes.',
+      questions:[
+        'What did George discover that surprised him most in this chapter?',
+        'How do Lucy and Stephen Hawking make real science feel like an adventure?'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Space Explorer Quiz'
+    }
+  },
+  quiz:[
+    {q:'Why is Mars called the "Red Planet"?',options:['Its sky is always on fire','Iron oxide (rust) covers its surface','The Sun reflects off it in red','Its core glows red'],ans:1,explain:'Iron oxide — basically the same stuff as rust — covers Mars\'s surface and gives it that famous reddish-orange color.'},
+    {q:'What is a rover?',options:['A type of astronaut spacesuit','A robot vehicle that explores planetary surfaces','A space telescope','A type of rocket booster'],ans:1,explain:'Rovers are robotic vehicles — like Perseverance — that drive across a planet\'s surface, take photos, drill into rocks, and send data back to Earth.'},
+    {q:'What record does Olympus Mons hold?',options:['Deepest canyon in the Solar System','Most active volcano on Earth','Tallest volcano in the Solar System','Largest impact crater on Mars'],ans:2,explain:'Olympus Mons is the tallest volcano in the entire Solar System — about three times taller than Mount Everest!'},
+    {q:'What did the Ingenuity helicopter achieve on Mars?',options:['It found liquid water underground','It was the first aircraft to fly on another planet','It drilled the deepest rock sample ever','It transmitted the first video from Mars'],ans:1,explain:'Ingenuity made history with its first flight on April 19, 2021 — the very first powered, controlled aircraft flight on another planet!'},
+    {q:'What does Mars have at its poles that\'s exciting for future explorers?',options:['Liquid lava lakes','Enormous craters','Frozen water (ice)','Alien fossils'],ans:2,explain:'Mars has large deposits of frozen water (ice) at both poles. Future missions hope to melt this ice to create drinking water and even produce oxygen for astronauts.'}
+  ],
+  books:[
+    {emoji:'🚀',title:'George\'s Secret Key to the Universe',author:'Lucy & Stephen Hawking',ages:'Ages 8–12',why:'Written by Stephen Hawking and his daughter Lucy, this adventure takes you through black holes, Mars, and the secrets of the cosmos through the eyes of a curious kid just like you. Real physics, real wonder, real fun.',color:'#6366F1'},
+    {emoji:'🌌',title:'The Magic School Bus Lost in the Solar System',author:'Joanna Cole',ages:'Ages 6–10',why:'Buckle up for Ms. Frizzle\'s wildest field trip yet — a tour of every planet in the Solar System aboard a bus that transforms into a spaceship. Funny, factual, and unforgettable.',color:'#8B5CF6'},
+    {emoji:'🔭',title:'National Geographic Kids Space Atlas',author:'David Aguilar',ages:'Ages 8–12',why:'Stunning illustrations of every planet, moon, nebula, and galaxy make this the best visual guide to the cosmos for young astronomers. Every page will make your jaw drop.',color:'#0EA5E9'}
+  ]
+},
+
+animals: {
+  id:'animals', name:'Wild Animals', emoji:'🦁',
+  tagline:'Discover the wild world!',
+  color:'#16A34A', colorMuted:'rgba(22,163,74,0.12)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#16A34A',
+      title:'The Secret Life of Wolves',
+      passage:`<p>In fairy tales, wolves are usually the villain — sneaky, dangerous, and best avoided. But in the real world, wolves are something far more interesting: loyal family members, masterful communicators, and unexpected heroes of entire ecosystems.</p>
+<p>Wolves live in family groups called packs, typically 5 to 10 members strong. Each pack is led by a bonded pair of parents who make decisions for the whole group. Wolf pups are born tiny and helpless, but within a year, they're learning to hunt alongside the adults. Wolves communicate using an entire language of howls, whimpers, growls, and body positions — a long, mournful howl can carry five miles across the wilderness!</p>
+<p>Here's a story that will change how you see wolves forever. In 1995, scientists reintroduced gray wolves to Yellowstone National Park in Wyoming, where they had been absent for 70 years. The wolves began hunting elk and deer. Those animals started avoiding open riverbeds where they'd graze. Without constant grazing, riverside plants grew tall and thick. Beavers returned to build dams. Birds nested in the new trees. The rivers themselves began to flow differently because plant roots held the riverbanks in place.</p>
+<p>One species of animal changed an entire national park. Scientists call this extraordinary chain reaction a <em>trophic cascade</em> — when the return of one predator transforms a whole ecosystem.</p>
+<p>Wolves don't just belong in the wild. They make the wild possible.</p>`,
+      vocab:[
+        {word:'pack',def:'A family group of wolves that live, travel, and hunt together.'},
+        {word:'ecosystem',def:'A community of all living things — plants, animals, insects — interacting with each other and their environment.'},
+        {word:'trophic cascade',def:'A chain reaction in nature where one change (like adding or removing a predator) ripples through and changes many other species.'},
+        {word:'predator',def:'An animal that hunts other animals for food.'},
+        {word:'reintroduce',def:'To bring a species back into an area or ecosystem where it once lived but had disappeared.'},
+        {word:'habitat',def:'The natural place where an animal or plant lives and has what it needs to survive.'}
+      ],
+      questions:[
+        'How do wolves communicate with each other? Name at least three ways.',
+        'What is a trophic cascade? Use the Yellowstone wolf story to explain it in your own words.',
+        'Why do you think wolves disappeared from Yellowstone for 70 years? What might have caused that?',
+        'If you could bring back one animal that has disappeared from your area, what would it be and why?'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'Map the Animal Kingdom',
+      center:'Wild Animals',
+      nodes:['Mammals','Birds','Reptiles','Ocean Animals','Insects','Endangered Species'],
+      tip:'Draw "Wild Animals" in the center. Add 6 branches — one for each category. Under each branch, list 3 animals you know, then draw a tiny picture of your favorite one!',
+      challenge:'⭐ Challenge: Add one "fun fact" label to each animal you drew.'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'Track an Animal\'s Territory',
+      intro:'Animals mark and defend territories. Let\'s map one!',
+      materials:['Blank paper (A4 or larger)','Colored pencils or markers','A ruler','Access to your garden, park, or backyard (optional)'],
+      steps:[
+        'Go outside for 15 minutes and observe any animal: a bird, squirrel, ant, or even a dog.',
+        'Draw a simple map of the area on your paper.',
+        'Mark every place you see the animal go. Use dots for "visited" and an X for "home base."',
+        'Draw the boundary of the territory the animal seems to use.',
+        'Back inside: research how large that animal\'s real territory is in the wild. How does your observation compare?'
+      ],
+      wonder:'🦊 Wonder: Why do animals defend territories? What resources are they protecting — food, water, shelter, or something else?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'Into the Wild',
+      intro:'Animals have incredible stories to tell. Write from inside one! Choose ONE prompt and aim for 150+ words.',
+      prompts:[
+        {num:'Prompt 1',text:'You are a wolf pup experiencing your first winter. Write a diary entry describing what you see, hear, and smell on a morning hunt with your pack. What goes through your mind when you finally make a catch?'},
+        {num:'Prompt 2',text:'Write a news report from inside the animal kingdom announcing the return of wolves to Yellowstone. Interview three animals — perhaps a river otter, a beaver, and a deer — and get their reaction to the news.'},
+        {num:'Prompt 3',text:'You are a wildlife documentary filmmaker who has just spent a week following a wolf pack. Write the introduction for your film. Make the audience feel like they\'re right there in the snowy forest.'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#16A34A',
+      title:'Featured Reading',
+      bookEmoji:'🦊',
+      book:'Pax',
+      author:'by Sara Pennypacker',
+      readThis:'Read Chapters 1 and 2 this week. Follow a boy named Peter and his pet fox Pax as they face an unexpected separation. Pay close attention to how the author shows us the world from both Peter\'s and Pax\'s point of view.',
+      questions:[
+        'How does the author show us Pax\'s thoughts differently from Peter\'s? Find one example.',
+        'What emotions did you feel reading these opening chapters? What made you feel that way?'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Wild Animals Quiz'
+    }
+  },
+  quiz:[
+    {q:'What do we call a family group of wolves?',options:['Herd','Flock','Pack','Pride'],ans:2,explain:'A group of wolves is called a pack — typically 5 to 10 family members led by a bonded pair of parents.'},
+    {q:'What is a trophic cascade?',options:['A waterfall in a tropical forest','A chain reaction when one change in nature affects many species','A type of animal migration','When one species eats all the food'],ans:1,explain:'A trophic cascade is a chain reaction — like when wolves returned to Yellowstone and their effect rippled through the entire ecosystem, changing plants, rivers, beavers, and birds.'},
+    {q:'To which national park were wolves reintroduced in 1995?',options:['Grand Canyon','Yosemite','Yellowstone','Everglades'],ans:2,explain:'Gray wolves were reintroduced to Yellowstone National Park in Wyoming in 1995, after being absent for 70 years.'},
+    {q:'Which of these is NOT a way wolves communicate?',options:['Howling','Whimpering','Body posture','Changing skin color'],ans:3,explain:'Wolves communicate through howls, whimpers, growls, and body language — but NOT by changing skin color. That\'s something octopuses and chameleons do!'},
+    {q:'What happened to riverside plants after wolves returned to Yellowstone?',options:['They all died from wolf urine','They grew taller because deer stopped constantly grazing there','They were trampled by the wolves','Nothing — plants don\'t respond to animals'],ans:1,explain:'When wolves hunted deer, deer avoided riverbeds. Without deer constantly eating the plants, riverside vegetation grew tall and thick — bringing beavers, birds, and eventually changing the rivers themselves.'}
+  ],
+  books:[
+    {emoji:'🦊',title:'Pax',author:'Sara Pennypacker',ages:'Ages 9–12',why:'The story of a boy and his pet fox, told from both their perspectives. Beautiful, emotional, and quietly educational about what wild animals are really like. One of the best animal books ever written for kids.',color:'#16A34A'},
+    {emoji:'🐘',title:'The One and Only Ivan',author:'Katherine Applegate',ages:'Ages 8–12',why:'Based on a true story, a gorilla named Ivan who lives in a mall reflects on freedom, friendship, and what it means to be wild. Won the Newbery Medal — and you\'ll understand why in the first chapter.',color:'#059669'},
+    {emoji:'🕷️',title:'Charlotte\'s Web',author:'E.B. White',ages:'Ages 8–12',why:'The timeless classic that teaches you more about friendship, loyalty, and the natural world than almost any other book. If you\'ve already read it, read it again — you\'ll notice new things.',color:'#047857'}
+  ]
+},
+
+sports: {
+  id:'sports', name:'Sports & Teamwork', emoji:'⚽',
+  tagline:'Play hard, think harder!',
+  color:'#EA580C', colorMuted:'rgba(234,88,12,0.12)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#EA580C',
+      title:'More Than Winning',
+      passage:`<p>What separates a good team from an extraordinary one? Is it raw talent? The best training equipment? Or something much harder to measure?</p>
+<p>In the 2004 Summer Olympics, the United States men's basketball team arrived in Athens, Greece with some of the biggest names in the sport — future Hall of Famers, multi-million-dollar athletes. On paper, they were unbeatable. But they lost three games and walked away with just a bronze medal.</p>
+<p>Meanwhile, Argentina — a team with no single superstar — won the gold medal. How? The Argentine players had trained together for five years. They knew each other's habits, fears, and strengths. They moved like one organism, not five separate egos.</p>
+<p>Sports scientists have discovered something remarkable: in almost every team sport, the players who communicate most are the ones whose teams win more games. Not the fastest, not the strongest — the most communicative. Great teams develop what researchers call "team chemistry": an invisible bond built from making eye contact, giving encouragement after mistakes, and sharing credit for success.</p>
+<p>Think about the greatest relay race you've ever watched. It isn't the fastest individual runner who wins — it's the team that executes the baton pass perfectly. That split-second handoff, practiced a thousand times in training, is where championships are made.</p>
+<p>The most powerful word in sports isn't "I." It's "we."</p>`,
+      vocab:[
+        {word:'tactics',def:'Planned strategies and moves in a game or sport — the clever thinking behind how a team plays.'},
+        {word:'coordination',def:'The ability to control your body movements smoothly, accurately, and together with others.'},
+        {word:'resilience',def:'The ability to bounce back after difficulties, mistakes, or failure — and keep going.'},
+        {word:'sportsmanship',def:'Fair, respectful behavior toward teammates, opponents, and coaches, whether you win or lose.'},
+        {word:'strategy',def:'A careful plan designed to achieve a goal — like how a soccer team decides to defend against a strong opponent.'},
+        {word:'chemistry',def:'In sports, the invisible bond and understanding between teammates that makes them work together naturally.'}
+      ],
+      questions:[
+        'Why did Argentina beat the USA in the 2004 Olympics despite having less individual talent?',
+        'What do scientists find that winning teams do more than losing teams?',
+        'Think of a time you were part of a team (sports, a school project, or any group). What made it work well or not?',
+        'In your own words, explain why "the baton pass" is a perfect symbol of teamwork.'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'The Anatomy of a Great Team',
+      center:'Great Team',
+      nodes:['Communication','Trust','Individual Skills','Strategy & Tactics','Resilience','Sportsmanship'],
+      tip:'In the center write "Great Team." Create a branch for each quality. Under each branch, write: (1) what it means, and (2) one real-life example you\'ve seen or experienced.',
+      challenge:'⭐ Challenge: Rate your own team on each quality from 1–5. What would you most want to improve?'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'The Communication Challenge',
+      intro:'Can your team communicate without words? Try this!',
+      materials:['2 or more players (family members work great!)','10 small objects (spoons, cups, blocks — anything)','A blindfold','A timer'],
+      steps:[
+        'Player 1 is blindfolded. Player 2 can see but CANNOT touch anything.',
+        'Set up the 10 objects in a specific arrangement on the table.',
+        'Player 2 must guide Player 1 to arrange 10 objects identically — using only words.',
+        'Time how long it takes. Then switch roles.',
+        'Next round: Player 2 can only use gestures (no words). Time it again.',
+        'Discuss: Which communication style was easier? Why?'
+      ],
+      wonder:'🏅 Wonder: What does this tell you about how sports teams need to communicate during a fast game? Why do coaches spend so much time on "team talk"?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'Game Day Stories',
+      intro:'Sports are full of drama, emotions, and unforgettable moments. Pick ONE prompt and write 150+ words.',
+      prompts:[
+        {num:'Prompt 1',text:'Describe the most important game or match you\'ve ever been a part of — or watched. Write it like a sports broadcaster calling the play-by-play. Make the reader feel the tension, the noise of the crowd, and the final moment.'},
+        {num:'Prompt 2',text:'Write a letter from a losing team\'s captain to their teammates after a tough loss. How do you encourage them? What did you learn? What will you do differently next time?'},
+        {num:'Prompt 3',text:'Invent a brand new team sport that mixes two existing sports together. Name it, explain the rules, describe what equipment you need, and explain why it would be fun to play and watch.'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#EA580C',
+      title:'Featured Reading',
+      bookEmoji:'🏀',
+      book:'The Crossover',
+      author:'by Kwame Alexander',
+      readThis:'Read the first 30 pages of this novel-in-verse (it\'s poetry, so it reads fast!). Follow 12-year-old Josh and his twin brother JB — both basketball players — as they navigate family, friendship, and the game they love.',
+      questions:[
+        'How does writing a book in poetry form change how you feel when you read it? Does it feel faster? More emotional?',
+        'What does Josh love most about basketball? Is it the winning, or something else?'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Teamwork & Sports Quiz'
+    }
+  },
+  quiz:[
+    {q:'In the 2004 Olympics, why did Argentina beat the more talented USA basketball team?',options:['They cheated','They had played together for 5 years and had team chemistry','Their players were secretly faster','The USA team was sick'],ans:1,explain:'Argentina won because the players had trained together for years and understood each other deeply — team chemistry beat individual talent.'},
+    {q:'According to sports scientists, what do winning teams do MORE of?',options:['Train longer hours','Eat more protein','Communicate with each other','Change their strategy every game'],ans:2,explain:'Research shows that the most communicative teams tend to win more — players who make eye contact, encourage each other, and talk during play build stronger bonds.'},
+    {q:'What is "sportsmanship"?',options:['Being the best player on the field','Playing dirty when the referee isn\'t looking','Fair and respectful behavior toward everyone, win or lose','Only practicing your own skills'],ans:2,explain:'Sportsmanship means treating your teammates, opponents, coaches, and referees with respect — whether you\'re winning or losing.'},
+    {q:'In a relay race, what separates the winning team from the second-place team?',options:['Having the fastest individual runner','Executing the baton pass perfectly','Wearing better running shoes','Having the loudest fans'],ans:1,explain:'In relay races, the baton pass is often where championships are won or lost. A perfect handoff at full speed takes enormous practice and trust between teammates.'},
+    {q:'What does the word "resilience" mean in sports?',options:['Being the most physically fit player','The ability to bounce back after failure and keep going','Always winning your matches','Knowing every rule of the game'],ans:1,explain:'Resilience is the ability to recover from setbacks — a loss, an injury, a bad game — and come back stronger. It\'s one of the most important qualities in any athlete.'}
+  ],
+  books:[
+    {emoji:'🏀',title:'The Crossover',author:'Kwame Alexander',ages:'Ages 9–12',why:'A basketball novel written entirely in poetry. Twelve-year-old Josh is a star on the court — but life off it gets complicated fast. It won the Newbery Medal and will make you read faster and faster the further you go.',color:'#EA580C'},
+    {emoji:'⚾',title:'Heat',author:'Mike Lupica',ages:'Ages 8–12',why:'Twelve-year-old Michael Arroyo has a fastball that nobody his age should be able to throw — but getting to the Little League World Series means overcoming much more than just the opposing team. Gripping from page one.',color:'#DC2626'},
+    {emoji:'🎽',title:'Million-Dollar Throw',author:'Mike Lupica',ages:'Ages 9–12',why:'Nate Brodie won a contest for the chance to throw a touchdown pass for a million dollars — but what happens when the pressure becomes almost too much to bear? A perfect story about performance and friendship.',color:'#B45309'}
+  ]
+},
+
+science: {
+  id:'science', name:'Cool Science', emoji:'🔬',
+  tagline:'Ask why. Then ask why again!',
+  color:'#0891B2', colorMuted:'rgba(8,145,178,0.12)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#0891B2',
+      title:'Why Is the Sky Blue?',
+      passage:`<p>Here's a question scientists puzzled over for centuries: why is the sky blue? It seems obvious once you're outside — but the real answer is one of the most beautiful discoveries in all of physics.</p>
+<p>Sunlight looks white, but it's actually a mixture of every color in the rainbow, all blended together. When sunlight enters Earth's atmosphere, it crashes into billions of tiny gas molecules — mostly nitrogen and oxygen. Here's the key: blue light has a shorter wavelength than red or orange light, which means it bounces off those molecules much more easily, scattering in all directions at once. When you look up at any part of the sky, you're seeing scattered blue light arriving from every angle.</p>
+<p>But at sunset, the Sun sits at a very low angle on the horizon. Its light must travel through a much thicker slice of atmosphere to reach your eyes. By the time it arrives, almost all the blue light has already scattered away overhead. What remains? The longer wavelengths — deep reds, warm oranges, brilliant golds. That's why sunsets are so dramatic.</p>
+<p>This same principle — called Rayleigh scattering — explains dozens of everyday mysteries: why milk is white (light scatters off fat droplets), why snow is white (light scatters off ice crystals), and why the deep sea looks so eerily blue even when there's no sky above it.</p>
+<p>Science is everywhere. You just have to know how to look.</p>`,
+      vocab:[
+        {word:'scattering',def:'When light bounces off tiny particles and spreads out in all directions, like billiard balls bouncing off each other.'},
+        {word:'wavelength',def:'The distance between two peaks of a light wave. Blue light has short wavelengths; red light has long wavelengths.'},
+        {word:'atmosphere',def:'The layers of gas that surround Earth — the air we breathe is part of it.'},
+        {word:'molecule',def:'A tiny particle made of atoms bonded together. Water is made of two hydrogen atoms and one oxygen atom — H₂O.'},
+        {word:'phenomenon',def:'An observable event or fact in the natural world that can be studied and explained.'},
+        {word:'Rayleigh scattering',def:'The scientific name for how light scatters off gas molecules — named after Lord Rayleigh, who figured it out in the 1870s.'}
+      ],
+      questions:[
+        'In your own words, explain why the sky is blue. Use the word "wavelength" in your answer.',
+        'Why does the sky turn red and orange at sunset? What changes about how light travels?',
+        'The passage says milk is white for the same reason the sky is blue. Can you figure out how that works?',
+        'What other "why" questions about everyday life would you love science to answer?'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'The Science of Light',
+      center:'Light',
+      nodes:['Colors of the Rainbow','How We See','Reflection','Refraction','Shadows','Bioluminescence'],
+      tip:'In the center put "Light." Add each branch and write everything you already know. Then draw a small diagram for any branch where you can — a prism bending light, a mirror reflecting, or a shadow shape.',
+      challenge:'⭐ Challenge: Research "bioluminescence" and add 3 facts to that branch.'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'Make a Rainbow in a Glass!',
+      intro:'Use light bending (refraction) to split white light into all its colors.',
+      materials:['A clear drinking glass or jar','Water','A white sheet of paper','A sunny day (or a bright flashlight)'],
+      steps:[
+        'Fill the glass nearly to the top with water.',
+        'Place it at the edge of a table near a sunny window (or hold a flashlight at one side).',
+        'Hold a white piece of paper on the other side of the glass at different angles.',
+        'Move the paper until you see the rainbow appear on it.',
+        'Try adjusting the angle of the paper and the glass. Can you make the rainbow bigger?',
+        'Sketch the setup in your notebook and label: white light in → glass → rainbow out.'
+      ],
+      wonder:'🌈 Wonder: Why does white light split into separate colors? Can you put them back together into white light again? How might you try?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'Science Storyteller',
+      intro:'The best scientists are also great explainers. Can you make a concept come to life? Choose ONE and write 150+ words.',
+      prompts:[
+        {num:'Prompt 1',text:'You are a single photon (particle of light) leaving the Sun. Write a first-person story describing your 8-minute journey to Earth, what you experience when you hit the atmosphere, and where you finally end up.'},
+        {num:'Prompt 2',text:'Write a "science news article" for a kids\' newspaper explaining what Rayleigh scattering is to a reader who has never heard of it before. Include a catchy headline, a short introduction, and three key facts in simple language.'},
+        {num:'Prompt 3',text:'Imagine you could change one law of physics — for example, "blue light scatters MORE" or "red light scatters MORE." Write a description of what the world would look and feel like. What color would the sky be? What would sunsets look like?'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#0891B2',
+      title:'Featured Reading',
+      bookEmoji:'🔬',
+      book:'The Magnificent Makers: Brain On, Lights Out!',
+      author:'by Theanne Griffith',
+      readThis:'Read Chapters 1–3 this week. Follow Violet, Pablo, and their new friend as they enter a mysterious maker space and discover something incredible about light and electricity. Notice how the characters solve problems by experimenting.',
+      questions:[
+        'What problem do the characters face, and how do they decide what to try first?',
+        'When something doesn\'t work in the story, what do the characters do? How is that like real science?'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Cool Science Quiz'
+    }
+  },
+  quiz:[
+    {q:'Why is the sky blue?',options:['The ocean reflects blue light upward','Blue light scatters more easily off gas molecules in the atmosphere','The sky is actually painted blue by artists','Earth\'s gravity attracts blue light'],ans:1,explain:'Blue light has a short wavelength that bounces off nitrogen and oxygen molecules easily, scattering in all directions — so the whole sky appears blue!'},
+    {q:'Why do sunsets look red and orange?',options:['The Sun changes color in the evening','Heat makes light appear red','At low angles, blue light scatters away before it reaches us, leaving reds and oranges','Stars behind the Sun are red'],ans:2,explain:'At sunset, sunlight travels through much more atmosphere. All the blue scatters away en route, and only the longer red and orange wavelengths make it to your eyes.'},
+    {q:'What does "wavelength" mean for light?',options:['How bright the light is','How hot the light is','The distance between two peaks of a light wave','How many colors the light contains'],ans:2,explain:'Wavelength is the distance between two peaks (or crests) of a light wave. Short wavelengths = blue/violet light. Long wavelengths = red/orange light.'},
+    {q:'What is Rayleigh scattering?',options:['A type of rainbow in the ocean','How light bounces off gas molecules — discovered by Lord Rayleigh','A way to make light go faster','A method for splitting water using sunlight'],ans:1,explain:'Rayleigh scattering is the scientific term for how light bounces off gas molecules. It explains why the sky is blue, sunsets are red, and much more!'},
+    {q:'Milk is white because light scatters off fat droplets inside it. What else is white for the same reason?',options:['Grass','Coal','Snow and clouds','Gold'],ans:2,explain:'Snow is white because light scatters off billions of tiny ice crystals in every direction — just like milk\'s fat droplets! Clouds are white for the same reason: tiny water droplets scatter all wavelengths equally.'}
+  ],
+  books:[
+    {emoji:'🔬',title:'The Magnificent Makers',author:'Theanne Griffith',ages:'Ages 6–10',why:'A series about three curious kids who enter a magical science lab and use real STEM concepts to solve mysteries. Each book covers a different science topic — electricity, light, chemistry — and makes you want to run your own experiments.',color:'#0891B2'},
+    {emoji:'💡',title:'National Geographic Kids Why?',author:'Various Authors',ages:'Ages 8–12',why:'Answers to 1,111 of the most fascinating science questions kids actually ask — from "Why is the sky blue?" to "Why do we dream?" Every answer is clear, accurate, and comes with amazing photos.',color:'#0369A1'},
+    {emoji:'🧪',title:'Professor Astro Cat\'s Frontiers of Space',author:'Dr. Dominic Walliman',ages:'Ages 8–12',why:'A beautifully illustrated science book that covers everything from quantum physics to black holes — made actually understandable for young readers. If you want to understand how the universe works, start here.',color:'#0E7490'}
+  ]
+},
+
+history: {
+  id:'history', name:'Ancient Worlds', emoji:'🗺️',
+  tagline:'Travel back 4,000 years!',
+  color:'#7C3AED', colorMuted:'rgba(124,58,237,0.12)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#7C3AED',
+      title:'The Amazing Engineers of Ancient Egypt',
+      passage:`<p>Imagine standing at the base of the Great Pyramid of Giza in Egypt. It's so enormous that you have to tilt your head all the way back just to see the top. This structure has been standing for more than 4,500 years — longer than the Roman Empire, longer than every nation in Europe, longer than most recorded history. And it was built without cranes, computers, or power tools of any kind.</p>
+<p>The Great Pyramid was constructed for Pharaoh Khufu, the ruler of ancient Egypt. It contains approximately 2.3 million stone blocks, each weighing between 2 and 15 tons — some as heavy as an SUV! Modern engineers with all our technology have studied it for centuries and still debate exactly how it was built so precisely.</p>
+<p>But here's what surprises most people: the pyramid workers weren't slaves. Archaeological evidence shows they were skilled, well-organized workers who received good food, medical care, and were honored with burial near the pyramid itself when they died. The work crews even had nicknames — one called themselves "Friends of Khufu" and another "Drunkards of Menkaure." Real people, with real humor, doing something extraordinary.</p>
+<p>Ancient Egypt gave us far more than pyramids: Egyptian astronomers calculated that a year was 365 days. Egyptian doctors performed surgery and wrote the world's first medical texts. Their writing system, hieroglyphics, recorded history in ways that archaeologists are still decoding today.</p>
+<p>Their civilization lasted over 3,000 years — three times longer than the Roman Empire. It is the longest-lasting civilization in all of human history.</p>`,
+      vocab:[
+        {word:'pharaoh',def:'The title for the king or supreme ruler of ancient Egypt, believed to be a living god.'},
+        {word:'ingenuity',def:'Clever thinking, creativity, and problem-solving ability — especially when you have limited tools or resources.'},
+        {word:'archaeological',def:'Related to archaeology — the study of ancient human life through objects, buildings, and other physical remains.'},
+        {word:'hieroglyphics',def:'The ancient Egyptian writing system, which used pictures and symbols to represent words, sounds, and ideas.'},
+        {word:'civilization',def:'An organized, advanced society with its own government, culture, technology, and written records.'},
+        {word:'papyrus',def:'A tall reed plant from the Nile River. Ancient Egyptians made an early form of paper from its stalks.'}
+      ],
+      questions:[
+        'What two facts about the pyramid workers surprised you most, and why?',
+        'Why is it remarkable that the Great Pyramid is still standing after 4,500 years?',
+        'Ancient Egyptians had no computers or power tools. What do you think was their most important resource for building the pyramids?',
+        'If you could travel back to ancient Egypt for one day, what would you most want to see or learn?'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'The Legacy of Ancient Egypt',
+      center:'Ancient Egypt',
+      nodes:['Architecture','Writing & Art','Science & Medicine','Government','Daily Life','Legacy Today'],
+      tip:'Draw "Ancient Egypt" in the center. Create 6 branches. Under each, write 2–3 things the ancient Egyptians invented or contributed. At the end, circle anything that still affects your life TODAY.',
+      challenge:'⭐ Challenge: Under "Legacy Today" — list 3 things in your daily life that trace back to ancient Egypt.'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'Build a Paper Pyramid!',
+      intro:'Experience just a tiny bit of what ancient Egyptian architects faced.',
+      materials:['Thick cardstock or cardboard','Ruler','Pencil','Scissors','Tape or glue','A coin or small weight to test stability'],
+      steps:[
+        'Draw a square base (8cm × 8cm) in the center of your cardstock.',
+        'Draw four identical triangles, one on each side of the square. Each triangle should be 8cm wide at the base and about 7cm tall.',
+        'Cut out the whole shape (base + 4 triangles still attached).',
+        'Fold the triangles up and tape or glue the edges together.',
+        'Stand the pyramid up. Is it stable? Try placing the weight on top.',
+        'Now: try to make the pyramid more stable by changing the triangle height. What happens?'
+      ],
+      wonder:'🔺 Wonder: Why is a triangle shape so strong? Can you think of other buildings or structures that use triangles to stay strong?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'A Letter from Ancient Times',
+      intro:'Step into history! Choose ONE prompt and write 150+ words from deep in the past.',
+      prompts:[
+        {num:'Prompt 1',text:'You are a 10-year-old child of a pyramid worker in ancient Egypt. Write a diary entry describing your day. What do you see? What does your father or mother do? What do the pyramids look like as they slowly rise?'},
+        {num:'Prompt 2',text:'You are an archaeologist who has just discovered a secret room inside the Great Pyramid. Write the journal entry from the moment you first open the door. What do you see? What does it smell like? What do you think it was used for?'},
+        {num:'Prompt 3',text:'Write a "time traveler\'s guide" to ancient Egypt for a tourist arriving from the present day. Include: what to wear, what to eat, what to see, and three rules you must follow to avoid trouble.'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#7C3AED',
+      title:'Featured Reading',
+      bookEmoji:'📜',
+      book:'Magic Tree House: Mummies in the Morning',
+      author:'by Mary Pope Osborne',
+      readThis:'Read the full book this week — it\'s short and fast-moving! Follow Jack and Annie as their magic tree house lands in ancient Egypt, where they must help a ghost queen find her Book of the Dead before sunrise.',
+      questions:[
+        'What did Jack and Annie learn about ancient Egypt that surprised them most?',
+        'The book mixes real history with fantasy adventure. Pick one historical fact from the story and explain how you\'d check if it\'s really true.'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Ancient Worlds Quiz'
+    }
+  },
+  quiz:[
+    {q:'How long has the Great Pyramid of Giza been standing?',options:['About 1,000 years','About 2,000 years','About 4,500 years','About 10,000 years'],ans:2,explain:'The Great Pyramid was built for Pharaoh Khufu around 2560 BCE — making it approximately 4,500 years old. It\'s one of the oldest structures on Earth.'},
+    {q:'What did pyramid workers NOT receive according to archaeological evidence?',options:['Good food rations','Medical care','Honor burials near the pyramid','They were forced to work as slaves without pay'],ans:3,explain:'Evidence shows pyramid workers were skilled laborers who received food, medical care, and burial honors. They were NOT slaves — this is a common myth that archaeology has disproved.'},
+    {q:'What is hieroglyphics?',options:['Ancient Egyptian money made of gold','The ancient Egyptian writing system using pictures and symbols','A type of Egyptian musical instrument','The name for Egyptian pyramids'],ans:1,explain:'Hieroglyphics is the writing system of ancient Egypt — a mix of pictures and symbols that represented words, sounds, and ideas. Archaeologists are still discovering new hieroglyphic texts today.'},
+    {q:'How long did ancient Egyptian civilization last?',options:['About 300 years','About 500 years','About 1,000 years','About 3,000 years'],ans:3,explain:'Ancient Egyptian civilization lasted over 3,000 years — roughly from 3100 BCE to 30 BCE. That\'s three times longer than the Roman Empire, making it the longest-lasting civilization in history.'},
+    {q:'What plant did Egyptians use to make early paper?',options:['Bamboo','Oak tree bark','Papyrus reed','Palm leaves'],ans:2,explain:'Ancient Egyptians made paper from papyrus — a tall reed plant that grew along the Nile River. They harvested the stalks, sliced them thin, pressed them together, and dried them to create a writing surface.'}
+  ],
+  books:[
+    {emoji:'🏺',title:'Magic Tree House: Mummies in the Morning',author:'Mary Pope Osborne',ages:'Ages 6–10',why:'Jack and Annie\'s tree house lands in ancient Egypt — and suddenly history is a wild adventure. Perfect for building excitement about historical learning; each book is packed with real facts tucked inside the story.',color:'#7C3AED'},
+    {emoji:'📖',title:'Who Was Cleopatra?',author:'Stephanie Spinner',ages:'Ages 8–12',why:'Part of the bestselling "Who Was?" biography series, this book brings Egypt\'s most famous ruler to life. Easy to read, full of real history, and full of fascinating details you won\'t find in textbooks.',color:'#6D28D9'},
+    {emoji:'🗺️',title:'Egyptology: Search for the Tomb of Osiris',author:'Emily Sands',ages:'Ages 8–12',why:'A gorgeous artifact-style book that looks like an explorer\'s field notebook from the 1920s. Full of fold-out maps, attached "ancient" documents, and incredible illustrations. It feels like holding a real piece of history.',color:'#5B21B6'}
+  ]
+},
+
+ocean: {
+  id:'ocean', name:'Deep Ocean', emoji:'🌊',
+  tagline:'Dive into the unknown!',
+  color:'#1D4ED8', colorMuted:'rgba(29,78,216,0.12)',
+  days:{
+    mon:{day:'Monday',emoji:'📖',type:'Reading',typeColor:'#1D4ED8',
+      title:'Earth\'s Last Frontier',
+      passage:`<p>We have better maps of the surface of Mars than we do of our own ocean floor. Even today, with all our satellites and submarines, approximately 80% of Earth's oceans remain unexplored. The deep sea is our own planet's final frontier.</p>
+<p>The ocean is divided into zones based on how much light reaches each depth. Near the surface, the Sunlit Zone is full of color — coral reefs, sea turtles, dolphins, and rays. Descend below 200 meters, and you enter the Twilight Zone, where only faint blue light filters through. Animals here survive on whatever scraps of food drift down from above. Below 1,000 meters lies the Midnight Zone: complete darkness, crushing pressure, and temperatures just above freezing.</p>
+<p>Yet life thrives there. Scientists exploring the deep sea keep making extraordinary discoveries: fish that produce their own light through a process called bioluminescence (their bodies are living flashlights), transparent animals you can see completely through, and giant tube worms clustering around volcanic vents where scalding water shoots up from cracks in the ocean floor.</p>
+<p>The deepest point on the planet is the Challenger Deep, located in the Mariana Trench in the Pacific Ocean. It's nearly 36,000 feet below the surface. If you dropped Mount Everest into it, the mountain's peak would still be over a mile underwater.</p>
+<p>We know so little about what lives in those depths. Every expedition brings back something nobody has seen before. In the deepest places on Earth, the unknown isn't out there in space. It's right below us.</p>`,
+      vocab:[
+        {word:'bioluminescence',def:'The ability of a living organism to produce its own light through a chemical reaction inside its body.'},
+        {word:'trench',def:'A long, narrow, very deep valley in the ocean floor — like the Mariana Trench, the deepest place on Earth.'},
+        {word:'pressure',def:'The force that pushes on a surface. Water pressure increases dramatically as you go deeper — deep-sea pressure would crush a human.'},
+        {word:'zone',def:'In the ocean, a region with specific characteristics. The Sunlit, Twilight, and Midnight zones are divided by how much light reaches them.'},
+        {word:'transparent',def:'Clear enough to see straight through — some deep-sea creatures are completely see-through.'},
+        {word:'expedition',def:'An organized journey of exploration, often scientific, to a specific remote or challenging location.'}
+      ],
+      questions:[
+        'What surprised you most about how little of the ocean has been explored? Why do you think it\'s so hard to explore?',
+        'Describe the three ocean zones in your own words. What would be hardest about living in the Midnight Zone?',
+        'The passage says we know more about Mars than our own ocean floor. Do you think we should explore the ocean or space more? Give reasons.',
+        'Bioluminescent animals make their own light. Can you think of any reason why this would be useful in the deep ocean?'
+      ]
+    },
+    tue:{day:'Tuesday',emoji:'🧠',type:'Mind Map',typeColor:'#8B5CF6',
+      title:'Map the Deep Ocean',
+      center:'The Ocean',
+      nodes:['Ocean Zones','Deep Sea Creatures','Ocean Floor Features','Ocean Threats','Amazing Records','Human Exploration'],
+      tip:'Create 6 branches from "The Ocean." Under each, write 2–3 facts. For "Ocean Floor Features," draw a cross-section showing trenches, ridges, and plains if you can!',
+      challenge:'⭐ Challenge: Under "Amazing Records," find 3 "biggest," "deepest," or "longest" ocean records.'
+    },
+    wed:{day:'Wednesday',emoji:'🔬',type:'Experiment',typeColor:'#0EA5E9',
+      title:'Pressure Experiment: Crush a Bottle!',
+      intro:'Experience how deep-sea pressure works — safely in your kitchen.',
+      materials:['1 empty plastic water bottle with cap','A large bucket or bathtub full of water','A marker'],
+      steps:[
+        'Fill the plastic bottle completely with air — screw the cap on tightly.',
+        'Mark the bottle\'s current size with a marker at the widest point.',
+        'Push the bottle underwater in the bucket and hold it down as deep as you can.',
+        'Notice how the bottle feels as you push it deeper. Does it get harder to push down?',
+        'Now open the bottle underwater. What happens?',
+        'Bonus: try the same with a sealed bag of air. Can you feel the pressure changing?'
+      ],
+      wonder:'🌊 Wonder: At the Challenger Deep (11 km down), the pressure is 1,086 times greater than at the surface. What do you think deep-sea fish are built differently to survive this?'
+    },
+    thu:{day:'Thursday',emoji:'✍️',type:'Creative Writing',typeColor:'#F97316',
+      title:'Into the Deep',
+      intro:'The deep ocean is full of mystery and wonder. Dive in! Choose ONE prompt and write 150+ words.',
+      prompts:[
+        {num:'Prompt 1',text:'You are in a deep-sea submersible descending into the Mariana Trench for the first time. Write the log entry from the moment your lights illuminate something no human has ever seen before. Describe what you see and how you feel.'},
+        {num:'Prompt 2',text:'You are a scientist who has discovered a completely new species in the deep ocean. Write the official discovery report — including the creature\'s name (you get to choose), what it looks like, how it survives, and what it eats. Include a sketch description.'},
+        {num:'Prompt 3',text:'Write a story from the point of view of an anglerfish (a bioluminescent deep-sea creature with a glowing lure on its head). Describe your daily life in the Midnight Zone: what you sense, what you hunt, and what happens when another anglerfish appears in the distance.'}
+      ]
+    },
+    fri:{day:'Friday',emoji:'📚',type:'Book Reading',typeColor:'#1D4ED8',
+      title:'Featured Reading',
+      bookEmoji:'🐬',
+      book:'Island of the Blue Dolphins',
+      author:'by Scott O\'Dell',
+      readThis:'Read Chapters 1–4 this week. Follow Karana, a young girl left alone on a Pacific island, as she must survive using only what the ocean and land around her can provide. Notice how closely she observes the natural world.',
+      questions:[
+        'What does Karana notice about the ocean and the animals around her that most people would miss?',
+        'If you were left alone on an island, what three skills or pieces of knowledge from nature would be most important to have?'
+      ]
+    },
+    weekend:{day:'Weekend',emoji:'🏆',type:'Quiz',typeColor:'#F59E0B',
+      title:'Deep Ocean Quiz'
+    }
+  },
+  quiz:[
+    {q:'Approximately what percentage of Earth\'s oceans remains unexplored?',options:['About 10%','About 40%','About 80%','About 99%'],ans:2,explain:'Approximately 80% of Earth\'s oceans remain unexplored — we genuinely know more about the surfaces of Mars and the Moon than our own ocean floor.'},
+    {q:'What is bioluminescence?',options:['The ability of an organism to produce its own light','A type of underwater current','The name for the deepest ocean zone','When deep-sea fish turn transparent'],ans:0,explain:'Bioluminescence is when a living organism produces its own light through a chemical reaction. Deep-sea fish use it to attract prey, communicate, and confuse predators in total darkness.'},
+    {q:'What is the deepest point on Earth called?',options:['The Mariana Trench','The Challenger Deep','The Pacific Pit','The Midnight Zone'],ans:1,explain:'The Challenger Deep, located within the Mariana Trench in the Pacific Ocean, is the deepest known point on Earth at nearly 36,000 feet below the surface.'},
+    {q:'In which ocean zone does NO light reach?',options:['Sunlit Zone','Twilight Zone','Midnight Zone','Coral Zone'],ans:2,explain:'The Midnight Zone (below 1,000 meters) has zero sunlight. Creatures there must survive in complete darkness, crushing pressure, and near-freezing temperatures.'},
+    {q:'Which of these would you find at hydrothermal vents on the ocean floor?',options:['Coral reefs and sea turtles','Tube worms and other unusual creatures','Sunlight and warm water','Sandy beaches and crabs'],ans:1,explain:'Hydrothermal vents are cracks in the ocean floor that release scalding hot water. Surprisingly, life thrives there — tube worms, strange shrimp, and other creatures that don\'t need sunlight to survive.'}
+  ],
+  books:[
+    {emoji:'🐬',title:'Island of the Blue Dolphins',author:'Scott O\'Dell',ages:'Ages 9–12',why:'Based on a true story of a girl who survived alone on a Pacific island for 18 years. A Newbery Medal winner that will change how you see the natural world and what human beings are capable of.',color:'#1D4ED8'},
+    {emoji:'🌊',title:'The Magic School Bus on the Ocean Floor',author:'Joanna Cole',ages:'Ages 6–10',why:'Ms. Frizzle turns the bus into a submarine and dives into every ocean zone. Funny, accurate, and full of real marine biology facts — the perfect introduction to ocean science.',color:'#2563EB'},
+    {emoji:'🦈',title:'Shark Lady: True Adventures of Eugenie Clark',author:'Jess Keating',ages:'Ages 6–10',why:'The true story of Eugenie Clark, a girl who was fascinated by sharks when nobody took female scientists seriously — and who went on to become one of the world\'s greatest marine biologists. Inspiring and beautiful.',color:'#1E40AF'}
+  ]
+}
+};
+
+/* ─────────────────────────────────────────────
+   APP STATE
+───────────────────────────────────────────── */
+const S = {
+  screen: 'welcome',
+  topic: null,
+  day: null,
+  quizIdx: 0,
+  quizScore: 0,
+  quizDone: false,
+  quizAnswered: false
+};
+
+const DAY_ORDER = ['mon','tue','wed','thu','fri','weekend'];
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('nav-home').style.display = name === 'welcome' ? 'none' : 'flex';
+  S.screen = name;
+  window.scrollTo(0, 0);
+}
+
+function setTopicVars(t) {
+  const root = document.documentElement;
+  root.style.setProperty('--tc', t.color);
+  root.style.setProperty('--tc-muted', t.colorMuted);
+}
+
+/* ─────────────────────────────────────────────
+   WELCOME SCREEN
+───────────────────────────────────────────── */
+function renderWelcome() {
+  const el = document.getElementById('screen-welcome');
+  const cards = Object.values(TOPICS).map(t => `
+    <button class="topic-card" style="--tc:${t.color};--tc-muted:${t.colorMuted}" onclick="selectTopic('${t.id}')">
+      <span class="tc-emoji">${t.emoji}</span>
+      <div class="tc-name">${t.name}</div>
+      <div class="tc-tag">${t.tagline}</div>
+    </button>`).join('');
+
+  el.innerHTML = `
+    <div class="welcome-hero">
+      <h1><span class="hi">Hi Jimmy!</span> 👋<br>What do you want to<br>explore this week?</h1>
+      <p>Pick a topic and I'll build your whole week of learning!</p>
+    </div>
+    <div class="topic-grid">${cards}</div>`;
+}
+
+/* ─────────────────────────────────────────────
+   PLAN SCREEN
+───────────────────────────────────────────── */
+function selectTopic(id) {
+  S.topic = id;
+  S.quizIdx = 0; S.quizScore = 0; S.quizDone = false;
+  setTopicVars(TOPICS[id]);
+  renderPlan();
+  showScreen('plan');
+}
+
+const TYPE_COLORS = {
+  'Reading':'#6366F1','Mind Map':'#8B5CF6','Experiment':'#0EA5E9',
+  'Creative Writing':'#F97316','Book Reading':'#16A34A','Quiz':'#F59E0B'
+};
+
+function renderPlan() {
+  const t = TOPICS[S.topic];
+  const dayCards = DAY_ORDER.map(dk => {
+    const d = t.days[dk];
+    const tc = TYPE_COLORS[d.type] || t.color;
+    return `<button class="day-card" onclick="openDay('${dk}')">
+      <div class="dc-day">${d.day}</div>
+      <span class="dc-emoji">${d.emoji}</span>
+      <div class="dc-title">${d.title}</div>
+      <span class="dc-type" style="background:${tc}22;color:${tc}">${d.type}</span>
+    </button>`;
+  }).join('');
+
+  document.getElementById('screen-plan').innerHTML = `
+    <div class="plan-header">
+      <div class="topic-badge" style="background:${t.colorMuted}">${t.emoji}</div>
+      <div>
+        <h2>${t.name}</h2>
+        <p>Your adventure for the week is ready! Click any day to begin.</p>
+      </div>
+    </div>
+    <div class="week-grid">${dayCards}</div>
+    <div class="plan-actions">
+      <button class="plan-actions btn-books" onclick="showBooks()">📚 Book List</button>
+      <button class="plan-actions btn-quiz" onclick="showQuiz()">🏆 Take the Quiz</button>
+      <button class="plan-actions btn-download" onclick="downloadMd()">⬇ Download Week</button>
+      <button class="plan-actions btn-back" onclick="goHome()">← Change Topic</button>
+    </div>`;
+}
+
+/* ─────────────────────────────────────────────
+   DAY SCREEN
+───────────────────────────────────────────── */
+function openDay(dayKey) {
+  S.day = dayKey;
+  renderDay(dayKey);
+  showScreen('day');
+}
+
+function renderDay(dk) {
+  const t = TOPICS[S.topic];
+  const d = t.days[dk];
+  const idx = DAY_ORDER.indexOf(dk);
+  const prevDk = idx > 0 ? DAY_ORDER[idx-1] : null;
+  const nextDk = idx < DAY_ORDER.length - 1 ? DAY_ORDER[idx+1] : null;
+
+  let body = '';
+  if (d.type === 'Reading') body = renderReading(d, t);
+  else if (d.type === 'Mind Map') body = renderMindmap(d, t);
+  else if (d.type === 'Experiment') body = renderExperiment(d, t);
+  else if (d.type === 'Creative Writing') body = renderWriting(d, t);
+  else if (d.type === 'Book Reading') body = renderBookDay(d, t);
+  else if (d.type === 'Quiz') { showQuiz(); return; }
+
+  const navBtns = `<div class="day-nav-row">
+    <button class="btn-prev" onclick="goBackToPlan()">← Back to Week</button>
+    ${prevDk ? `<button class="btn-prev" onclick="openDay('${prevDk}')">← ${t.days[prevDk].day}</button>` : ''}
+    ${nextDk ? `<button class="btn-next" onclick="openDay('${nextDk}')">${t.days[nextDk].day} →</button>` : ''}
+  </div>`;
+
+  const tc = TYPE_COLORS[d.type] || t.color;
+  document.getElementById('screen-day').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+      <span class="day-badge" style="background:${tc}">${d.day}</span>
+      <span style="font-size:.82rem;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em">${d.type}</span>
+    </div>
+    <h1 class="day-title">${d.emoji} ${d.title}</h1>
+    ${body}
+    ${navBtns}`;
+}
+
+function renderReading(d, t) {
+  const vocabHtml = d.vocab.map(v => `
+    <div class="vocab-item">
+      <div class="vocab-word">${v.word}</div>
+      <div class="vocab-def">${v.def}</div>
+    </div>`).join('');
+
+  const qHtml = d.questions.map((q,i) => `
+    <li data-n="${i+1}">${q}</li>`).join('');
+
+  return `
+    <div class="content-section">
+      <h3>📖 Reading Passage</h3>
+      <div class="passage">${d.passage}</div>
+    </div>
+    <div class="content-section">
+      <h3 style="color:${t.color}">📝 Vocabulary Words</h3>
+      <div class="vocab-list">${vocabHtml}</div>
+    </div>
+    <div class="content-section">
+      <h3>💭 Questions to Think About</h3>
+      <ul class="questions-list">${qHtml}</ul>
+    </div>`;
+}
+
+function renderMindmap(d, t) {
+  const nodes = d.nodes.map(n => `<span class="mindmap-node">${n}</span>`).join('');
+  return `
+    <div class="content-section">
+      <h3>🧠 Your Mind Map Activity</h3>
+      <div class="mindmap-center"><span class="mindmap-bubble">${d.center}</span></div>
+      <p style="text-align:center;color:var(--text-3);font-size:.85rem;margin-bottom:12px">Draw branches for these topics:</p>
+      <div class="mindmap-nodes">${nodes}</div>
+      <div class="tip-box"><strong>How to do it:</strong> ${d.tip}</div>
+    </div>
+    <div class="content-section">
+      <div class="wonder-box"><strong>⭐ Challenge:</strong> ${d.challenge}</div>
+    </div>`;
+}
+
+function renderExperiment(d, t) {
+  const mats = d.materials.map(m => `<li>${m}</li>`).join('');
+  const steps = d.steps.map((s,i) => `<li><span class="step-num">${i+1}</span>${s}</li>`).join('');
+  return `
+    <div class="content-section">
+      <h3>🔬 The Experiment</h3>
+      <p style="color:var(--text-2);font-size:.95rem;line-height:1.6;margin-bottom:16px">${d.intro}</p>
+      <h3 style="margin-bottom:10px">📦 What You'll Need</h3>
+      <ul class="materials-list">${mats}</ul>
+    </div>
+    <div class="content-section">
+      <h3>🚀 Steps</h3>
+      <ul class="steps-list">${steps}</ul>
+    </div>
+    <div class="wonder-box">${d.wonder}</div>`;
+}
+
+function renderWriting(d, t) {
+  const prompts = d.prompts.map(p => `
+    <div class="writing-prompt-card">
+      <div class="wp-num">${p.num}</div>
+      <div class="wp-text">${p.text}</div>
+    </div>`).join('');
+  return `
+    <div class="content-section">
+      <h3>✍️ Your Writing Mission</h3>
+      <p style="color:var(--text-3);font-size:.88rem;margin-bottom:16px">${d.intro}</p>
+      <div class="writing-prompts">${prompts}</div>
+    </div>
+    <div class="tip-box" style="margin-top:4px">
+      💡 <strong>Tip:</strong> Before you write, spend 3 minutes just thinking. Jot down 3–5 words or ideas. Then start your first sentence with something exciting — not "I am going to write about..."
+    </div>`;
+}
+
+function renderBookDay(d, t) {
+  const qHtml = d.questions.map(q => `<li>${q}</li>`).join('');
+  return `
+    <div class="content-section">
+      <h3>📚 This Week's Book</h3>
+      <div class="book-reading-card">
+        <div class="book-spine" style="background:${t.color}">${d.bookEmoji}</div>
+        <div class="book-info">
+          <h4>${d.book}</h4>
+          <div class="book-author">${d.author}</div>
+          <div class="book-read">${d.readThis}</div>
+        </div>
+      </div>
+      <h3 style="margin-top:20px;margin-bottom:10px">💬 Discussion Questions</h3>
+      <ul class="disc-questions">${qHtml}</ul>
+    </div>
+    <div class="tip-box">
+      📖 <strong>Reading tip:</strong> After you finish, close the book and try to summarize what happened in your own words — without looking. This is one of the best ways to remember what you read!
+    </div>`;
+}
+
+/* ─────────────────────────────────────────────
+   BOOKS SCREEN
+───────────────────────────────────────────── */
+function showBooks() {
+  const t = TOPICS[S.topic];
+  const cards = t.books.map((b,i) => `
+    <div class="book-card">
+      <div class="book-card-spine" style="background:${b.color}">${b.emoji}</div>
+      <div class="book-card-body">
+        <h3>${b.title}</h3>
+        <div class="author">${b.author}</div>
+        <span class="age-badge" style="background:${b.color}20;color:${b.color}">📅 ${b.ages}</span>
+        <div class="why">${b.why}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('screen-books').innerHTML = `
+    <div class="back-row">
+      <button class="nav-btn outline" onclick="goBackToPlan()">← Back to Week</button>
+    </div>
+    <div class="books-header">
+      <h2>📚 This Week's Book Recommendations</h2>
+      <p>Three great books to go along with your <strong>${t.name}</strong> theme this week.</p>
+    </div>
+    <div class="book-cards">${cards}</div>`;
+  showScreen('books');
+}
+
+/* ─────────────────────────────────────────────
+   QUIZ SCREEN
+───────────────────────────────────────────── */
+function showQuiz() {
+  S.quizIdx = 0; S.quizScore = 0; S.quizDone = false; S.quizAnswered = false;
+  renderQuiz();
+  showScreen('quiz');
+}
+
+function renderQuiz() {
+  const t = TOPICS[S.topic];
+  if (S.quizDone) { renderQuizResult(); return; }
+
+  const q = t.quiz[S.quizIdx];
+  const pips = t.quiz.map((_,i) =>
+    `<div class="quiz-pip ${i < S.quizIdx ? 'done' : i === S.quizIdx ? 'active' : ''}"></div>`
+  ).join('');
+
+  const opts = q.options.map((o,i) =>
+    `<button class="quiz-option" id="qo-${i}" onclick="answerQuiz(${i})">${o}</button>`
+  ).join('');
+
+  document.getElementById('screen-quiz').innerHTML = `
+    <div class="back-row">
+      <button class="nav-btn outline" onclick="goBackToPlan()">← Back to Week</button>
+    </div>
+    <div class="quiz-header">
+      <h2>🏆 ${t.days.weekend.title}</h2>
+      <p>Question ${S.quizIdx + 1} of ${t.quiz.length}</p>
+    </div>
+    <div class="quiz-progress">${pips}</div>
+    <div class="quiz-card">
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">${opts}</div>
+      <div id="quiz-feedback"></div>
+    </div>`;
+}
+
+function answerQuiz(chosen) {
+  if (S.quizAnswered) return;
+  S.quizAnswered = true;
+
+  const t = TOPICS[S.topic];
+  const q = t.quiz[S.quizIdx];
+  const correct = chosen === q.ans;
+  if (correct) S.quizScore++;
+
+  document.querySelectorAll('.quiz-option').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add('correct');
+    else if (i === chosen && !correct) btn.classList.add('wrong');
+  });
+
+  document.getElementById('quiz-feedback').innerHTML = `
+    <div class="quiz-explain">${correct ? '✅ Correct! ' : `❌ Not quite. The answer was: <strong>${q.options[q.ans]}</strong>. `}${q.explain}</div>
+    <button class="quiz-next-btn" onclick="nextQuestion()">${S.quizIdx < t.quiz.length - 1 ? 'Next Question →' : 'See My Score 🏆'}</button>`;
+}
+
+function nextQuestion() {
+  S.quizIdx++;
+  S.quizAnswered = false;
+  if (S.quizIdx >= TOPICS[S.topic].quiz.length) {
+    S.quizDone = true;
+  }
+  renderQuiz();
+}
+
+function renderQuizResult() {
+  const t = TOPICS[S.topic];
+  const pct = Math.round((S.quizScore / t.quiz.length) * 100);
+  const msgs = [
+    [5,'🏆 PERFECT SCORE! You\'re a true expert! Amazing work, Jimmy!'],
+    [4,'⭐ Excellent! You really know your stuff — just one slip!'],
+    [3,'👍 Great effort! You\'ve learned a lot this week. Keep going!'],
+    [2,'💪 Good try! Review the passages and take it again — you\'ve got this!'],
+    [0,'📚 Keep reading and you\'ll ace it next time! Every expert started here.']
+  ];
+  const msg = msgs.find(([min]) => S.quizScore >= min)[1];
+
+  document.getElementById('screen-quiz').innerHTML = `
+    <div class="quiz-result">
+      <div class="score-ring">
+        <div class="score-num">${S.quizScore}/${t.quiz.length}</div>
+        <div class="score-label">Score</div>
+      </div>
+      <h3>${msg}</h3>
+      <p>You scored ${pct}% on the ${t.name} Quiz!</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-try" onclick="showQuiz()">Try Again</button>
+        <button class="btn-try" style="background:var(--accent)" onclick="goBackToPlan()">← Back to Week</button>
+      </div>
+    </div>`;
+}
+
+/* ─────────────────────────────────────────────
+   MARKDOWN DOWNLOAD
+───────────────────────────────────────────── */
+function downloadMd() {
+  const t = TOPICS[S.topic];
+  const today = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  let md = `# ${t.emoji} JimmyLearn — ${t.name}\n**Week of ${today}**\n\n---\n\n`;
+
+  md += `## 📅 Weekly Overview\n\n| Day | Activity | Title |\n|-----|----------|-------|\n`;
+  DAY_ORDER.forEach(dk => {
+    const d = t.days[dk];
+    md += `| ${d.day} | ${d.emoji} ${d.type} | ${d.title} |\n`;
+  });
+
+  md += `\n---\n\n## 📖 Monday: ${t.days.mon.title}\n\n`;
+  const strip = html => html.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&mdash;/g,'—').replace(/&middot;/g,'·').replace(/&nbsp;/g,' ');
+  md += strip(t.days.mon.passage) + '\n\n';
+  md += '### 📝 Vocabulary\n\n';
+  t.days.mon.vocab.forEach(v => { md += `**${v.word}** — ${v.def}\n\n`; });
+  md += '### 💭 Questions to Think About\n\n';
+  t.days.mon.questions.forEach((q,i) => { md += `${i+1}. ${q}\n`; });
+
+  md += `\n---\n\n## 🧠 Tuesday: ${t.days.tue.title} (Mind Map)\n\n`;
+  md += `**Central idea:** ${t.days.tue.center}\n\n**Branches to explore:**\n`;
+  t.days.tue.nodes.forEach(n => { md += `- ${n}\n`; });
+  md += `\n${t.days.tue.tip}\n\n${t.days.tue.challenge}\n`;
+
+  md += `\n---\n\n## 🔬 Wednesday: ${t.days.wed.title}\n\n${t.days.wed.intro || ''}\n\n### What You'll Need\n`;
+  t.days.wed.materials.forEach(m => { md += `- ${m}\n`; });
+  md += '\n### Steps\n';
+  t.days.wed.steps.forEach((s,i) => { md += `${i+1}. ${s}\n`; });
+  md += `\n${t.days.wed.wonder}\n`;
+
+  md += `\n---\n\n## ✍️ Thursday: ${t.days.thu.title}\n\n${t.days.thu.intro}\n\n`;
+  t.days.thu.prompts.forEach(p => { md += `**${p.num}:** ${p.text}\n\n`; });
+
+  md += `\n---\n\n## 📚 Friday: ${t.days.fri.title}\n\n**Book:** ${t.days.fri.book}  \n**Author:** ${t.days.fri.author}\n\n${t.days.fri.readThis}\n\n`;
+  t.days.fri.questions.forEach(q => { md += `- ${q}\n`; });
+
+  md += `\n---\n\n## 🏆 Weekend: ${t.days.weekend.title}\n\nOpen JimmyLearn and take the 5-question quiz on ${t.name}!\n`;
+
+  md += `\n---\n\n## 📚 This Week's Book Recommendations\n\n`;
+  t.books.forEach((b,i) => {
+    md += `### ${i+1}. ${b.title}\n*${b.author}* | ${b.ages}\n\n${b.why}\n\n`;
+  });
+
+  md += `---\n*Generated by JimmyLearn • ${today}*\n`;
+
+  const blob = new Blob([md], {type:'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `JimmyLearn_${t.name.replace(/\s+/g,'_')}_Week.md`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+/* ─────────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────────── */
+function goHome() {
+  showScreen('welcome');
+}
+
+function goBackToPlan() {
+  if (S.topic) { renderPlan(); showScreen('plan'); }
+  else showScreen('welcome');
+}
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
+renderWelcome();
+</script>
+</body>
+</html>

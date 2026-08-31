@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parents' Guide — Jimmy's Learning Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5FC;
+  --bg-card:#FFFFFF;
+  --bg-surface:#EEF1FB;
+  --bg-surface2:#E4E8F8;
+  --text-1:#111827;
+  --text-2:#374151;
+  --text-3:#6B7280;
+  --text-4:#9CA3AF;
+  --border:#DDE3F3;
+  --accent:#4338CA;
+  --accent-muted:rgba(67,56,202,.1);
+  --amber:#D97706;
+  --amber-muted:rgba(217,119,6,.1);
+  --green:#15803D;
+  --green-muted:rgba(21,128,61,.1);
+  --rose:#BE123C;
+  --rose-muted:rgba(190,18,60,.09);
+  --shadow-sm:0 1px 4px rgba(40,50,100,.07);
+  --shadow:0 3px 14px rgba(40,50,100,.09);
+  --shadow-lg:0 8px 30px rgba(40,50,100,.13);
+  --radius:16px;
+  --radius-sm:10px;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1117;--bg-card:#141B2D;--bg-surface:#1C2438;--bg-surface2:#222C42;
+    --text-1:#F1F5FF;--text-2:#C8D3F0;--text-3:#8899BB;--text-4:#556080;
+    --border:#253050;--accent:#818CF8;--accent-muted:rgba(129,140,248,.13);
+    --amber:#FCD34D;--amber-muted:rgba(252,211,77,.1);
+    --green:#4ADE80;--green-muted:rgba(74,222,128,.1);
+    --rose:#FB7185;--rose-muted:rgba(251,113,133,.1);
+    --shadow-sm:0 1px 4px rgba(0,0,0,.4);--shadow:0 3px 14px rgba(0,0,0,.4);--shadow-lg:0 8px 30px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1117;--bg-card:#141B2D;--bg-surface:#1C2438;--bg-surface2:#222C42;
+  --text-1:#F1F5FF;--text-2:#C8D3F0;--text-3:#8899BB;--text-4:#556080;
+  --border:#253050;--accent:#818CF8;--accent-muted:rgba(129,140,248,.13);
+  --amber:#FCD34D;--amber-muted:rgba(252,211,77,.1);
+  --green:#4ADE80;--green-muted:rgba(74,222,128,.1);
+  --rose:#FB7185;--rose-muted:rgba(251,113,133,.1);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.4);--shadow:0 3px 14px rgba(0,0,0,.4);--shadow-lg:0 8px 30px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text-1);font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+h1,h2,h3,h4{font-family:'Nunito',sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+
+/* ── TOP NAV ── */
+.topnav{background:var(--bg-card);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.topnav-brand{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:var(--accent);display:flex;align-items:center;gap:6px}
+.topnav-back{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;color:var(--text-3);padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg-surface);transition:border-color .15s,color .15s}
+.topnav-back:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+/* ── PAGE SHELL ── */
+.page{max-width:980px;margin:0 auto;padding:40px 20px 80px}
+
+/* ── HERO ── */
+.hero{margin-bottom:48px}
+.hero-eyebrow{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:10px}
+.hero h1{font-size:clamp(1.9rem,4vw,2.6rem);font-weight:900;line-height:1.15;text-wrap:balance;margin-bottom:10px}
+.hero p{color:var(--text-3);font-size:.95rem;max-width:600px;line-height:1.65}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.tab{padding:9px 20px;border-radius:30px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;border:2px solid var(--border);background:var(--bg-card);color:var(--text-3);transition:all .15s;cursor:pointer}
+.tab.active,.tab:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-muted)}
+
+/* ── SECTION WRAPPERS ── */
+.section{display:none}
+.section.active{display:block}
+.section-head{margin-bottom:28px}
+.section-head h2{font-size:1.55rem;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section-head p{color:var(--text-3);font-size:.9rem;line-height:1.6;max-width:640px}
+
+/* ════════════════════════════════════════
+   SECTION 1 — CHECKLIST
+════════════════════════════════════════ */
+.progress-bar-wrap{background:var(--border);border-radius:8px;height:10px;margin-bottom:6px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:8px;background:var(--accent);transition:width .4s ease}
+.progress-label{font-size:.78rem;font-weight:700;color:var(--text-3);margin-bottom:24px}
+.progress-label span{color:var(--accent);font-weight:900}
+
+.domain-card{background:var(--bg-card);border-radius:var(--radius);border:1.5px solid var(--border);margin-bottom:14px;box-shadow:var(--shadow-sm);overflow:hidden}
+.domain-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;user-select:none}
+.domain-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.domain-title{flex:1}
+.domain-title h3{font-size:.98rem;font-weight:800;margin-bottom:1px}
+.domain-title p{font-size:.75rem;color:var(--text-3)}
+.domain-count{font-family:'Nunito',sans-serif;font-weight:900;font-size:.82rem;color:var(--text-3);white-space:nowrap}
+.domain-chevron{color:var(--text-4);font-size:.75rem;transition:transform .2s;margin-left:6px}
+.domain-card.open .domain-chevron{transform:rotate(180deg)}
+.domain-body{display:none;border-top:1px solid var(--border);padding:4px 0 8px}
+.domain-card.open .domain-body{display:block}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.check-item:last-child{border-bottom:none}
+.check-item:hover{background:var(--bg-surface)}
+.check-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;margin-top:2px}
+.check-item label{font-size:.88rem;color:var(--text-2);line-height:1.5;cursor:pointer;flex:1}
+.check-item label strong{color:var(--text-1);font-weight:600}
+.check-item.checked label{color:var(--text-4);text-decoration:line-through}
+.check-item .level-pill{flex-shrink:0;padding:2px 8px;border-radius:6px;font-size:.68rem;font-weight:700;font-family:'Nunito',sans-serif;margin-top:2px}
+
+/* ════════════════════════════════════════
+   SECTION 2 — BOOK LIST
+════════════════════════════════════════ */
+.book-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.bfilter{padding:6px 14px;border-radius:20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;border:1.5px solid var(--border);background:var(--bg-surface);color:var(--text-3);cursor:pointer;transition:all .14s}
+.bfilter.active{border-color:var(--accent);color:var(--accent);background:var(--accent-muted)}
+.book-shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.book-tile{background:var(--bg-card);border-radius:var(--radius-sm);padding:16px;border:1.5px solid var(--border);box-shadow:var(--shadow-sm);display:flex;gap:14px;transition:box-shadow .15s}
+.book-tile:hover{box-shadow:var(--shadow)}
+.book-tile[data-cat="essential"]{border-left:3px solid var(--accent)}
+.book-tile[data-cat="contemporary"]{border-left:3px solid var(--green)}
+.book-tile[data-cat="nonfiction"]{border-left:3px solid var(--amber)}
+.book-tile[data-cat="stretch"]{border-left:3px solid var(--rose)}
+.book-tile[data-cat="poetry"]{border-left:3px solid #A78BFA}
+.book-spine{width:46px;height:66px;border-radius:4px 8px 8px 4px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;box-shadow:2px 2px 8px rgba(0,0,0,.12)}
+.book-meta{flex:1;min-width:0}
+.book-meta h4{font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;line-height:1.3;margin-bottom:2px}
+.book-meta .bauthor{font-size:.75rem;color:var(--text-3);margin-bottom:6px}
+.book-meta .btags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.book-meta .btag{padding:1px 7px;border-radius:5px;font-size:.65rem;font-weight:700;font-family:'Nunito',sans-serif}
+.book-meta .bwhy{font-size:.78rem;color:var(--text-3);line-height:1.5}
+.shelf-heading{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:6px 0 2px}
+.shelf-heading h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem}
+.shelf-heading .shelf-line{flex:1;height:1px;background:var(--border)}
+
+/* ════════════════════════════════════════
+   SECTION 3 — READING TREE
+════════════════════════════════════════ */
+.tree-wrap{overflow-x:auto;padding-bottom:12px}
+.tree-root{display:flex;align-items:flex-start;gap:0}
+.tree-node{display:flex;flex-direction:column;align-items:center}
+.node-box{padding:9px 16px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;white-space:nowrap;text-align:center;cursor:default;position:relative;z-index:1}
+.node-root{background:var(--accent);color:#fff;font-size:1rem;padding:12px 24px;border-radius:14px}
+.node-branch{color:#fff;font-size:.88rem}
+.node-sub{background:var(--bg-surface);border:1.5px solid var(--border);color:var(--text-2);font-size:.80rem;padding:7px 12px;border-radius:8px}
+.node-leaf{background:var(--bg-card);border:1.5px solid var(--border);color:var(--text-3);font-size:.73rem;padding:5px 10px;border-radius:6px;font-weight:700}
+/* vertical connector from parent to children row */
+.v-line{width:2px;background:var(--border);flex-shrink:0;align-self:stretch}
+/* horizontal line above children */
+.children-row{display:flex;align-items:flex-start;position:relative;gap:0}
+.children-row::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:14px;background:var(--border)}
+.branch-col{display:flex;flex-direction:column;align-items:center;padding:0 8px}
+/* horizontal connector between branch cols */
+.h-connector{height:2px;background:var(--border);align-self:flex-start;margin-top:18px}
+
+/* simpler approach: use plain CSS tree */
+.rtree{font-family:'Nunito',sans-serif;font-size:.88rem;line-height:1}
+.rtree ul{list-style:none;padding:0;margin:0}
+.rtree>ul{display:flex;flex-wrap:nowrap;gap:16px;justify-content:center;align-items:flex-start;min-width:900px}
+.rtree>ul>li{flex:1;min-width:200px;max-width:280px}
+
+/* Visual tree using flexbox columns */
+.tree-container{overflow-x:auto;padding:20px 0 12px}
+.branch-grid{display:flex;gap:20px;min-width:860px}
+.branch-col-wrap{flex:1}
+.branch-header{border-radius:12px;padding:12px 16px;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sub-tree{display:flex;flex-direction:column;gap:8px}
+.sub-node{background:var(--bg-card);border-radius:var(--radius-sm);border:1.5px solid var(--border);overflow:hidden;box-shadow:var(--shadow-sm)}
+.sub-node-header{padding:9px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.87rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
+.sub-node-header .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.leaf-list{padding:8px 0;display:flex;flex-direction:column;gap:0}
+.leaf-item{padding:6px 14px 6px 28px;font-size:.80rem;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;line-height:1.35}
+.leaf-item:last-child{border-bottom:none}
+.leaf-item .ex{font-size:.68rem;color:var(--text-4);font-style:italic;text-align:right;max-width:120px;line-height:1.3}
+
+.tree-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:var(--text-2);font-family:'Nunito',sans-serif}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+
+/* ── PRINT ── */
+@media print{
+  .topnav,.tab-row,.bfilter,.topnav-back{display:none!important}
+  .section{display:block!important}
+  body{font-size:11pt}
+  .page{padding:0}
+}
+@media(max-width:600px){.book-shelf{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-brand">🎒 Jimmy's Learning Portal</div>
+  <a class="topnav-back" href="./index.html">← Back to Hub</a>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">For Parents</div>
+    <h1>Grade 3 Development Guide</h1>
+    <p>A reference for parents tracking key competencies at top US independent schools — with curated book lists and a complete reading-type map.</p>
+    <div class="tab-row">
+      <button class="tab active" onclick="switchTab('checklist',this)">✅ Skill Checklist</button>
+      <button class="tab" onclick="switchTab('books',this)">📚 Book List</button>
+      <button class="tab" onclick="switchTab('tree',this)">🌳 Reading Types</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 1: CHECKLIST               -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="section active" id="s-checklist">
+    <div class="section-head">
+      <h2>🎯 Grade 3 Competency Checklist</h2>
+      <p>Based on the evaluation framework used at top US independent schools (Dalton, Horace Mann, Collegiate, Riverdale, etc.). Check items as Jimmy demonstrates each skill consistently — not just once.</p>
+    </div>
+
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-label">Progress: <span id="prog-text">0 / 0 skills checked</span></div>
+
+    <!-- Domain cards -->
+    <div id="domains-container"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 2: BOOK LIST               -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="section" id="s-books">
+    <div class="section-head">
+      <h2>📚 Independent School Reading List</h2>
+      <p>Titles commonly found on Grade 3–4 syllabi at leading US independent schools, organized by category. "Essential" titles are expected across almost all top programs.</p>
+    </div>
+    <div class="book-filter-row">
+      <button class="bfilter active" onclick="filterBooks('all',this)">All Books</button>
+      <button class="bfilter" onclick="filterBooks('essential',this)">⭐ Essentials</button>
+      <button class="bfilter" onclick="filterBooks('contemporary',this)">🏆 Award Winners</button>
+      <button class="bfilter" onclick="filterBooks('nonfiction',this)">🔍 Nonfiction</button>
+      <button class="bfilter" onclick="filterBooks('stretch',this)">🚀 Stretch Reads</button>
+      <button class="bfilter" onclick="filterBooks('poetry',this)">🎵 Poetry & Verse</button>
+    </div>
+    <div class="book-shelf" id="book-shelf"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 3: READING TREE            -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="section" id="s-tree">
+    <div class="section-head">
+      <h2>🌳 The Reading Universe</h2>
+      <p>A complete taxonomy of reading types for ages 8–12. A well-rounded reader at top independent schools should experience all three main branches every year.</p>
+    </div>
+
+    <div class="tree-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4338CA"></div>Fiction</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D97706"></div>Nonfiction</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0891B2"></div>Poetry & Drama</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#15803D"></div>Special Formats</div>
+    </div>
+
+    <div class="tree-container">
+      <div class="branch-grid">
+
+        <!-- FICTION -->
+        <div class="branch-col-wrap">
+          <div class="branch-header" style="background:#4338CA">📖 Fiction</div>
+          <div class="sub-tree">
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#6366F1"></div>Literary Fiction</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Realistic Fiction <span class="ex">Front Desk, Harriet the Spy</span></div>
+                <div class="leaf-item">Historical Fiction <span class="ex">Island of Blue Dolphins, Little House</span></div>
+                <div class="leaf-item">Issue-Driven Fiction <span class="ex">Wonder, Holes</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#818CF8"></div>Fantasy & Imagination</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Classic Fantasy <span class="ex">James & the Giant Peach, The BFG</span></div>
+                <div class="leaf-item">Science Fiction <span class="ex">A Wrinkle in Time, George's Key</span></div>
+                <div class="leaf-item">Magical Realism <span class="ex">The Phantom Tollbooth</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#A5B4FC"></div>Adventure & Mystery</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Survival Adventure <span class="ex">Hatchet, My Father's Dragon</span></div>
+                <div class="leaf-item">Mystery <span class="ex">From the Mixed-Up Files, Harriet</span></div>
+                <div class="leaf-item">Animal Fiction <span class="ex">Charlotte's Web, The One and Only Ivan</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#C7D2FE"></div>Traditional Literature</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Fairy Tales &amp; Fables <span class="ex">Grimm, Aesop, Junior Great Books</span></div>
+                <div class="leaf-item">Myths &amp; Legends <span class="ex">Greek myths, Norse tales</span></div>
+                <div class="leaf-item">Folktales <span class="ex">Zlateh the Goat, Anansi stories</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- NONFICTION -->
+        <div class="branch-col-wrap">
+          <div class="branch-header" style="background:#D97706">🔍 Nonfiction</div>
+          <div class="sub-tree">
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#F59E0B"></div>Narrative Nonfiction</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Biography <span class="ex">Who Was? series, Shark Lady</span></div>
+                <div class="leaf-item">Memoir &amp; Autobiography <span class="ex">I Am Malala (adapted)</span></div>
+                <div class="leaf-item">True Adventure <span class="ex">I Survived series</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#FCD34D"></div>Informational Texts</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Science &amp; Nature <span class="ex">National Geographic Kids, DK Eyewitness</span></div>
+                <div class="leaf-item">History &amp; Social Studies <span class="ex">What Was? series, Pompeii</span></div>
+                <div class="leaf-item">Reference &amp; Encyclopedia <span class="ex">Ology series, Space Atlas</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#FDE68A"></div>Argument &amp; Opinion</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Opinion Essays <span class="ex">Newspaper front pages, Scholastic News</span></div>
+                <div class="leaf-item">Debates &amp; Two-Sides <span class="ex">Newsela articles (paired)</span></div>
+                <div class="leaf-item">Primary Sources <span class="ex">Speeches, historical letters</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#FEF3C7"></div>Procedural &amp; How-To</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Instructions &amp; Manuals <span class="ex">Science experiment guides</span></div>
+                <div class="leaf-item">Recipes &amp; Craft Guides <span class="ex">National Geographic Kids DIY</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- POETRY & DRAMA -->
+        <div class="branch-col-wrap">
+          <div class="branch-header" style="background:#0891B2">🎭 Poetry &amp; Drama</div>
+          <div class="sub-tree">
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#06B6D4"></div>Poetry</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Narrative Poetry <span class="ex">Casey at the Bat, Poe for Kids</span></div>
+                <div class="leaf-item">Lyric &amp; Descriptive <span class="ex">Emily Dickinson selections</span></div>
+                <div class="leaf-item">Humorous Verse <span class="ex">Where the Sidewalk Ends, Prelutsky</span></div>
+                <div class="leaf-item">Verse Novel <span class="ex">The Crossover, Inside Out &amp; Back Again</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header"><div class="dot" style="background:#67E8F9"></div>Drama &amp; Performance</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Scripts &amp; Plays <span class="ex">Readers' Theatre adaptations</span></div>
+                <div class="leaf-item">Monologue &amp; Speech <span class="ex">Famous speeches (MLK, JFK excerpts)</span></div>
+              </div>
+            </div>
+
+            <div class="sub-node">
+              <div class="sub-node-header" style="background:rgba(6,182,212,.08)"><div class="dot" style="background:#22D3EE"></div>Special Formats</div>
+              <div class="leaf-list">
+                <div class="leaf-item">Graphic Novels <span class="ex">Amulet, Smile, Big Nate</span></div>
+                <div class="leaf-item">Series &amp; Chapter Books <span class="ex">Magic Tree House, Diary of a Wimpy Kid</span></div>
+                <div class="leaf-item">Hybrid Texts <span class="ex">My Strange Shrinking Parents</span></div>
+                <div class="leaf-item">Digital &amp; Interactive <span class="ex">Newsela, CommonLit</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Goal note -->
+    <div style="margin-top:24px;padding:18px 20px;background:var(--accent-muted);border-radius:var(--radius);border:1.5px solid rgba(99,102,241,.2)">
+      <h4 style="font-family:'Nunito',sans-serif;font-weight:800;margin-bottom:8px;color:var(--accent)">📌 Annual Reading Balance Goal (Grade 3)</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px">
+        <div style="font-size:.85rem;color:var(--text-2);line-height:1.5"><strong>Fiction:</strong> ~50% of reading time — at least 1 classic, 1 contemporary, 1 fantasy</div>
+        <div style="font-size:.85rem;color:var(--text-2);line-height:1.5"><strong>Nonfiction:</strong> ~35% — include biography, science text, and one current-events source</div>
+        <div style="font-size:.85rem;color:var(--text-2);line-height:1.5"><strong>Poetry &amp; Drama:</strong> ~15% — weekly exposure; performance reading builds fluency and confidence</div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- end .page -->
+
+<script>
+/* ─────────────────── CHECKLIST DATA ─────────────────── */
+const DOMAINS = [
+  {
+    id:'exec', icon:'🧭', color:'#4338CA', bg:'rgba(67,56,202,.12)',
+    title:'Executive Function & Learning',
+    desc:'Self-management, metacognition, independent work habits',
+    items:[
+      {t:'Plans multi-day projects <strong>independently</strong> — creates steps without being told', lvl:'Proficient'},
+      {t:'Uses a planner, checklist, or timer <strong>without parental prompting</strong>', lvl:'Developing'},
+      {t:'Identifies their own errors and self-corrects before asking for help', lvl:'Proficient'},
+      {t:'Shows <strong>persistence</strong> when stuck — tries at least 2 strategies before giving up', lvl:'Proficient'},
+      {t:'Can explain <em>how</em> they think through a hard problem (metacognition)', lvl:'Exceeding'},
+      {t:'Transitions between tasks smoothly; manages frustration in the moment', lvl:'Developing'},
+    ]
+  },
+  {
+    id:'reading', icon:'📖', color:'#15803D', bg:'rgba(21,128,61,.12)',
+    title:'Reading & Comprehension',
+    desc:'Deep text analysis, inference, evidence-based thinking',
+    items:[
+      {t:'Reads independently for <strong>20+ minutes</strong> without prompting', lvl:'Developing'},
+      {t:'Identifies main idea AND supporting details across different texts', lvl:'Proficient'},
+      {t:'Makes <strong>inferences</strong> — reads between the lines, not just what is written', lvl:'Proficient'},
+      {t:'Analyzes <strong>character motivation</strong>: why characters act the way they do', lvl:'Proficient'},
+      {t:'Uses exact <strong>text evidence</strong> to back up opinions ("On page 12, the author says…")', lvl:'Exceeding'},
+      {t:'Compares two different texts on the same topic', lvl:'Exceeding'},
+      {t:'Reads across genres: fiction, nonfiction, poetry (not just one type)', lvl:'Proficient'},
+    ]
+  },
+  {
+    id:'writing', icon:'✍️', color:'#B45309', bg:'rgba(180,83,9,.12)',
+    title:'Writing',
+    desc:'Multi-paragraph composition, revision, voice across genres',
+    items:[
+      {t:'Writes multi-paragraph pieces with clear <strong>intro, body, conclusion</strong>', lvl:'Proficient'},
+      {t:'Uses <strong>specific, precise vocabulary</strong> (avoids "good," "nice," "bad")', lvl:'Proficient'},
+      {t:'Revises and edits their own work — makes it better on the second draft', lvl:'Proficient'},
+      {t:'Writes in at least <strong>3 genres</strong>: fiction, informational, and persuasive', lvl:'Proficient'},
+      {t:'Shows a consistent <strong>writer\'s voice</strong> — their personality comes through', lvl:'Exceeding'},
+      {t:'Punctuates correctly: periods, commas, quotation marks, apostrophes', lvl:'Developing'},
+    ]
+  },
+  {
+    id:'speaking', icon:'🗣️', color:'#0891B2', bg:'rgba(8,145,178,.12)',
+    title:'Listening & Speaking',
+    desc:'Academic discussion, public presentation, collaborative dialogue',
+    items:[
+      {t:'Speaks clearly in front of a group — good volume, eye contact, pacing', lvl:'Proficient'},
+      {t:'<strong>Builds on others\' ideas</strong> in discussion (not just waiting to talk)', lvl:'Proficient'},
+      {t:'Asks <strong>clarifying questions</strong> during conversations and lessons', lvl:'Developing'},
+      {t:'Listens without interrupting; can summarize what someone else just said', lvl:'Developing'},
+      {t:'Presents information logically: has a beginning, middle, and point', lvl:'Proficient'},
+    ]
+  },
+  {
+    id:'math', icon:'🔢', color:'#7C3AED', bg:'rgba(124,58,237,.12)',
+    title:'Mathematical Thinking',
+    desc:'Problem-solving, explanation, real-world application',
+    items:[
+      {t:'Explains <em>how</em> they solved a problem — not just the answer', lvl:'Proficient'},
+      {t:'Identifies <strong>patterns</strong> and uses them to make predictions', lvl:'Proficient'},
+      {t:'Comfortable with <strong>multi-step word problems</strong> (2+ operations)', lvl:'Proficient'},
+      {t:'Applies math to real-world situations naturally (cooking, money, sports stats)', lvl:'Exceeding'},
+      {t:'Checks answers for reasonableness — asks "does this make sense?"', lvl:'Developing'},
+    ]
+  },
+  {
+    id:'sel', icon:'❤️', color:'#BE123C', bg:'rgba(190,18,60,.1)',
+    title:'Social-Emotional Learning',
+    desc:'Empathy, collaboration, resilience, self-advocacy',
+    items:[
+      {t:'Shows genuine <strong>empathy</strong> — notices when classmates struggle', lvl:'Proficient'},
+      {t:'Handles <strong>disappointment or losing</strong> with composure and grace', lvl:'Proficient'},
+      {t:'Collaborates in group projects — contributes without dominating', lvl:'Proficient'},
+      {t:'<strong>Self-advocates</strong> appropriately — asks for help in the right way', lvl:'Developing'},
+      {t:'Shows <strong>integrity</strong> — same behavior whether or not adults are watching', lvl:'Exceeding'},
+    ]
+  },
+  {
+    id:'curiosity', icon:'🔬', color:'#065F46', bg:'rgba(6,95,70,.12)',
+    title:'Curiosity & Research',
+    desc:'Inquiry habits, cross-subject connections, world awareness',
+    items:[
+      {t:'Asks <strong>"why" and "how" questions</strong> spontaneously — not to please adults', lvl:'Proficient'},
+      {t:'Uses <strong>multiple sources</strong> to research a topic (not just the first result)', lvl:'Developing'},
+      {t:'Makes connections <strong>between subjects</strong> (e.g., "this is like what we read in science")', lvl:'Exceeding'},
+      {t:'Shows interest in <strong>current events</strong> and the world beyond school', lvl:'Developing'},
+      {t:'Generates their own <strong>original ideas</strong> — not just reciting what they were told', lvl:'Exceeding'},
+    ]
+  }
+];
+
+const LEVEL_COLORS = {
+  'Developing':  {bg:'rgba(8,145,178,.12)', color:'#0891B2'},
+  'Proficient':  {bg:'rgba(21,128,61,.12)', color:'#15803D'},
+  'Exceeding':   {bg:'rgba(180,83,9,.12)',  color:'#B45309'}
+};
+
+function buildChecklist(){
+  const container = document.getElementById('domains-container');
+  container.innerHTML = '';
+  DOMAINS.forEach(domain => {
+    const saved = loadChecks(domain.id);
+    const checked = saved.filter(Boolean).length;
+    const total = domain.items.length;
+
+    const card = document.createElement('div');
+    card.className = 'domain-card';
+    card.innerHTML = `
+      <div class="domain-header" onclick="toggleDomain(this)">
+        <div class="domain-icon" style="background:${domain.bg}">${domain.icon}</div>
+        <div class="domain-title">
+          <h3>${domain.title}</h3>
+          <p>${domain.desc}</p>
+        </div>
+        <div class="domain-count" id="count-${domain.id}">${checked}/${total}</div>
+        <span class="domain-chevron">▼</span>
+      </div>
+      <div class="domain-body">
+        ${domain.items.map((item,i) => {
+          const lc = LEVEL_COLORS[item.lvl] || LEVEL_COLORS['Proficient'];
+          const isChecked = saved[i];
+          return `<label class="check-item${isChecked?' checked':''}" for="chk-${domain.id}-${i}">
+            <input type="checkbox" id="chk-${domain.id}-${i}" ${isChecked?'checked':''}
+              onchange="onCheck('${domain.id}',${i},this)">
+            <span style="flex:1;font-size:.88rem;color:var(--text-2);line-height:1.5">${item.t}</span>
+            <span class="level-pill" style="background:${lc.bg};color:${lc.color}">${item.lvl}</span>
+          </label>`;
+        }).join('')}
+      </div>`;
+    container.appendChild(card);
+  });
+  updateProgress();
+}
+
+function toggleDomain(header){
+  header.closest('.domain-card').classList.toggle('open');
+}
+
+function loadChecks(id){
+  try{
+    const raw = localStorage.getItem('jimmy-check-' + id);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return DOMAINS.find(d=>d.id===id).items.map(()=>false);
+}
+
+function saveChecks(id, arr){
+  try{ localStorage.setItem('jimmy-check-' + id, JSON.stringify(arr)); }catch(e){}
+}
+
+function onCheck(domainId, idx, el){
+  const arr = loadChecks(domainId);
+  arr[idx] = el.checked;
+  saveChecks(domainId, arr);
+  el.closest('.check-item').classList.toggle('checked', el.checked);
+  const checked = arr.filter(Boolean).length;
+  document.getElementById('count-'+domainId).textContent = checked + '/' + arr.length;
+  updateProgress();
+}
+
+function updateProgress(){
+  let total = 0, checked = 0;
+  DOMAINS.forEach(d => {
+    const arr = loadChecks(d.id);
+    total += arr.length;
+    checked += arr.filter(Boolean).length;
+  });
+  const pct = total ? Math.round(checked/total*100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = `${checked} / ${total} skills checked (${pct}%)`;
+}
+
+/* ─────────────────── BOOK LIST DATA ─────────────────── */
+const BOOKS = [
+  // ESSENTIALS
+  {cat:'essential',emoji:'🕷️',spine:'#4338CA',title:"Charlotte's Web",author:'E.B. White',ages:'7–10',tags:['Classic Fiction','Animal Story','Friendship'],why:'Almost universal in Grade 3. Teaches narrative structure, themes of mortality and friendship, and beautiful prose style.'},
+  {cat:'essential',emoji:'🍫',spine:'#7C3AED',title:"Charlie and the Chocolate Factory",author:'Roald Dahl',ages:'7–10',tags:['Classic Fantasy','Imagination','Humor'],why:'Introduces satire, moral complexity, and imaginative world-building. Roald Dahl\'s voice teaches students what a distinct author\'s style sounds like.'},
+  {cat:'essential',emoji:'🌿',spine:'#15803D',title:"My Father's Dragon",author:'Ruth Stiles Gannett',ages:'6–9',tags:['Classic Adventure','Fantasy'],why:'A Grade 3 staple. Teaches story arc, problem-solving, and gentle fantasy. Often the first chapter book many private school students read independently.'},
+  {cat:'essential',emoji:'🐀',spine:'#0891B2',title:"Mrs. Frisby and the Rats of NIMH",author:'Robert C. O\'Brien',ages:'8–12',tags:['Science Fiction','Classic','Newbery Medal'],why:'Newbery Medal winner. Introduces animal perspective, scientific themes, and ethical questions. Standard in many independent school Grade 3–4 syllabi.'},
+  {cat:'essential',emoji:'🦗',spine:'#B45309',title:"A Cricket in Times Square",author:'George Selden',ages:'8–11',tags:['Classic Fiction','New York','Animal Story'],why:'Beloved Grade 3 classic. Combines music, friendship, and the city — often paired with a New York City unit in social studies.'},
+  {cat:'essential',emoji:'🕵️',spine:'#BE123C',title:"Harriet the Spy",author:'Louise Fitzhugh',ages:'8–11',tags:['Classic Fiction','Observation','Character Study'],why:'A cornerstone of the Grade 3 literary canon. Teaches the power of observation, diary writing, and what it means to truly see the world around you.'},
+
+  // CONTEMPORARY AWARD WINNERS
+  {cat:'contemporary',emoji:'🦍',spine:'#15803D',title:"The One and Only Ivan",author:'Katherine Applegate',ages:'8–12',tags:['Newbery Medal','Animal POV','Empathy'],why:'Newbery Medal. Written in verse. Teaches empathy and perspective-taking through a gorilla\'s first-person voice. Widely assigned in Grades 3–4.'},
+  {cat:'contemporary',emoji:'🏀',spine:'#4338CA',title:"The Crossover",author:'Kwame Alexander',ages:'9–12',tags:['Newbery Medal','Verse Novel','Sports'],why:'Newbery Medal novel in verse. Teaches poetry form, sports, and family dynamics simultaneously. One of the most taught books in contemporary Grade 4–5.'},
+  {cat:'contemporary',emoji:'🦊',spine:'#D97706',title:"Pax",author:'Sara Pennypacker',ages:'9–12',tags:['Literary Fiction','Animal POV','Dual Narrative'],why:'Dual human/fox perspective teaches sophisticated point-of-view writing. Emotionally powerful — often used to teach analytical reading of character motivation.'},
+  {cat:'contemporary',emoji:'🏨',spine:'#BE123C',title:"Front Desk",author:'Kelly Yang',ages:'8–12',tags:['Contemporary Fiction','Immigration','Social Issues'],why:'Teaches perseverance, social justice, and immigrant experience. Growing rapidly on independent school required reading lists across the country.'},
+  {cat:'contemporary',emoji:'⭐',spine:'#0891B2',title:"Wonder",author:'R.J. Palacio',ages:'9–12',tags:['Realistic Fiction','Kindness','Multiple POV'],why:'Uses multiple points of view to explore empathy and belonging. Standard SEL-aligned text in Grades 4–5, introduced in strong Grade 3 programs.'},
+
+  // NONFICTION
+  {cat:'nonfiction',emoji:'🦈',spine:'#0891B2',title:"Shark Lady",author:'Jess Keating',ages:'6–10',tags:['Biography','Marine Biology','Inspiring'],why:'The true story of Eugenie Clark — a model for nonfiction narrative writing. Teaches students that nonfiction can read like an adventure story.'},
+  {cat:'nonfiction',emoji:'📖',spine:'#15803D',title:'"Who Was?" Series',author:'Various Authors',ages:'8–12',tags:['Biography','History','Series'],why:'The most widely assigned nonfiction series in US independent schools. Readable biographies of historical figures — used in every subject area.'},
+  {cat:'nonfiction',emoji:'🌋',spine:'#B45309',title:"Pompeii: Lost & Found",author:'Mary Pope Osborne',ages:'6–10',tags:['Narrative Nonfiction','History','Primary Sources'],why:'Beautifully written narrative nonfiction. Often paired with social studies units. Shows students that history is a story, not just a list of dates.'},
+  {cat:'nonfiction',emoji:'🌊',spine:'#4338CA',title:"National Geographic Kids: Ocean Atlas",author:'National Geographic',ages:'8–12',tags:['Science','Reference','Visual Nonfiction'],why:'High-quality visual nonfiction teaches students how to read diagrams, maps, captions, and headings — distinct skills from reading prose.'},
+  {cat:'nonfiction',emoji:'🏛️',spine:'#7C3AED',title:'"What Was?" Series',author:'Various Authors',ages:'8–12',tags:['History','Informational','Series'],why:'Companion to "Who Was?" — covers historical events and places. Helps build the background knowledge that top schools call "content literacy."'},
+
+  // STRETCH READS
+  {cat:'stretch',emoji:'🪄',spine:'#4338CA',title:"The Phantom Tollbooth",author:'Norton Juster',ages:'9–12',tags:['Classic Fantasy','Wordplay','Logic'],why:'A demanding, witty classic that rewards careful readers. Full of puns, logic puzzles, and philosophical ideas. A benchmark "stretch read" for advanced Grade 3.'},
+  {cat:'stretch',emoji:'🪓',spine:'#15803D',title:"Hatchet",author:'Gary Paulsen',ages:'9–12',tags:['Survival Adventure','Newbery Honor','Independence'],why:'Newbery Honor. A lone-survival story that teaches inference, cause-and-effect, and the internal monologue of a character under pressure.'},
+  {cat:'stretch',emoji:'🌀',spine:'#7C3AED',title:"A Wrinkle in Time",author:"Madeleine L'Engle",ages:'10–13',tags:['Science Fantasy','Classic','Newbery Medal'],why:'Newbery Medal. An ambitious stretch read for very strong Grade 3 readers or Grade 4. Combines physics concepts with moral themes and strong female protagonist.'},
+  {cat:'stretch',emoji:'🏛️',spine:'#B45309',title:"From the Mixed-Up Files of Mrs. Basil E. Frankweiler",author:'E.L. Konigsburg',ages:'9–12',tags:['Mystery','Art History','Newbery Medal'],why:'Newbery Medal. Teaches close reading, art appreciation, and deductive reasoning. Set in the Metropolitan Museum — often used with NY social studies units.'},
+  {cat:'stretch',emoji:'📜',spine:'#0891B2',title:"Junior Great Books (Grade 3 Anthology)",author:'Great Books Foundation',ages:'8–10',tags:['Anthology','Shared Inquiry','Classic Texts'],why:'Used in the Great Books Shared Inquiry program at many top independent schools. Develops high-level text analysis and Socratic discussion skills.'},
+
+  // POETRY
+  {cat:'poetry',emoji:'🌙',spine:'#7C3AED',title:"Where the Sidewalk Ends",author:'Shel Silverstein',ages:'6–12',tags:['Humorous Poetry','Classic','Illustrated'],why:'The gateway to poetry for most American children. Teaches rhythm, rhyme, wordplay, and that poetry can be funny and personal. Standard in all Grade 3 programs.'},
+  {cat:'poetry',emoji:'🎵',spine:'#0891B2',title:"A Light in the Attic",author:'Shel Silverstein',ages:'6–12',tags:['Humorous Poetry','Classic','Illustrated'],why:'The perfect companion to Where the Sidewalk Ends. Read both to explore how the same author\'s voice can cover different emotional registers.'},
+  {cat:'poetry',emoji:'⚡',spine:'#BE123C',title:"The 20th Century Children's Poetry Treasury",author:'Jack Prelutsky (ed.)',ages:'7–12',tags:['Poetry Anthology','Mixed Voices','Classic'],why:'Edited by Jack Prelutsky. Brings together 200 poems by 140 poets — the ideal anthology for classroom read-alouds and independent browsing.'},
+  {cat:'poetry',emoji:'🌿',spine:'#15803D',title:"Inside Out & Back Again",author:'Thanhha Lai',ages:'9–12',tags:['Verse Novel','Immigration','Newbery Honor'],why:'A novel told entirely in haiku-like verse. Teaches both poetry form and the immigrant experience. A bridge between poetry and novel — increasingly used in top independent schools.'}
+];
+
+function buildBooks(){
+  renderBooks('all');
+}
+
+function filterBooks(cat, btn){
+  document.querySelectorAll('.bfilter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBooks(cat);
+}
+
+function renderBooks(cat){
+  const shelf = document.getElementById('book-shelf');
+  const catLabels = {
+    essential:'⭐ Essentials — Core Required Texts',
+    contemporary:'🏆 Award-Winning Contemporary Fiction',
+    nonfiction:'🔍 Nonfiction Essentials',
+    stretch:'🚀 Stretch Reads (Advanced Grade 3 / Grade 4)',
+    poetry:'🎵 Poetry, Verse & Performance'
+  };
+
+  let html = '';
+  const cats = cat === 'all' ? ['essential','contemporary','nonfiction','stretch','poetry'] : [cat];
+
+  cats.forEach(c => {
+    const list = BOOKS.filter(b => b.cat === c);
+    if(!list.length) return;
+    html += `<div class="shelf-heading"><h3>${catLabels[c]}</h3><div class="shelf-line"></div></div>`;
+    list.forEach(b => {
+      const tags = b.tags.map(t=>`<span class="btag" style="background:var(--bg-surface2);color:var(--text-3)">${t}</span>`).join('');
+      html += `<div class="book-tile" data-cat="${b.cat}">
+        <div class="book-spine" style="background:${b.spine}">${b.emoji}</div>
+        <div class="book-meta">
+          <h4>${b.title}</h4>
+          <div class="bauthor">${b.author} · Ages ${b.ages}</div>
+          <div class="btags">${tags}</div>
+          <div class="bwhy">${b.why}</div>
+        </div>
+      </div>`;
+    });
+  });
+  shelf.innerHTML = html;
+}
+
+/* ─────────────────── TAB SWITCHING ─────────────────── */
+function switchTab(name, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('s-'+name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─────────────────── INIT ─────────────────── */
+buildChecklist();
+buildBooks();
+</script>
+</body>
+</html>

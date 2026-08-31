@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jimmy's Learning Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+/* ── Reset & base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Nunito',sans-serif;
+  background:#07091A;
+  color:#E8EEFF;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── Starfield canvas ── */
+#stars{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+}
+
+/* ── Page shell ── */
+.page{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;
+  padding:0 20px 60px;
+}
+
+/* ── Header ── */
+.header{
+  text-align:center;
+  padding:64px 0 48px;
+  max-width:640px;
+}
+.header-eyebrow{
+  font-size:.78rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:#8899CC;margin-bottom:16px;
+}
+.header h1{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(2.8rem,7vw,4.6rem);
+  line-height:1.05;
+  color:#fff;
+}
+.header h1 .name{
+  color:#F5C542;
+  text-shadow:0 0 40px rgba(245,197,66,.55), 0 0 80px rgba(245,197,66,.25);
+}
+.header p{
+  margin-top:16px;
+  font-size:1.05rem;font-weight:600;
+  color:#8899BB;line-height:1.6;
+}
+
+/* ── Portal grid ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+  width:100%;max-width:780px;
+}
+@media(max-width:540px){
+  .grid{grid-template-columns:1fr;max-width:380px}
+}
+
+/* ── Portal card ── */
+.card{
+  position:relative;
+  background:#0E1330;
+  border-radius:22px;
+  border:1.5px solid rgba(255,255,255,.07);
+  padding:32px 24px 28px;
+  display:flex;flex-direction:column;align-items:flex-start;
+  text-decoration:none;color:inherit;
+  overflow:hidden;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease;
+  cursor:pointer;
+}
+.card::before{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:22px;
+  border:2px solid var(--glow);
+  opacity:0;
+  transition:opacity .22s ease;
+  box-shadow:inset 0 0 30px var(--glow-dim), 0 0 40px var(--glow-dim);
+  pointer-events:none;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 60px var(--glow-dim);
+}
+.card:hover::before{opacity:1}
+
+/* ── Card glow ring (ambient) ── */
+.card::after{
+  content:'';
+  position:absolute;
+  bottom:-40px;right:-40px;
+  width:140px;height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, var(--glow-dim) 0%, transparent 70%);
+  pointer-events:none;
+  transition:opacity .22s ease;
+}
+
+/* ── Card icon ── */
+.card-icon{
+  font-size:2.8rem;
+  margin-bottom:14px;
+  display:block;
+  line-height:1;
+  filter:drop-shadow(0 0 12px var(--glow));
+}
+
+/* ── Card text ── */
+.card-label{
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--glow);margin-bottom:6px;opacity:.85;
+}
+.card h2{
+  font-family:'Fredoka One',cursive;
+  font-size:1.55rem;line-height:1.2;
+  color:#fff;margin-bottom:8px;
+}
+.card p{
+  font-size:.88rem;font-weight:600;
+  color:#8899BB;line-height:1.55;flex:1;
+  margin-bottom:20px;
+}
+
+/* ── Launch button ── */
+.card-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;
+  border-radius:40px;
+  background:var(--glow);
+  color:#07091A;
+  font-family:'Fredoka One',cursive;
+  font-size:1rem;
+  letter-spacing:.02em;
+  text-decoration:none;
+  transition:filter .15s, transform .15s;
+  white-space:nowrap;
+  border:none;cursor:pointer;
+}
+.card-btn:hover{filter:brightness(1.15);transform:scale(1.05)}
+.card-btn .arrow{font-size:1.1rem;transition:transform .15s}
+.card-btn:hover .arrow{transform:translateX(3px)}
+
+/* ── Divider ── */
+.divider{
+  width:100%;max-width:780px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  margin:48px 0 32px;
+}
+
+/* ── About section ── */
+.about{
+  max-width:540px;text-align:center;
+}
+.about h3{
+  font-family:'Fredoka One',cursive;
+  font-size:1.4rem;color:#fff;margin-bottom:10px;
+}
+.about p{
+  font-size:.88rem;font-weight:600;color:#6677AA;line-height:1.65;
+}
+.about .tag-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin-top:16px;
+}
+.tag{
+  padding:4px 14px;border-radius:20px;
+  font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  border:1.5px solid rgba(255,255,255,.1);color:#8899BB;
+}
+
+/* ── Footer ── */
+footer{
+  margin-top:48px;
+  text-align:center;
+  font-size:.78rem;font-weight:700;
+  color:#3A4570;
+  letter-spacing:.03em;
+}
+footer span{color:#F5C542;opacity:.7}
+
+/* ── Reduced motion ── */
+@media(prefers-reduced-motion:reduce){
+  .card,.card-btn,.card-btn .arrow{transition:none}
+  .card:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-eyebrow">🎒 Personal Learning Hub</div>
+    <h1>Hi <span class="name">Jimmy</span>!<br>Ready to learn?</h1>
+    <p>Your four learning adventures — all in one place.<br>Pick one and let's go!</p>
+  </header>
+
+  <!-- App grid -->
+  <div class="grid">
+
+    <!-- JimmyLearn -->
+    <a class="card" href="./jimmylearn/" style="--glow:#818CF8;--glow-dim:rgba(129,140,248,.18)">
+      <span class="card-icon">🎒</span>
+      <div class="card-label">Weekly Curriculum</div>
+      <h2>JimmyLearn</h2>
+      <p>Pick a topic — Space, Animals, Science, History — and get a full week of reading, experiments, writing, and a quiz.</p>
+      <span class="card-btn">Explore <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Math Hero -->
+    <a class="card" href="./math-hero/" style="--glow:#E94560;--glow-dim:rgba(233,69,96,.18)">
+      <span class="card-icon">⚡</span>
+      <div class="card-label">Math Practice</div>
+      <h2>Math Hero</h2>
+      <p>Race against the clock to solve math problems. Earn stars, level up, and become the ultimate Math Hero!</p>
+      <span class="card-btn">Play <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Space Portals -->
+    <a class="card" href="./space-portals/" style="--glow:#00CEC9;--glow-dim:rgba(0,206,201,.18)">
+      <span class="card-icon">🚀</span>
+      <div class="card-label">Math Escape Game</div>
+      <h2>Space Portals</h2>
+      <p>Solve math puzzles to power the escape portals and blast through the galaxy. Can you reach the final portal?</p>
+      <span class="card-btn">Launch <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Learn Chinese -->
+    <a class="card" href="./learn-chinese/" style="--glow:#A78BFA;--glow-dim:rgba(167,139,250,.18)">
+      <span class="card-icon">🐉</span>
+      <div class="card-label">Language Learning</div>
+      <h2>Learn Chinese</h2>
+      <p>Master Chinese characters through fun games, stories, and memory challenges. 你好，Jimmy! </p>
+      <span class="card-btn">Start <span class="arrow">→</span></span>
+    </a>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- About -->
+  <div class="about">
+    <h3>Built just for you ✨</h3>
+    <p>This is your personal learning portal, Jimmy. Every app here was made to make learning feel like an adventure. Come back any time — new challenges are always waiting.</p>
+    <div class="tag-row">
+      <span class="tag">Reading</span>
+      <span class="tag">Math</span>
+      <span class="tag">Science</span>
+      <span class="tag">History</span>
+      <span class="tag">Chinese</span>
+      <span class="tag">Writing</span>
+      <span class="tag">Experiments</span>
+    </div>
+  </div>
+
+  <div style="margin-top:32px">
+    <a href="./parents-guide.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:30px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#8899BB;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;text-decoration:none;transition:border-color .15s,color .15s" onmouseover="this.style.borderColor='rgba(245,197,66,.5)';this.style.color='#F5C542'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='#8899BB'">
+      📋 Parents' Guide — Skills &amp; Book List
+    </a>
+  </div>
+
+  <footer>
+    Made with <span>★</span> by Dad &amp; Claude &nbsp;·&nbsp; jimmyqi.github.io
+  </footer>
+
+</div>
+
+<script>
+/* ── Animated starfield ── */
+(function(){
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function make(){
+    stars = Array.from({length: 200}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.4 + 0.2,
+      speed: Math.random() * 0.18 + 0.04,
+      alpha: Math.random() * 0.7 + 0.15,
+      drift: (Math.random() - 0.5) * 0.08
+    }));
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    for(const s of stars){
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,215,255,${s.alpha})`;
+      ctx.fill();
+
+      s.y += s.speed;
+      s.x += s.drift;
+      s.alpha += (Math.random() - 0.5) * 0.015;
+      s.alpha = Math.max(0.05, Math.min(0.85, s.alpha));
+
+      if(s.y > H + 4)  s.y = -4;
+      if(s.x < -4)     s.x = W + 4;
+      if(s.x > W + 4)  s.x = -4;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', ()=>{ resize(); make(); });
+  resize(); make(); draw();
+
+  /* respect reduced motion */
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    cancelAnimationFrame(draw);
+    ctx.clearRect(0,0,W,H);
+  }
+})();
+</script>
+</body>
+</html>

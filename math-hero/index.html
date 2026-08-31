@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Hero - Fun Math Practice!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --gold: #f5c542;
+    --green: #2ecc71;
+    --blue: #3498db;
+    --purple: #9b59b6;
+    --orange: #e67e22;
+    --pink: #e84393;
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Floating background stars ───────────────────────────── */
+  .stars {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* ── Container ───────────────────────────────────────────── */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 800px; margin: 0 auto; padding: 20px;
+  }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  .header {
+    text-align: center; padding: 20px 0;
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--gold), var(--orange), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+  }
+  .header .subtitle {
+    font-size: 1.1rem; color: #aaa; margin-top: 5px;
+  }
+
+  /* ── Stats bar ───────────────────────────────────────────── */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 20px;
+    margin: 15px 0; flex-wrap: wrap;
+  }
+  .stat-box {
+    background: var(--card);
+    border-radius: 15px; padding: 12px 20px;
+    text-align: center; min-width: 100px;
+    border: 2px solid rgba(255,255,255,0.1);
+    transition: transform 0.2s;
+  }
+  .stat-box:hover { transform: scale(1.05); }
+  .stat-box .label { font-size: 0.75rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-box .value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; }
+  .stat-box.score .value { color: var(--gold); }
+  .stat-box.streak .value { color: var(--accent); }
+  .stat-box.level .value { color: var(--blue); }
+  .stat-box.stars-count .value { color: var(--purple); }
+
+  /* ── XP Progress bar ─────────────────────────────────────── */
+  .xp-bar-container {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px; height: 20px; margin: 10px 40px;
+    overflow: hidden; position: relative;
+  }
+  .xp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    border-radius: 20px; transition: width 0.5s ease;
+    position: relative;
+  }
+  .xp-bar::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .xp-label {
+    text-align: center; font-size: 0.8rem; color: #aaa; margin-top: 5px;
+  }
+
+  /* ── Mode selector (start screen) ────────────────────────── */
+  #start-screen { text-align: center; padding: 30px 0; }
+  #level-select-screen { display: none; text-align: center; padding: 30px 0; }
+  .mode-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px; margin: 25px 0;
+  }
+  .level-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px; margin: 25px auto; max-width: 700px;
+  }
+  .level-btn {
+    background: var(--card); border: 3px solid rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 20px 15px; cursor: pointer;
+    transition: all 0.3s; color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700; text-align: left;
+  }
+  .level-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+  .level-btn .level-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+  .level-btn .level-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+  .level-btn .level-desc { font-size: 0.8rem; color: #aaa; font-weight: 400; }
+  .level-btn .level-numbers { font-family: 'Fredoka One', cursive; font-size: 0.9rem; margin-top: 8px; color: var(--gold); }
+  .level-btn.easy { border-color: var(--green); }
+  .level-btn.easy:hover { background: var(--green); }
+  .level-btn.easy:hover .level-desc, .level-btn.easy:hover .level-numbers { color: #fff; }
+  .level-btn.medium { border-color: var(--orange); }
+  .level-btn.medium:hover { background: var(--orange); }
+  .level-btn.medium:hover .level-desc, .level-btn.medium:hover .level-numbers { color: #fff; }
+  .level-btn.hard { border-color: var(--accent); }
+  .level-btn.hard:hover { background: var(--accent); }
+  .level-btn.hard:hover .level-desc, .level-btn.hard:hover .level-numbers { color: #fff; }
+  .level-btn.master { border-color: var(--purple); }
+  .level-btn.master:hover { background: var(--purple); }
+  .level-btn.master:hover .level-desc, .level-btn.master:hover .level-numbers { color: #fff; }
+  .level-btn.all { border-color: var(--blue); }
+  .level-btn.all:hover { background: var(--blue); }
+  .level-btn.all:hover .level-desc, .level-btn.all:hover .level-numbers { color: #fff; }
+  .level-btn.tables { border-color: var(--pink); }
+  .level-btn.tables:hover { background: var(--pink); }
+  .level-btn.tables:hover .level-desc, .level-btn.tables:hover .level-numbers { color: #fff; }
+  .section-title {
+    font-family: 'Fredoka One', cursive; font-size: 1.5rem;
+    margin-bottom: 5px; color: #fff;
+  }
+  .section-subtitle { color: #aaa; font-size: 0.95rem; margin-bottom: 15px; }
+  .mode-btn {
+    background: var(--card); border: 3px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 25px 15px; cursor: pointer;
+    transition: all 0.3s; color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700;
+  }
+  .mode-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .mode-btn .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+  .mode-btn.multiply { border-color: var(--accent); }
+  .mode-btn.multiply:hover { background: var(--accent); }
+  .mode-btn.add { border-color: var(--green); }
+  .mode-btn.add:hover { background: var(--green); }
+  .mode-btn.subtract { border-color: var(--blue); }
+  .mode-btn.subtract:hover { background: var(--blue); }
+  .mode-btn.mixed { border-color: var(--purple); }
+  .mode-btn.mixed:hover { background: var(--purple); }
+  .mode-btn.divide { border-color: var(--orange); }
+  .mode-btn.divide:hover { background: var(--orange); }
+  .mode-btn.challenge { border-color: var(--pink); }
+  .mode-btn.challenge:hover { background: var(--pink); }
+
+  /* ── Game area ───────────────────────────────────────────── */
+  #game-screen { display: none; }
+
+  .question-card {
+    background: var(--card);
+    border-radius: 25px; padding: 35px;
+    text-align: center; margin: 20px 0;
+    border: 3px solid rgba(255,255,255,0.1);
+    position: relative; overflow: hidden;
+  }
+  .question-card .timer-bar {
+    position: absolute; top: 0; left: 0; height: 5px;
+    background: linear-gradient(90deg, var(--green), var(--gold), var(--accent));
+    transition: width 0.1s linear;
+  }
+  .question-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem; margin: 15px 0;
+    color: #fff;
+  }
+  .question-text .operator {
+    color: var(--gold); margin: 0 10px;
+  }
+  .question-text .equals {
+    color: var(--accent); margin: 0 10px;
+  }
+
+  /* ── Answer options (multiple choice) ────────────────────── */
+  .answers-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin: 20px auto; max-width: 500px;
+  }
+  .answer-btn {
+    background: rgba(255,255,255,0.08);
+    border: 3px solid rgba(255,255,255,0.15);
+    border-radius: 15px; padding: 18px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem; color: #fff;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .answer-btn:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.05);
+    border-color: var(--gold);
+  }
+  .answer-btn.correct {
+    background: var(--green) !important;
+    border-color: var(--green) !important;
+    animation: correctPop 0.5s ease;
+  }
+  .answer-btn.wrong {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+    animation: shake 0.5s ease;
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  /* ── Feedback overlay ────────────────────────────────────── */
+  .feedback {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fredoka One', cursive;
+    font-size: 4rem; z-index: 100;
+    pointer-events: none;
+    animation: feedbackPop 0.8s ease forwards;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  }
+  @keyframes feedbackPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    40% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+    70% { transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+  }
+
+  /* ── Confetti ────────────────────────────────────────────── */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    z-index: 99;
+    animation: confettiFall 1.5s ease forwards;
+  }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* ── Emoji rain ──────────────────────────────────────────── */
+  .emoji-float {
+    position: fixed; font-size: 2rem; z-index: 98;
+    animation: emojiFloat 2s ease forwards;
+    pointer-events: none;
+  }
+  @keyframes emojiFloat {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-200px) scale(1.5); }
+  }
+
+  /* ── Back button ─────────────────────────────────────────── */
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px; padding: 10px 20px;
+    color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .back-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+
+  /* ── Streak flame ────────────────────────────────────────── */
+  .streak-display {
+    text-align: center; margin: 10px 0; min-height: 40px;
+  }
+  .streak-flame {
+    font-size: 1.3rem; font-weight: 800;
+    animation: flamePulse 0.5s ease infinite alternate;
+  }
+  @keyframes flamePulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+
+  /* ── Reward modal ────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+  .modal {
+    background: var(--card); border-radius: 25px;
+    padding: 40px; text-align: center; max-width: 400px;
+    border: 3px solid var(--gold);
+    animation: modalPop 0.5s ease;
+  }
+  @keyframes modalPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .modal h2 { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--gold); }
+  .modal .big-emoji { font-size: 4rem; margin: 15px 0; }
+  .modal p { color: #ccc; margin: 10px 0; }
+  .modal button {
+    background: var(--gold); color: var(--bg);
+    border: none; border-radius: 12px; padding: 12px 30px;
+    font-family: 'Fredoka One', cursive; font-size: 1.1rem;
+    cursor: pointer; margin-top: 15px; transition: transform 0.2s;
+  }
+  .modal button:hover { transform: scale(1.08); }
+
+  /* ── Trophy shelf ────────────────────────────────────────── */
+  .trophy-shelf {
+    display: flex; gap: 8px; justify-content: center;
+    flex-wrap: wrap; margin: 10px 0; min-height: 30px;
+  }
+  .trophy {
+    font-size: 1.5rem;
+    animation: trophyBounce 0.5s ease;
+    cursor: default;
+    transition: transform 0.2s;
+  }
+  .trophy:hover { transform: scale(1.4); }
+  @keyframes trophyBounce {
+    0% { transform: scale(0) rotate(-180deg); }
+    60% { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 2rem; }
+    .question-text { font-size: 2.5rem; }
+    .answer-btn { font-size: 1.4rem; padding: 14px; }
+    .stats-bar { gap: 10px; }
+    .stat-box { min-width: 75px; padding: 8px 12px; }
+    .stat-box .value { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Math Hero</h1>
+    <div class="subtitle">Become a Math Superstar!</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-box score">
+      <div class="label">Score</div>
+      <div class="value" id="score">0</div>
+    </div>
+    <div class="stat-box streak">
+      <div class="label">Streak</div>
+      <div class="value" id="streak">0</div>
+    </div>
+    <div class="stat-box level">
+      <div class="label">Level</div>
+      <div class="value" id="level">1</div>
+    </div>
+    <div class="stat-box stars-count">
+      <div class="label">Stars</div>
+      <div class="value" id="total-stars">0</div>
+    </div>
+  </div>
+
+  <!-- XP bar -->
+  <div class="xp-bar-container">
+    <div class="xp-bar" id="xp-bar" style="width: 0%"></div>
+  </div>
+  <div class="xp-label" id="xp-label">0 / 100 XP to Level 2</div>
+
+  <!-- Trophy shelf -->
+  <div class="trophy-shelf" id="trophy-shelf"></div>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <h2 style="margin-bottom:5px;">Choose Your Mission!</h2>
+    <div class="mode-grid">
+      <button class="mode-btn multiply" onclick="showLevelSelect('multiply')">
+        <span class="icon">&#x2716;</span> Multiplication
+      </button>
+      <button class="mode-btn add" onclick="showLevelSelect('add')">
+        <span class="icon">&#x2795;</span> Addition
+      </button>
+      <button class="mode-btn subtract" onclick="showLevelSelect('subtract')">
+        <span class="icon">&#x2796;</span> Subtraction
+      </button>
+      <button class="mode-btn divide" onclick="showLevelSelect('divide')">
+        <span class="icon">&#x2797;</span> Division
+      </button>
+      <button class="mode-btn mixed" onclick="showLevelSelect('mixed')">
+        <span class="icon">&#x1F500;</span> Mix It Up!
+      </button>
+      <button class="mode-btn challenge" onclick="showLevelSelect('challenge')">
+        <span class="icon">&#x1F525;</span> Speed Challenge
+      </button>
+    </div>
+  </div>
+
+  <!-- LEVEL SELECT SCREEN -->
+  <div id="level-select-screen">
+    <button class="back-btn" onclick="backToModes()" style="margin-bottom:15px;">&#x2B05; Back to Modes</button>
+    <div class="section-title" id="level-select-title">Pick Your Level!</div>
+    <div class="section-subtitle" id="level-select-subtitle">Choose the number range to practice</div>
+    <div class="level-grid" id="level-grid"></div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <button class="back-btn" onclick="goHome()">&#x2B05; Home</button>
+      <div id="mode-label" style="font-weight:700; color:#aaa;"></div>
+      <div id="q-counter" style="font-weight:700; color:#aaa;"></div>
+    </div>
+
+    <div class="streak-display" id="streak-display"></div>
+
+    <div class="question-card">
+      <div class="timer-bar" id="timer-bar" style="width:100%"></div>
+      <div style="color:#aaa; font-size:0.9rem; margin-bottom:5px;" id="hint-text"></div>
+      <div class="question-text" id="question"></div>
+    </div>
+
+    <div class="answers-grid" id="answers"></div>
+  </div>
+</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let score = 0, streak = 0, bestStreak = 0, level = 1, xp = 0, totalStars = 0;
+let currentAnswer = 0, questionNum = 0, totalQuestions = 15;
+let mode = 'multiply';
+let timerInterval = null, timeLeft = 0, maxTime = 15;
+let answered = false;
+let trophies = [];
+let numberRange = { min: 1, max: 12 };  // controls the factor/operand range
+let pendingMode = null;  // mode selected before level pick
+
+const XP_PER_LEVEL = 100;
+
+const feedbackMessages = {
+  correct: [
+    { text: 'AWESOME!', color: '#2ecc71' },
+    { text: 'GREAT JOB!', color: '#3498db' },
+    { text: 'PERFECT!', color: '#9b59b6' },
+    { text: 'SUPERSTAR!', color: '#f5c542' },
+    { text: 'AMAZING!', color: '#e84393' },
+    { text: 'WOW!', color: '#e67e22' },
+    { text: 'GENIUS!', color: '#00cec9' },
+    { text: 'BRILLIANT!', color: '#fd79a8' },
+  ],
+  wrong: [
+    { text: 'TRY AGAIN!', color: '#e94560' },
+    { text: 'ALMOST!', color: '#e67e22' },
+    { text: 'SO CLOSE!', color: '#e94560' },
+    { text: 'KEEP GOING!', color: '#e67e22' },
+  ]
+};
+
+const modeLabels = {
+  multiply: 'Multiplication Mission',
+  add: 'Addition Adventure',
+  subtract: 'Subtraction Safari',
+  divide: 'Division Discovery',
+  mixed: 'Mix It Up!',
+  challenge: 'Speed Challenge'
+};
+
+const trophyRewards = [
+  { at: 5,   emoji: '&#x1F31F;', name: 'First Star' },
+  { at: 10,  emoji: '&#x1F3C5;', name: 'Bronze Medal' },
+  { at: 20,  emoji: '&#x1F947;', name: 'Gold Medal' },
+  { at: 30,  emoji: '&#x1F48E;', name: 'Diamond' },
+  { at: 50,  emoji: '&#x1F680;', name: 'Rocket' },
+  { at: 75,  emoji: '&#x1F451;', name: 'Crown' },
+  { at: 100, emoji: '&#x1F3C6;', name: 'Trophy' },
+  { at: 150, emoji: '&#x2B50;', name: 'Super Star' },
+  { at: 200, emoji: '&#x1F409;', name: 'Dragon' },
+];
+
+// ── Stars background ─────────────────────────────────────────────────────────
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    container.appendChild(star);
+  }
+}
+
+// ── Sound effects (Web Audio API) ────────────────────────────────────────────
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudio() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+}
+
+function playCorrectSound() {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sine';
+  const now = audioCtx.currentTime;
+  o.frequency.setValueAtTime(523, now);
+  o.frequency.setValueAtTime(659, now + 0.1);
+  o.frequency.setValueAtTime(784, now + 0.2);
+  g.gain.setValueAtTime(0.3, now);
+  g.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+  o.start(now); o.stop(now + 0.4);
+}
+
+function playWrongSound() {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sawtooth';
+  const now = audioCtx.currentTime;
+  o.frequency.setValueAtTime(200, now);
+  o.frequency.setValueAtTime(150, now + 0.15);
+  g.gain.setValueAtTime(0.2, now);
+  g.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+  o.start(now); o.stop(now + 0.3);
+}
+
+function playLevelUpSound() {
+  ensureAudio();
+  const notes = [523, 659, 784, 1047];
+  notes.forEach((freq, i) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sine';
+    const t = audioCtx.currentTime + i * 0.15;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.25, t);
+    g.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+    o.start(t); o.stop(t + 0.3);
+  });
+}
+
+// ── Visual effects ───────────────────────────────────────────────────────────
+function showFeedback(isCorrect) {
+  const list = isCorrect ? feedbackMessages.correct : feedbackMessages.wrong;
+  const msg = list[Math.floor(Math.random() * list.length)];
+  const el = document.createElement('div');
+  el.className = 'feedback';
+  el.textContent = msg.text;
+  el.style.color = msg.color;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+function spawnConfetti() {
+  const colors = ['#e94560','#f5c542','#2ecc71','#3498db','#9b59b6','#e67e22','#e84393','#00cec9'];
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.top = '-10px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.width = (Math.random() * 8 + 5) + 'px';
+    c.style.height = (Math.random() * 8 + 5) + 'px';
+    c.style.animationDuration = (Math.random() * 1 + 1) + 's';
+    c.style.animationDelay = Math.random() * 0.3 + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+
+function spawnEmojis(emojis) {
+  emojis.forEach((emoji, i) => {
+    const el = document.createElement('div');
+    el.className = 'emoji-float';
+    el.textContent = emoji;
+    el.style.left = (30 + Math.random() * 40) + 'vw';
+    el.style.top = (40 + Math.random() * 20) + 'vh';
+    el.style.animationDelay = (i * 0.15) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  });
+}
+
+// ── Question generation ──────────────────────────────────────────────────────
+function randInRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateQuestion() {
+  let a, b, op, answer, opSymbol;
+  const rMin = numberRange.min;
+  const rMax = numberRange.max;
+  const fixed = numberRange.fixedFactor;  // for single times-table practice
+
+  const ops = mode === 'mixed' || mode === 'challenge'
+    ? ['add','subtract','multiply','divide']
+    : [mode];
+  op = ops[Math.floor(Math.random() * ops.length)];
+
+  switch (op) {
+    case 'multiply':
+      if (fixed) {
+        // Single times table: e.g. 7 × (1-12)
+        a = fixed;
+        b = randInRange(1, 12);
+        if (Math.random() > 0.5) { [a, b] = [b, a]; }  // randomize order
+      } else {
+        a = randInRange(rMin, rMax);
+        b = randInRange(rMin, rMax);
+      }
+      answer = a * b;
+      opSymbol = '\u00D7';
+      break;
+    case 'add':
+      a = randInRange(rMin, rMax);
+      b = randInRange(rMin, rMax);
+      answer = a + b;
+      opSymbol = '+';
+      break;
+    case 'subtract':
+      a = randInRange(rMin, rMax);
+      b = randInRange(rMin, Math.max(rMin, a));
+      if (a < b) { [a, b] = [b, a]; }  // ensure positive result
+      answer = a - b;
+      opSymbol = '\u2212';
+      break;
+    case 'divide':
+      if (fixed) {
+        b = fixed;
+        answer = randInRange(1, 12);
+      } else {
+        b = randInRange(Math.max(1, rMin), rMax);
+        answer = randInRange(Math.max(1, rMin), rMax);
+      }
+      a = b * answer;
+      opSymbol = '\u00F7';
+      break;
+  }
+
+  return { a, b, answer, opSymbol };
+}
+
+function generateWrongAnswers(correct) {
+  const wrongs = new Set();
+  while (wrongs.size < 3) {
+    let offset = Math.floor(Math.random() * 10) + 1;
+    if (Math.random() > 0.5) offset = -offset;
+    let wrong = correct + offset;
+    if (wrong < 0) wrong = correct + Math.abs(offset);
+    if (wrong !== correct && wrong >= 0) wrongs.add(wrong);
+  }
+  return Array.from(wrongs);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ── Level selection ──────────────────────────────────────────────────────────
+
+const levelConfigs = {
+  multiply: [
+    { id: 'easy',   icon: '🌱', name: 'Warm Up',         desc: 'Numbers you already know!',           range: [1,5],   cls: 'easy' },
+    { id: 'medium', icon: '🔥', name: 'Level Up!',       desc: 'Practice 6, 7, 8, 9 — you got this!', range: [6,9],   cls: 'medium' },
+    { id: 'hard',   icon: '💪', name: 'Big Numbers',     desc: 'Multiply up to 12!',                  range: [1,12],  cls: 'hard' },
+    { id: 'master', icon: '🧠', name: 'Math Master',     desc: 'Challenge yourself with big facts!',  range: [7,12],  cls: 'master' },
+    { id: 't6',     icon: '6️⃣', name: '6 Times Table',   desc: 'Focus on the 6s',                    table: 6,       cls: 'tables' },
+    { id: 't7',     icon: '7️⃣', name: '7 Times Table',   desc: 'Focus on the 7s',                    table: 7,       cls: 'tables' },
+    { id: 't8',     icon: '8️⃣', name: '8 Times Table',   desc: 'Focus on the 8s',                    table: 8,       cls: 'tables' },
+    { id: 't9',     icon: '9️⃣', name: '9 Times Table',   desc: 'Focus on the 9s',                    table: 9,       cls: 'tables' },
+  ],
+  add: [
+    { id: 'easy',   icon: '🌱', name: 'Small Sums',      desc: 'Add numbers up to 20',     range: [1,10],  cls: 'easy' },
+    { id: 'medium', icon: '🔥', name: 'Getting Bigger',  desc: 'Add numbers up to 50',     range: [10,50], cls: 'medium' },
+    { id: 'hard',   icon: '💪', name: 'Big Sums',        desc: 'Add numbers up to 100',    range: [20,100],cls: 'hard' },
+  ],
+  subtract: [
+    { id: 'easy',   icon: '🌱', name: 'Easy Take Away',  desc: 'Subtract within 20',       range: [1,20],  cls: 'easy' },
+    { id: 'medium', icon: '🔥', name: 'Medium',          desc: 'Subtract within 50',       range: [10,50], cls: 'medium' },
+    { id: 'hard',   icon: '💪', name: 'Challenge',       desc: 'Subtract within 100',      range: [20,100],cls: 'hard' },
+  ],
+  divide: [
+    { id: 'easy',   icon: '🌱', name: 'Easy Division',   desc: 'Divide by 1-5',            range: [1,5],   cls: 'easy' },
+    { id: 'medium', icon: '🔥', name: 'Harder Division', desc: 'Divide by 6-9',            range: [6,9],   cls: 'medium' },
+    { id: 'hard',   icon: '💪', name: 'All Division',    desc: 'Divide by 1-12',           range: [1,12],  cls: 'hard' },
+  ],
+  mixed: [
+    { id: 'easy',   icon: '🌱', name: 'Easy Mix',        desc: 'Small numbers, all operations', range: [1,5],  cls: 'easy' },
+    { id: 'medium', icon: '🔥', name: 'Medium Mix',      desc: 'Medium numbers, all operations',range: [1,9],  cls: 'medium' },
+    { id: 'hard',   icon: '💪', name: 'Hard Mix',        desc: 'Big numbers, all operations',   range: [1,12], cls: 'hard' },
+  ],
+  challenge: [
+    { id: 'easy',   icon: '⚡', name: 'Quick Fire 1-5',  desc: '8 seconds, small numbers', range: [1,5],  cls: 'easy' },
+    { id: 'medium', icon: '⚡', name: 'Quick Fire 6-9',  desc: '8 seconds, harder numbers',range: [6,9],  cls: 'medium' },
+    { id: 'hard',   icon: '⚡', name: 'Quick Fire All',  desc: '8 seconds, any number!',   range: [1,12], cls: 'hard' },
+  ],
+};
+
+function showLevelSelect(selectedMode) {
+  pendingMode = selectedMode;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('level-select-screen').style.display = 'block';
+
+  const configs = levelConfigs[selectedMode] || levelConfigs.multiply;
+  document.getElementById('level-select-title').textContent =
+    modeLabels[selectedMode] + ' — Pick Your Level!';
+
+  const grid = document.getElementById('level-grid');
+  grid.innerHTML = '';
+  configs.forEach(cfg => {
+    const btn = document.createElement('button');
+    btn.className = 'level-btn ' + cfg.cls;
+    const numbersLabel = cfg.table
+      ? `${cfg.table} × 1 through ${cfg.table} × 12`
+      : `Numbers ${cfg.range[0]} to ${cfg.range[1]}`;
+    btn.innerHTML = `
+      <span class="level-icon">${cfg.icon}</span>
+      <div class="level-name">${cfg.name}</div>
+      <div class="level-desc">${cfg.desc}</div>
+      <div class="level-numbers">${numbersLabel}</div>
+    `;
+    btn.onclick = () => {
+      if (cfg.table) {
+        numberRange = { min: 1, max: 12, fixedFactor: cfg.table };
+      } else {
+        numberRange = { min: cfg.range[0], max: cfg.range[1] };
+      }
+      startGame(pendingMode);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function backToModes() {
+  document.getElementById('level-select-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+}
+
+// ── Game flow ────────────────────────────────────────────────────────────────
+function startGame(selectedMode) {
+  mode = selectedMode;
+  questionNum = 0;
+  totalQuestions = mode === 'challenge' ? 20 : 15;
+  maxTime = mode === 'challenge' ? 8 : 15;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('level-select-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+  document.getElementById('mode-label').textContent = modeLabels[mode];
+  nextQuestion();
+}
+
+function goHome() {
+  clearInterval(timerInterval);
+  document.getElementById('start-screen').style.display = 'block';
+  document.getElementById('level-select-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'none';
+}
+
+function nextQuestion() {
+  if (questionNum >= totalQuestions) {
+    endRound();
+    return;
+  }
+  questionNum++;
+  answered = false;
+  document.getElementById('q-counter').textContent = `${questionNum} / ${totalQuestions}`;
+  updateStreakDisplay();
+
+  const q = generateQuestion();
+  currentAnswer = q.answer;
+
+  document.getElementById('question').innerHTML =
+    `${q.a} <span class="operator">${q.opSymbol}</span> ${q.b} <span class="equals">=</span> ?`;
+  document.getElementById('hint-text').textContent = '';
+
+  // Build answer buttons
+  const options = shuffle([q.answer, ...generateWrongAnswers(q.answer)]);
+  const grid = document.getElementById('answers');
+  grid.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt, btn);
+    grid.appendChild(btn);
+  });
+
+  // Timer
+  timeLeft = maxTime;
+  document.getElementById('timer-bar').style.width = '100%';
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft -= 0.1;
+    const pct = Math.max(0, (timeLeft / maxTime) * 100);
+    document.getElementById('timer-bar').style.width = pct + '%';
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timeUp();
+    }
+  }, 100);
+}
+
+function checkAnswer(selected, btnEl) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+
+  const allBtns = document.querySelectorAll('.answer-btn');
+
+  if (selected === currentAnswer) {
+    btnEl.classList.add('correct');
+    streak++;
+    if (streak > bestStreak) bestStreak = streak;
+
+    // Score: base 10, bonus for speed and streak
+    const timeBonus = Math.floor(timeLeft * 2);
+    const streakBonus = Math.min(streak, 10) * 2;
+    const points = 10 + timeBonus + streakBonus;
+    score += points;
+    xp += points;
+    totalStars += 1;
+
+    playCorrectSound();
+    showFeedback(true);
+
+    if (streak >= 3) {
+      spawnEmojis(['🔥','⭐','💪','🎯','✨'].slice(0, Math.min(streak, 5)));
+    }
+    if (streak === 5 || streak === 10 || streak === 15 || streak === 20) {
+      spawnConfetti();
+    }
+
+    checkLevelUp();
+    checkTrophies();
+  } else {
+    btnEl.classList.add('wrong');
+    streak = 0;
+    playWrongSound();
+    showFeedback(false);
+
+    // Highlight correct answer
+    allBtns.forEach(b => {
+      if (parseInt(b.textContent) === currentAnswer) {
+        b.classList.add('correct');
+      }
+    });
+
+    document.getElementById('hint-text').textContent =
+      `The answer was ${currentAnswer}`;
+  }
+
+  updateUI();
+  setTimeout(nextQuestion, 1200);
+}
+
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  streak = 0;
+  playWrongSound();
+  showFeedback(false);
+
+  const allBtns = document.querySelectorAll('.answer-btn');
+  allBtns.forEach(b => {
+    if (parseInt(b.textContent) === currentAnswer) {
+      b.classList.add('correct');
+    }
+  });
+
+  document.getElementById('hint-text').textContent = `Time's up! Answer: ${currentAnswer}`;
+  updateUI();
+  setTimeout(nextQuestion, 1500);
+}
+
+// ── Level & XP ───────────────────────────────────────────────────────────────
+function checkLevelUp() {
+  const needed = level * XP_PER_LEVEL;
+  if (xp >= needed) {
+    xp -= needed;
+    level++;
+    playLevelUpSound();
+    spawnConfetti();
+    spawnEmojis(['🎉','🌟','🏆','🚀','👑']);
+    setTimeout(() => showModal('Level Up!', `🎉`, `You reached Level ${level}!`, 'Keep Going!'), 600);
+  }
+}
+
+function checkTrophies() {
+  trophyRewards.forEach(t => {
+    if (totalStars >= t.at && !trophies.includes(t.at)) {
+      trophies.push(t.at);
+      renderTrophies();
+      setTimeout(() => showModal('New Trophy!', t.emoji, `You earned: ${t.name}`, 'Awesome!'), 400);
+    }
+  });
+}
+
+function renderTrophies() {
+  const shelf = document.getElementById('trophy-shelf');
+  shelf.innerHTML = '';
+  trophies.sort((a, b) => a - b).forEach(at => {
+    const t = trophyRewards.find(r => r.at === at);
+    if (t) {
+      const span = document.createElement('span');
+      span.className = 'trophy';
+      span.innerHTML = t.emoji;
+      span.title = t.name;
+      shelf.appendChild(span);
+    }
+  });
+}
+
+// ── End of round ─────────────────────────────────────────────────────────────
+function endRound() {
+  clearInterval(timerInterval);
+  spawnConfetti();
+  const msg = score > 200 ? 'INCREDIBLE!' : score > 100 ? 'GREAT WORK!' : 'GOOD TRY!';
+  showModal(
+    'Round Complete!',
+    score > 200 ? '🏆' : score > 100 ? '⭐' : '👍',
+    `${msg}\nScore: ${score} | Best Streak: ${bestStreak}`,
+    'Play Again'
+  );
+}
+
+// ── UI updates ───────────────────────────────────────────────────────────────
+function updateUI() {
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
+  document.getElementById('level').textContent = level;
+  document.getElementById('total-stars').textContent = totalStars;
+
+  const needed = level * XP_PER_LEVEL;
+  const pct = Math.min(100, (xp / needed) * 100);
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = `${xp} / ${needed} XP to Level ${level + 1}`;
+}
+
+function updateStreakDisplay() {
+  const el = document.getElementById('streak-display');
+  if (streak >= 3) {
+    const flames = '🔥'.repeat(Math.min(streak, 10));
+    el.innerHTML = `<span class="streak-flame">${flames} ${streak} in a row!</span>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+// ── Modal ────────────────────────────────────────────────────────────────────
+function showModal(title, emoji, message, btnText) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h2>${title}</h2>
+      <div class="big-emoji">${emoji}</div>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+      <button onclick="this.closest('.modal-overlay').remove()">${btnText}</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+createStars();
+updateUI();
+</script>
+</body>
+</html>
