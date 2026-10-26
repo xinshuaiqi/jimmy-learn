@@ -110,6 +110,15 @@ input.name{background:var(--panel2);color:var(--text);border:1px solid var(--lin
   .pane{overflow:visible}
   #pl{max-height:40vh;overflow-y:auto;margin-bottom:12px}
 }
+.grp{margin:20px 0 8px;font-weight:800;font-size:16px;color:var(--gold);letter-spacing:.3px}
+.stz36{background:#fef3c7;border-left:5px solid #f59e0b;padding:8px 12px;border-radius:8px;margin-bottom:14px;line-height:1.4}
+.stz36 span{font-weight:700}.stz36 .srcb{font-size:.7em;color:#92400e;margin-top:2px}
+.parth{margin:10px 0 6px;font-size:1.05em;color:#92400e}
+.scene{margin:0 0 6px;border-radius:14px;overflow:hidden;line-height:0}
+.scene svg{width:100%;height:auto;display:block}
+.scene figcaption{font-size:13px;line-height:1.3;color:#6b7280;font-style:italic;padding:6px 4px 0}
+.memo{background:#ecfdf5;border-left:5px solid #10b981;padding:10px 14px;border-radius:10px;font-weight:700;color:#065f46;margin-top:12px;line-height:1.45}
+.part{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -366,120 +375,851 @@ q:[
 {q:'What did ancient winners receive?',o:['A gold medal','A crown of olive leaves','A bag of money','A new house'],a:1},
 {q:'Who helped bring the Olympics back in 1896?',o:['Zeus','Pierre de Coubertin','Julius Caesar','Leonardo da Vinci'],a:1}]}
 );
-// ---------- 三十六计 (The Thirty-Six Stratagems) ----------
+// Stratagems 1-12 (groups 1 and 2)
 STORIES.push(
-{id:'s32',title:'空城计 · The Empty City',cat:'s36',diff:'easy',rating:950,em:'🏰',
-passage:`三十六计 #32 · 空城计 (kōng chéng jì) · The Empty City Strategy
+{id:'s01',num:1,grp:1,cat:'s36',
+ title:'瞒天过海 · Cross the Sea in Secret',py:'mán tiān guò hǎi',en:'Fool the sky to cross the sea',
+ diff:'easy',rating:950,em:'🚢',src:'legend',
+ memo:'Hide a bold move inside an everyday scene.',
+ parts:[
+  {h:'The feast that was a ship',
+   text:`An old legend tells about Emperor Taizong of the Tang Dynasty. He planned to lead his army across the sea. But there was a big problem. The emperor was afraid of the ocean. He did not want to step onto a ship.
 
-Idea: when you are weak, acting calm and confident can make a strong enemy afraid.
+His general knew that waiting was dangerous. So he made a clever plan. A rich local man invited the emperor to a grand feast. The emperor walked into a big house. Its walls were made of soft cloth. Inside, there was music, food, and cheerful talk.
 
-This story comes from the famous Chinese novel "Romance of the Three Kingdoms." The clever leader Zhuge Liang was sitting in a small city with only a few helpers. Most of his army was far away. Suddenly a huge enemy army led by Sima Yi marched toward the city.
+After a while, the floor began to rock. The emperor heard the sound of waves. He looked outside and saw only water in every direction! The "house" was really a huge ship covered with cloth. The army was already sailing across the sea.
 
-Zhuge Liang did not panic. He ordered every city gate to be opened wide. Then he sat on top of the gate tower, dressed in simple robes, and played his qin, a Chinese string instrument, slowly and peacefully.
+The idiom means "fool the sky to cross the sea." When something looks ordinary, people stop watching it closely.`,
+   scene:{bg:'water',ground:'water',items:[{e:'🚢',x:240,y:125,s:72},{e:'🤴',x:120,y:152,s:56},{e:'🍚',x:175,y:172,s:28},{e:'🎶',x:90,y:90,s:26},{e:'🌊',x:330,y:176,s:36},{e:'🌊',x:50,y:178,s:30}]},
+   cap:'The emperor enjoys a feast on a ship hidden as a house.'}
+ ],
+ q:[
+  {q:'Why did the general need a clever plan?',o:['The army had no food','The sea was frozen','The emperor was afraid of the ocean and would not board a ship','The feast was too early'],a:2},
+  {q:'What was the "house" really?',o:['A ship covered with cloth','A castle by the river','A tent in the desert','A market'],a:0},
+  {q:'What does the idiom "cross the sea in secret" mean in this story?',o:['Never travel by boat','Build the biggest ship','Eat a feast before every trip','Hide a bold move inside an everyday scene'],a:3},
+  {q:'Why did the emperor not notice what was happening?',o:['He was told everything','He was sleeping for three days','Everything looked like an ordinary house and feast','He could see the sea'],a:2}
+ ]},
 
-Sima Yi arrived and stared. Why were the gates open? Why was Zhuge Liang so calm? Sima Yi knew that Zhuge Liang was very clever, so he thought, "This must be a trap! Soldiers must be hiding inside." He ordered his army to turn back.
+{id:'s02',num:2,grp:1,cat:'s36',
+ title:'围魏救赵 · Save Zhao by Attacking Wei',py:'wéi wèi jiù zhào',en:'Surround Wei to save Zhao',
+ diff:'medium',rating:1250,em:'🗡️',src:'history',
+ memo:'Do not fight the strongest part. Threaten what they must protect.',
+ parts:[
+  {h:'The empty capital',
+   text:`More than 2,300 years ago, in 353 BC, the state of Wei attacked the state of Zhao. Wei's army surrounded Zhao's capital, Handan. Zhao was in great danger, so it asked the state of Qi for help.
 
-The city was saved without a single fight. The lesson: a strong enemy can be beaten by smart thinking, and fear is sometimes the strongest weapon.`,
-q:[
-{q:'Why was Zhuge Liang in danger?',o:['His walls were broken','Most of his army was far away','He had no food','He was sleeping'],a:1},
-{q:'What did Zhuge Liang do when the enemy arrived?',o:['He ran away','He attacked with swords','He opened the gates and played music calmly','He sent a letter to give up'],a:2},
-{q:'Why did Sima Yi turn back?',o:['He thought it was a trap','He was hungry','It started to rain','He lost his map'],a:0},
-{q:'What lesson does 空城计 teach?',o:['Never fight a strong enemy','Clever thinking and calmness can beat a stronger enemy','Music is better than armies','Always run away'],a:1}]},
+Qi's general, Tian Ji, wanted to march straight to Handan. But his adviser, Sun Bin, said, "Wait. Wei's best soldiers are far away at Handan. That means Wei's own capital must be weak. Let us attack it instead!"
 
-{id:'s15',title:'调虎离山 · Lure the Tiger Down',cat:'s36',diff:'easy',rating:950,em:'🐯',
-passage:`三十六计 #15 · 调虎离山 (diào hǔ lí shān) · Lure the Tiger Away from the Mountain
+Qi's army marched toward Wei's capital. When Wei heard the news, its generals were afraid. They gave up the attack on Zhao and rushed home. The long march made them tired. Qi's army was waiting at a place called Guiling. Qi won the battle, and Zhao was saved.
 
-Idea: a tiger is very strong on its own mountain, so tempt it to leave before you act.
+The idiom says: save Zhao by attacking Wei. If you cannot beat the strongest part of an enemy, threaten the thing they must protect.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🏯',x:55,y:118,s:52},{e:'🏰',x:345,y:118,s:56},{e:'🧑',x:170,y:156,s:58},{e:'🐎',x:255,y:156,s:52,flip:true},{e:'⚔️',x:70,y:172,s:26},{e:'🛡️',x:120,y:170,s:28}]},
+   cap:'Sun Bin points the army toward Wei\'s weak capital.'}
+ ],
+ q:[
+  {q:'Which city did Wei\'s army surround?',o:['Guiling','Handan','Chencang','Linjin'],a:1},
+  {q:'What was Sun Bin\'s clever idea?',o:['Send gifts to Wei','Build a high wall around Qi','Ask Zhao to surrender','Attack Wei\'s weak capital instead of going straight to Zhao'],a:3},
+  {q:'What does the idiom "save Zhao by attacking Wei" mean?',o:['Fight where the enemy is strongest','Never help a friend','Always attack at night','Threaten something the enemy must protect'],a:3},
+  {q:'Why did the Wei army rush home?',o:['Their own capital was in danger','They ran out of water','They had already won','Their king called a feast'],a:0}
+ ]},
 
-A tiger knows every path and hiding place in its mountain home. If you fight it there, you will probably lose. But on open flat land, the tiger loses its advantage.
+{id:'s03',num:3,grp:1,cat:'s36',
+ title:'借刀杀人 · Borrow a Knife',py:'jiè dāo shā rén',en:'Borrow someone else\'s knife',
+ diff:'medium',rating:1250,em:'🗡️',src:'history',
+ memo:'Let the power of others do the work.',
+ parts:[
+  {h:'Zi Gong saves his homeland',
+   text:`About 484 BC, the state of Qi planned to attack the state of Lu. Lu was the homeland of the wise teacher Confucius. Lu was small, and Qi was very strong. Confucius did not want his home to be hurt.
 
-Here is a story from the Three Kingdoms period. A young leader named Sun Ce wanted to capture the strong city of Lujiang, but its walls were hard to break. So Sun Ce sent gifts and kind words to the city's ruler, Liu Xun, and begged for his help against another enemy at a place called Shangliao.
+One of his students, Zi Gong, said, "Let me try." Zi Gong did not carry a sword. He carried words. He traveled to other states and talked with their rulers.
 
-Liu Xun was happy to be asked, and he marched out with his army to attack Shangliao. While his army was away, Sun Ce rushed in and took the almost empty city of Lujiang.
+First, he went to Qi. He urged the rulers of Qi to look at a different target, the state of Wu. Then he went to Wu and convinced it to fight Qi. He also warned the state of Jin to be ready.
 
-The lesson: do not fight where your opponent is strongest. First find a way to move them away from their strong place. Players use this idea in many games and sports too.`,
-q:[
-{q:'What does 调虎离山 mean?',o:['Attack the tiger head-on','Lure the tiger away from its mountain','Be friends with a tiger','Hide from a tiger'],a:1},
-{q:'Why is a tiger weaker on flat land?',o:['It gets tired of running','It loses the advantage of knowing its mountain','Flat land is hot','Tigers cannot run there'],a:1},
-{q:'How did Sun Ce get Liu Xun to leave Lujiang?',o:['He threatened him','He asked for help against another enemy at Shangliao','He built a wall','He gave him the city'],a:1},
-{q:'What happened while Liu Xun\'s army was away?',o:['Lujiang stayed safe','Sun Ce took the almost empty city','Rain stopped the battle','Both sides made peace'],a:1}]},
+Soon the big states were busy with each other. Nobody had time to attack Lu. Lu stayed safe.
 
-{id:'s01',title:'瞒天过海 · Cross the Sea in Secret',cat:'s36',diff:'easy',rating:950,em:'🌊',
-passage:`三十六计 #1 · 瞒天过海 (mán tiān guò hǎi) · Fool the Heavens to Cross the Sea
+The idiom means "borrow someone else's knife." It means using the power of others to reach your goal.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🏰',x:55,y:120,s:52},{e:'🧑‍🏫',x:190,y:156,s:60},{e:'🐴',x:125,y:162,s:44},{e:'🏯',x:300,y:115,s:44},{e:'🏯',x:355,y:125,s:38},{e:'📜',x:250,y:166,s:26},{e:'🌳',x:20,y:150,s:36}]},
+   cap:'Zi Gong travels from state to state with words, not swords.'}
+ ],
+ q:[
+  {q:'What did Zi Gong carry instead of a sword?',o:['Gold','A map','Arrows','Words'],a:3},
+  {q:'What happened to Lu at the end of the story?',o:['It stayed safe','It was captured','It joined Qi','It moved away'],a:0},
+  {q:'What does the idiom "borrow someone else\'s knife" mean?',o:['Steal a sharp tool','Never ask for help','Use the power of others to reach your goal','Fight with two swords'],a:2},
+  {q:'Why was Zi Gong\'s plan clever?',o:['He fought Qi alone','He built a bigger army','He hid Confucius','He got other states busy with each other, so Lu did not have to fight'],a:3}
+ ]},
 
-Idea: hide something big in plain sight, so people are so used to it that they stop noticing.
+{id:'s04',num:4,grp:1,cat:'s36',
+ title:'以逸待劳 · Wait While They Tire',py:'yǐ yì dài láo',en:'Rest and wait for the tired enemy',
+ diff:'easy',rating:950,em:'🥁',src:'history',
+ memo:'Rest and wait, then act at the right moment.',
+ parts:[
+  {h:'Cao Gui and the three drumbeats',
+   text:`In 684 BC, the state of Qi attacked the state of Lu. Duke Zhuang of Lu wanted to fight at once. When the Qi drums began to beat, he got ready to charge.
 
-This is a legend about Emperor Taizong of the Tang Dynasty. The emperor was about to lead an army across the sea to a faraway land, but he was afraid of the ocean and did not want to board a ship.
+His adviser, Cao Gui, said, "Not yet. Wait." So the Lu soldiers stayed calm. The Qi drums beat a second time. Cao Gui said, "Wait." The drums beat a third time. Now Cao Gui said, "Beat our drum!"
 
-His general knew that delay would be dangerous. So he told the emperor that a rich local man was inviting him to a big feast. The emperor walked into a large house with soft cloth walls and enjoyed music, food, and talk.
+The Lu army charged, and the Qi army ran away. Later, the duke asked why Cao Gui had waited. Cao Gui explained, "A drum gives courage. The first drumbeat makes soldiers brave. The second makes them weaker. By the third, their courage is gone. Ours was full, so we won," he said.
 
-After a while the floor began to rock gently, and the emperor heard the sound of waves. He looked out and saw only water everywhere. The "house" was actually a huge ship covered with cloth, and the army was already sailing across the sea!
+The idiom says: wait while the enemy gets tired. Rest, wait for the right moment, and then act with full strength.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🥁',x:335,y:150,s:60},{e:'💤',x:310,y:90,s:28},{e:'🧑',x:115,y:156,s:58},{e:'🤴',x:55,y:150,s:52},{e:'🛡️',x:165,y:168,s:32},{e:'🥁',x:215,y:150,s:44}]},
+   cap:'Cao Gui waits calmly while Qi\'s drums beat.'}
+ ],
+ q:[
+  {q:'What did Cao Gui say when the Qi drums beat the first time?',o:['Charge!','Run away!','Go home.','Not yet. Wait.'],a:3},
+  {q:'Why did Lu win the battle?',o:['Lu had more horses','Its soldiers still had full courage when Qi\'s courage was gone','Qi forgot its drum','It began to rain'],a:1},
+  {q:'What does the idiom "wait while the enemy gets tired" mean?',o:['Always attack first','Never use drums','Rest and act at the right moment','Sleep all day'],a:2},
+  {q:'How could you use this idea in a swim race?',o:['Swim as fast as you can and then stop','Save some energy early, then sprint at the right time','Wait at the wall for ten minutes','Skip the race'],a:1}
+ ]},
 
-The lesson: when something looks ordinary, people stop watching closely. Clever planners sometimes hide a bold move inside an everyday scene.`,
-q:[
-{q:'Why did the emperor not want to cross the sea?',o:['He was afraid of the ocean','He hated food','He was too busy','He had no army'],a:0},
-{q:'How did the general trick the emperor?',o:['He gave him a magic potion','He invited him to a feast in a "house" that was really a ship','He tied him up','He told him the sea was frozen'],a:1},
-{q:'What does 瞒天过海 teach?',o:['Boats are safer than houses','Something ordinary-looking can hide a bold plan','Always trust a feast','Never travel by sea'],a:1}]},
+{id:'s05',num:5,grp:1,cat:'s36',
+ title:'趁火打劫 · Rob a Burning House',py:'chèn huǒ dǎ jié',en:'Take advantage of a fire to rob',
+ diff:'medium',rating:1250,em:'🔥',src:'history',
+ memo:'When others are distracted, a chance appears. Also ask if it is fair.',
+ parts:[
+  {h:'Goujian strikes while Wu is away',
+   text:`In 482 BC, King Fuchai of Wu wanted to be the strongest ruler of all. He took his best soldiers far north to a big meeting of rulers. Wu's capital was left almost empty.
 
-{id:'s02',title:'围魏救赵 · Save Zhao by Besieging Wei',cat:'s36',diff:'medium',rating:1250,em:'🗡️',
-passage:`三十六计 #2 · 围魏救赵 (wéi wèi jiù zhào) · Besiege Wei to Rescue Zhao
+King Goujian of Yue had been waiting for this moment for years. Wu had once beaten Yue, and Goujian had never forgotten. When he heard that Fuchai's army was far away, he attacked the Wu capital.
 
-Idea: if you cannot beat your enemy where they are strong, attack the place they cannot afford to lose.
+The idiom says: rob a burning house. When someone is in trouble or busy with something else, a chance can appear. It is all about good timing.
 
-In ancient China, around 354 BC, the strong state of Wei attacked the weaker state of Zhao and surrounded its capital. Zhao begged the state of Qi for help.
+But a wise person also asks a question: is it fair to use someone's trouble? Goujian felt he had a reason, because Wu had beaten Yue. Think about when you would use this idea, and when you would rather help.`,
+   scene:{bg:'dusk',ground:'stone',items:[{e:'🏯',x:200,y:120,s:62},{e:'🔥',x:245,y:150,s:34},{e:'🐎',x:325,y:156,s:50},{e:'🏹',x:130,y:166,s:32},{e:'🤴',x:75,y:152,s:56},{e:'😮',x:350,y:88,s:26}]},
+   cap:'Goujian attacks the nearly empty Wu capital.'}
+ ],
+ q:[
+  {q:'Why was the Wu capital almost empty?',o:['The city was flooded','Everyone went to a feast','The king was hiding','King Fuchai took his best soldiers far north'],a:3},
+  {q:'Who attacked the Wu capital?',o:['Zhuge Liang','Han Xin','Goujian of Yue','Cao Gui'],a:2},
+  {q:'What does the idiom "rob a burning house" mean?',o:['Use a moment of trouble or distraction to act','Put out a fire','Build a new house','Never go near fire'],a:0},
+  {q:'What question does a wise person also ask?',o:['How fast is the fire?','Is it fair to use someone\'s trouble?','Who has the biggest house?','Where is the nearest river?'],a:1}
+ ]},
 
-The Qi general Tian Ji wanted to rush straight to Zhao and fight the Wei army there. But his adviser, Sun Bin, who is said to be a descendant of the famous Sun Tzu, had a smarter plan.
+{id:'s06',num:6,grp:1,cat:'s36',
+ title:'声东击西 · Noise East, Strike West',py:'shēng dōng jī xī',en:'Make noise in the east, strike in the west',
+ diff:'easy',rating:950,em:'🎯',src:'history',
+ memo:'Control where your opponent looks.',
+ parts:[
+  {h:'Han Xin crosses the river',
+   text:`In 205 BC, the general Han Xin had to cross the wide Yellow River. His enemy was Wei Bao. Wei Bao's soldiers guarded the main crossing, a place called Linjin. Crossing there would be very dangerous.
 
-"Wei's best soldiers are far away at Zhao," said Sun Bin. "That means Wei's own capital is probably weakly guarded. Let us attack there instead!"
+So Han Xin put on a show. His soldiers gathered many boats at Linjin. They shouted and made lots of noise, as if they were about to cross. Wei Bao hurried his army to guard Linjin.
 
-Qi's army marched toward Wei's capital. When the Wei army heard that their home was in danger, they gave up the attack on Zhao and hurried back. Tired from the fast march, they were ambushed by the waiting Qi army at a place called Guiling, and they lost badly.
+But that was a trick. Far upriver, at a place called Xiayang, a hidden group of soldiers tied wooden barrels and jars together. They used them like rafts and crossed quietly. Then they attacked Wei Bao's home area from behind.
 
-Zhao was saved, and Qi never had to fight at Zhao. The lesson: do not push against the strongest part of the enemy. Find what they must protect, and threaten that.`,
-q:[
-{q:'What problem started this story?',o:['Qi attacked Wei','Wei attacked Zhao\'s capital','Sun Bin was captured','Zhao attacked Qi'],a:1},
-{q:'What was Sun Bin\'s clever idea?',o:['March straight to Zhao','Attack Wei\'s capital while its best army was away','Ask Wei for peace','Build a wall around Qi'],a:1},
-{q:'Why did the Wei army hurry home?',o:['They heard their own capital was in danger','They ran out of water','They won and wanted to celebrate','Their king got sick'],a:0},
-{q:'What is the main lesson of 围魏救赵?',o:['Always attack the strongest part of the enemy','Threaten what the enemy must protect instead of fighting where they are strong','Never help friends','Speed matters more than planning'],a:1},
-{q:'Where did Qi ambush the tired Wei army?',o:['Guiling','Beijing','The Yellow River bank','Lujiang'],a:0}]},
+The idiom says: make noise in the east, strike in the west. If you control where your enemy looks, you control what happens.`,
+   scene:{bg:'day',ground:'water',items:[{e:'🛶',x:60,y:166,s:42},{e:'🛶',x:150,y:168,s:46},{e:'🥁',x:105,y:118,s:32},{e:'🧑',x:255,y:152,s:54},{e:'🪵',x:330,y:170,s:40},{e:'🏺',x:365,y:168,s:34}]},
+   cap:'Boats and noise at Linjin, barrel rafts far upriver.'}
+ ],
+ q:[
+  {q:'What did Han Xin\'s soldiers gather at Linjin?',o:['Gold','Straw','Horses','Many boats'],a:3},
+  {q:'How did the hidden group cross the river at Xiayang?',o:['On rafts made of wooden barrels and jars','By swimming','Over a stone bridge','They flew'],a:0},
+  {q:'What does the idiom "make noise in the east, strike in the west" mean?',o:['Always attack at dawn','Make friends in the east','Never cross rivers','Show your enemy one direction, then act in another'],a:3},
+  {q:'Why did Wei Bao hurry to Linjin?',o:['He wanted to go fishing','He thought Han Xin was about to cross there','He was lost','It was his home'],a:1}
+ ]},
 
-{id:'s06',title:'声东击西 · Noise East, Strike West',cat:'s36',diff:'medium',rating:1250,em:'🎯',
-passage:`三十六计 #6 · 声东击西 (shēng dōng jī xī) · Make Noise in the East, Strike in the West
+{id:'s07',num:7,grp:2,cat:'s36',
+ title:'无中生有 · Make Something from Nothing',py:'wú zhōng shēng yǒu',en:'Create something out of nothing',
+ diff:'easy',rating:950,em:'☁️',src:'novel',
+ memo:'A clever picture in the mind can create a real result.',
+ parts:[
+  {h:'Zhuge Liang borrows arrows',
+   text:`In the famous novel Romance of the Three Kingdoms, Zhuge Liang made a bold promise. He said he could get 100,000 arrows in only three days. Nobody believed him.
 
-Idea: lead your opponent to look in the wrong direction, then act somewhere else.
+On the third night, thick fog covered the river. Zhuge Liang sent out boats covered with straw dummies. They sailed toward the enemy camp. Drums beat loudly. The enemy archers could not see well in the fog. They thought an attack was coming, so they shot thousands of arrows at the shapes.
 
-In 205 BC the general Han Xin needed to cross the Yellow River to attack the army of Wei Bao. Wei Bao's soldiers were guarding the main crossing at Linjin, so crossing there would be very dangerous.
+The arrows stuck in the straw like needles. Zhuge Liang turned the boats around. They came back loaded with arrows! He had made arrows out of nothing.`,
+   scene:{bg:'night',ground:'water',items:[{e:'🛶',x:120,y:166,s:50},{e:'🛶',x:215,y:162,s:46},{e:'☁️',x:200,y:78,s:62},{e:'🌾',x:125,y:140,s:30},{e:'🏹',x:320,y:118,s:40},{e:'🏹',x:355,y:150,s:34},{e:'🧑',x:60,y:150,s:48}]},
+   cap:'Straw boats in the fog catch thousands of arrows.'},
+  {h:'Cao Cao and the plum forest',
+   text:`Here is another story. Cao Cao's army was marching in the summer heat. The soldiers were very thirsty, and they could not find water.
 
-Han Xin put on a show. His soldiers collected many boats at Linjin and made a lot of noise as if they were about to cross. Wei Bao rushed his troops to guard Linjin.
+Cao Cao pointed ahead and called, "Just ahead is a forest full of plums! They are sweet and sour!" When the soldiers heard this, their mouths began to water. They felt a little better and marched on faster. Soon they found water.
 
-Meanwhile Han Xin sent another group of soldiers far upriver to a place called Xiayang, where almost no one was guarding. They had no boats, so they used large wooden barrels and jars tied together as rafts and crossed the river quietly. Then they attacked Wei Bao's home area from behind.
+There was no plum forest. But the idea was strong enough to help them keep going. The old saying is called "look at plums to stop being thirsty."`,
+   scene:{bg:'day',ground:'sand',items:[{e:'🤴',x:80,y:156,s:58},{e:'🧑',x:150,y:162,s:46},{e:'🧑',x:205,y:162,s:46,flip:true},{e:'🌳',x:290,y:118,s:58},{e:'🍑',x:268,y:100,s:22},{e:'🍑',x:318,y:96,s:22},{e:'☀️',x:355,y:45,s:40}]},
+   cap:'Cao Cao points ahead to a forest of sweet plums.'}
+ ],
+ q:[
+  {q:'How many arrows did Zhuge Liang promise to get?',o:['10,000','50,000','100,000','1,000,000'],a:2},
+  {q:'Why did the enemy archers shoot at the boats?',o:['The fog hid the straw shapes, so they thought an attack was coming','They saw Zhuge Liang','They were ordered to practice','They were lost'],a:0},
+  {q:'What happened to the thirsty soldiers when Cao Cao talked about plums?',o:['They went home','They fell asleep','Their mouths began to water and they felt better','They got angry'],a:2},
+  {q:'What does the idiom "make something from nothing" mean in these stories?',o:['Never carry supplies','Using a clever idea or picture to get a real result','Counting stars at night','Finding gold in the river'],a:1}
+ ]},
 
-Wei Bao was surprised and defeated. This stratagem works because people believe what they see and hear. In sports, a player may look left and then pass right. In games, you can show one plan to hide another.
+{id:'s08',num:8,grp:2,cat:'s36',
+ title:'暗度陈仓 · Secretly Cross at Chencang',py:'àn dù chén cāng',en:'Openly repair the road, secretly cross at Chencang',
+ diff:'medium',rating:1250,em:'🪵',src:'history',
+ memo:'Show one plan, but do another.',
+ parts:[
+  {h:'The road that took years to fix',
+   text:`In 206 BC, Liu Bang was sent to a faraway, hilly land. To show he was no danger, he burned the plank road behind him. The plank road was a narrow path built along steep cliffs. Now his enemies felt safe.
 
-The lesson: control where your opponent is looking, and you control what happens next.`,
-q:[
-{q:'What does 声东击西 mean?',o:['Attack from both sides at the same time','Make noise in the east and strike in the west','Hide in the mountains','Run away at night'],a:1},
-{q:'What did Han Xin do at Linjin?',o:['He attacked at once','He gathered boats and made noise as if he would cross','He went home','He built a tower'],a:1},
-{q:'How did the other group cross the river at Xiayang?',o:['They swam','They used wooden barrels and jars as rafts','They flew over','They used a stone bridge'],a:1},
-{q:'Which example uses the same idea in sports?',o:['Running straight every time','Looking left and then passing right','Sitting on the bench','Practicing alone'],a:1}]},
+Later, Liu Bang's general Han Xin made a plan. He ordered soldiers to repair the burned road, and they worked where everyone could see. Repairing it would take years. The enemy general laughed. He relaxed and kept watching the road.
 
-{id:'s33',title:'反间计 · Make the Enemy Fool Himself',cat:'s36',diff:'medium',rating:1250,em:'🕵️',
-passage:`三十六计 #33 · 反间计 (fǎn jiàn jì) · Turn the Enemy's Own Spy Against Him
+But the repairs were only a show. Han Xin's main army marched secretly along a different way. It passed through a place called Chencang. The enemy general was surprised, and his army was beaten.
 
-Idea: use your enemy's suspicion against him, so he damages himself.
+The idiom means "openly repair the road, secretly cross at Chencang." Show one plan, but do another.`,
+   scene:{bg:'day',ground:'stone',items:[{e:'⛰️',x:325,y:112,s:66},{e:'🪵',x:90,y:166,s:34},{e:'🪵',x:135,y:166,s:34},{e:'🧑',x:180,y:152,s:56},{e:'🐎',x:255,y:154,s:48},{e:'🔥',x:50,y:150,s:30},{e:'😂',x:300,y:48,s:30}]},
+   cap:'Soldiers fix the road in plain sight while the real army goes another way.'}
+ ],
+ q:[
+  {q:'Why did Liu Bang burn the plank road behind him?',o:['To keep warm','To show he was no danger','To clear the cliff','To make bricks'],a:1},
+  {q:'What did Han Xin\'s soldiers do in plain sight?',o:['Sing songs','Dig wells','Race horses','Repair the burned road'],a:3},
+  {q:'What does the idiom "openly repair the road, secretly cross at Chencang" mean?',o:['Show one plan while doing another','Never fix a road','Walk in a circle','Close the road forever'],a:0},
+  {q:'Why did the enemy general relax?',o:['He was sleepy','He lost his map','He thought the repairs would take years','He heard singing'],a:2}
+ ]},
 
-This story is told in "Romance of the Three Kingdoms." Before the Battle of Red Cliffs, the powerful leader Cao Cao wanted to cross the Yangtze River with a huge fleet. His navy was led by two skilled commanders, Cai Mao and Zhang Yun, who knew how to fight on water. Cao Cao's own northern soldiers did not.
+{id:'s09',num:9,grp:2,cat:'s36',
+ title:'隔岸观火 · Watch the Fire from the Far Bank',py:'gé àn guān huǒ',en:'Watch the fire from the other bank',
+ diff:'medium',rating:1250,em:'👀',src:'history',
+ memo:'Sometimes waiting lets rivals weaken each other.',
+ parts:[
+  {h:'Cao Cao chooses to wait',
+   text:`In 207 AD, two brothers, Yuan Shang and Yuan Xi, were on the run. They had been beaten in battle, and they had few soldiers left. They fled to the far north. They asked a local leader named Gongsun Kang to shelter them.
 
-A smart general named Zhou Yu, on the other side, knew that he could not win while those two commanders led the fleet. So he made a plan. A visitor named Jiang Gan, a friend of Cao Cao, came to Zhou Yu's camp to look around. Zhou Yu pretended to get drunk and left a fake secret letter lying on his desk, as if Cai Mao and Zhang Yun were secretly working for him.
+Cao Cao's generals wanted to chase the brothers. But Cao Cao said, "No. If we push them, they will join forces with Gongsun Kang. If we leave, they will start fighting each other." So Cao Cao led his army home. His generals were surprised, but they obeyed.
 
-Jiang Gan stole the letter and brought it to Cao Cao. Cao Cao was furious. Without checking the facts, he ordered both commanders to be executed. Soon he realized he had made a terrible mistake, but it was too late.
+Cao Cao was right. Soon Gongsun Kang turned against the brothers himself. He no longer sheltered them, and he handed them over.
 
-The lesson: before you act on a secret message, check whether it is true. A suspicious mind can be used as a weapon against itself.`,
-q:[
-{q:'Why were Cai Mao and Zhang Yun important to Cao Cao?',o:['They were his cooks','They were skilled commanders of his navy','They were his teachers','They were his brothers'],a:1},
-{q:'What did Zhou Yu leave on his desk?',o:['A map of the river','A fake secret letter','A bag of gold','A sword'],a:1},
-{q:'What did Cao Cao do after reading the letter?',o:['He checked the facts carefully','He ordered both commanders to be executed','He returned home','He made peace'],a:1},
-{q:'What lesson does 反间计 teach?',o:['Always believe secret letters','Check whether a message is true before you act','Never trust any friend','Drinking helps you think'],a:1},
-{q:'Whose book tells this story?',o:['Romance of the Three Kingdoms','A cookbook','The Art of War','Journey to the West'],a:0}]}
+The idiom means "watch the fire from the far bank." Sometimes waiting is smarter than rushing. Your rivals may weaken each other while you stay safe.`,
+   scene:{bg:'dusk',ground:'water',items:[{e:'🔥',x:330,y:126,s:46},{e:'🏯',x:355,y:100,s:36},{e:'🤴',x:80,y:154,s:58},{e:'🧑',x:150,y:160,s:50},{e:'🌊',x:225,y:178,s:36},{e:'👀',x:235,y:105,s:30}]},
+   cap:'Cao Cao watches from the far bank and waits.'}
+ ],
+ q:[
+  {q:'Who did the Yuan brothers ask for shelter?',o:['Gongsun Kang','Sun Bin','Tian Ji','Fuchai'],a:0},
+  {q:'What did Cao Cao think would happen if he pushed the brothers?',o:['They would give up at once','They would sail away','They would join forces with Gongsun Kang','They would fall asleep'],a:2},
+  {q:'What does the idiom "watch the fire from the far bank" mean?',o:['Put out every fire','Wait while others weaken each other','Burn the river','Hide behind a wall'],a:1},
+  {q:'Why did Cao Cao lead his army home?',o:['He was afraid of the brothers','He forgot something','He believed waiting would be smarter than chasing','He was ordered to'],a:2}
+ ]},
+
+{id:'s10',num:10,grp:2,cat:'s36',
+ title:'笑里藏刀 · A Knife Behind a Smile',py:'xiào lǐ cáng dāo',en:'Hide a knife inside a smile',
+ diff:'medium',rating:1250,em:'🎭',src:'history',
+ memo:'Watch the actions, not just the sweet words.',
+ parts:[
+  {h:'Lu Xun and the proud general',
+   text:`Guan Yu was a famous general. He guarded the important region of Jing Province. He was brave, but he was also very proud.
+
+A young scholar-general named Lu Xun was sent to face him. Lu Xun wrote Guan Yu humble, flattering letters. He praised Guan Yu again and again. He said Guan Yu was far greater than he could ever be. Guan Yu felt pleased. He thought, "This young man is no danger." So he moved many soldiers away from his post.
+
+Then Wu's army struck. Its soldiers crossed the river in boats, dressed as merchants. They took the cities, and Jing Province was lost.
+
+The idiom means "a knife behind a smile." Be careful when sweet words do not match actions. And remember that being too proud can make you careless.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🤴',x:95,y:156,s:60},{e:'🧑',x:300,y:160,s:56,flip:true},{e:'✉️',x:200,y:112,s:34},{e:'😊',x:200,y:60,s:30},{e:'🛶',x:355,y:176,s:36},{e:'🏯',x:55,y:108,s:40}]},
+   cap:'Lu Xun\'s friendly letters make Guan Yu relax.'}
+ ],
+ q:[
+  {q:'What did Lu Xun write to Guan Yu?',o:['A threat','Humble, flattering letters','A map','A poem about boats'],a:1},
+  {q:'How did Wu\'s soldiers cross the river?',o:['On horses','On a bridge','In boats, dressed as merchants','With loud drums and flags'],a:2},
+  {q:'What does the idiom "a knife behind a smile" mean?',o:['A kind gift','A smiling swordsman','A sharp pencil','Sweet words that hide a harmful plan'],a:3},
+  {q:'Why did Guan Yu move his soldiers away?',o:['He thought Lu Xun was no danger','He was ordered by the king','He wanted a holiday','He ran out of food'],a:0}
+ ]},
+
+{id:'s11',num:11,grp:2,cat:'s36',
+ title:'李代桃僵 · Plum Tree for Peach Tree',py:'lǐ dài táo jiāng',en:'The plum tree takes the peach tree\'s place',
+ diff:'easy',rating:950,em:'🐎',src:'history',
+ memo:'Give up a small thing to win a big thing.',
+ parts:[
+  {h:'Tian Ji and the horse race',
+   text:`Tian Ji liked to race horses against the king of Qi. Each side had three horses: a fast one, a medium one, and a slow one. There were three races. The side that won two races won the game.
+
+The king's horses were a little better than Tian Ji's. So Tian Ji lost again and again. One day he asked his adviser, Sun Bin, for help.
+
+Sun Bin said, "Race your slowest horse against the king's fastest. Race your fastest horse against his medium horse. Race your medium horse against his slowest."
+
+Tian Ji tried it. His slow horse lost the first race. But his fast horse won the second, and his medium horse won the third. Tian Ji won two out of three!
+
+The idiom says: the plum tree takes the place of the peach tree. Give up a small thing to win a big thing.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🐎',x:90,y:152,s:56},{e:'🐴',x:190,y:152,s:52},{e:'🐎',x:300,y:152,s:56,flip:true},{e:'🤴',x:355,y:100,s:40,flip:true},{e:'🧑',x:200,y:96,s:40},{e:'🏆',x:250,y:96,s:28},{e:'🌸',x:30,y:100,s:36}]},
+   cap:'Three horses race: the slow one is sent first on purpose.'}
+ ],
+ q:[
+  {q:'How many races did Tian Ji and the king run?',o:['Two','Three','Four','Five'],a:1},
+  {q:'Which horses did Sun Bin say should race each other first?',o:['His fastest against the king\'s fastest','His medium against his own fast','His slowest against the king\'s slowest','His slowest against the king\'s fastest'],a:3},
+  {q:'What does the idiom "the plum tree takes the place of the peach tree" mean?',o:['Give up a small thing to win a big thing','Plant more trees','Never lose a race','Trade horses for trees'],a:0},
+  {q:'How did Tian Ji win the game?',o:['He won all three races','He won the first race','He won two of the three races','He paid the king'],a:2}
+ ]},
+
+{id:'s12',num:12,grp:2,cat:'s36',
+ title:'顺手牵羊 · Lead Away a Sheep in Passing',py:'shùn shǒu qiān yáng',en:'Lead away a sheep as you pass by',
+ diff:'medium',rating:1250,em:'🐑',src:'history',
+ memo:'Notice a small chance and grab it fast.',
+ parts:[
+  {h:'The tip that burned the grain',
+   text:`In 200 AD, the battle at Guandu was going badly for Cao Cao. His army was smaller than Yuan Shao's. He was also running low on food.
+
+Then something surprising happened. A man named Xu You left Yuan Shao and came to Cao Cao. He brought a secret tip. "Yuan Shao keeps his grain at a place called Wuchao," he said. "It is guarded by only a few soldiers."
+
+Cao Cao did not wait. He saw a small chance, and he grabbed it. That night, he led a small force to Wuchao. His men burned the grain. Without food, Yuan Shao's army lost heart, and Cao Cao won.
+
+The idiom means "lead away a sheep as you pass by." When a small chance appears, take it quickly. This is one famous example of the idea.`,
+   scene:{bg:'night',ground:'grass',items:[{e:'🌾',x:315,y:150,s:50},{e:'🔥',x:335,y:128,s:50},{e:'🔥',x:290,y:142,s:40},{e:'🥷',x:110,y:156,s:52},{e:'🧑',x:190,y:156,s:52},{e:'🐎',x:245,y:156,s:44},{e:'🌙',x:60,y:55,s:34}]},
+   cap:'A small force sneaks to Wuchao and burns the grain.'}
+ ],
+ q:[
+  {q:'Why was Cao Cao in a hard spot at Guandu?',o:['His army was too large','His army was smaller and low on food','He had no horses','He was lost'],a:1},
+  {q:'What secret did Xu You bring?',o:['A map of the sea','The name of a spy','A new drum','Yuan Shao\'s grain was at Wuchao and lightly guarded'],a:3},
+  {q:'What does the idiom "lead away a sheep as you pass by" mean?',o:['Steal a sheep','Grab a small chance when it appears','Herd animals at night','Carry a heavy load'],a:1},
+  {q:'Why did Cao Cao act quickly?',o:['He was sleepy','The moon was bright','He was in a hurry to eat','A small chance can disappear fast'],a:3}
+ ]}
+);
+STORIES.push(
+{id:'s13',num:13,grp:3,cat:'s36',title:'打草惊蛇 · Beat the Grass, Startle the Snake',py:'dǎ cǎo jīng shé',en:'Beat the grass and startle the snake',diff:'easy',rating:950,em:'🐍',src:'history',
+ memo:"Do not warn your target before you are ready.",
+ parts:[{h:'Wang Lu and the report',
+  text:`Long ago, in the Tang dynasty, a man named Wang Lu worked as a county official. It was his job to keep the town honest.
+
+One day, a report came to his desk. It said that his clerks were taking bribes. A bribe is secret money that people pay to get special treatment.
+
+Wang Lu read the report slowly. Then he picked up his brush and wrote one sentence on it. "You have beaten the grass, but I am the snake, and I am already startled."
+
+What did he mean? When you hit the grass, a hidden snake gets scared and slithers away. Wang Lu understood that a loud, early attack had warned the one who was hiding. After that, the snake would be much harder to catch.
+
+The lesson is simple. Do not alarm your target before you are ready. Make a quiet plan first, and then act.`,
+  scene:{bg:'day',ground:'grass',items:[{e:'🌿',x:110,y:150,s:60},{e:'🐍',x:150,y:172,s:34},{e:'🧑',x:270,y:150,s:62,flip:true},{e:'📜',x:330,y:118,s:32},{e:'🏯',x:350,y:92,s:44}]},
+  cap:'Wang Lu beats the grass, and the snake slips away.'}],
+ q:[
+  {q:"What did the report say about the clerks?",o:["They were late for work.","They were taking bribes.","They were fighting each other.","They were stealing horses."],a:1},
+  {q:"In this story, what does the word 'bribe' mean?",o:["A gift for a friend","A prize for a race","Secret money paid to get special treatment","Money you earn from farming"],a:2},
+  {q:"Why does a hidden snake slither away when someone beats the grass?",o:["It gets scared and wants to escape.","It wants to eat the grass.","It is looking for water.","It is calling its friends."],a:0},
+  {q:"What is the lesson of 'beat the grass, startle the snake'?",o:["Always act as loudly as you can.","Never make plans.","Do not warn your target before you are ready.","Snakes are good helpers."],a:2}]},
+
+{id:'s14',num:14,grp:3,cat:'s36',title:'借尸还魂 · Borrow a Body, Bring Back a Spirit',py:'jiè shī huán hún',en:'Borrow a body to bring back a spirit',diff:'medium',rating:1250,em:'👑',src:'history',
+ memo:"An old, loved name can bring people together again.",
+ parts:[{h:'A king found with the sheep',
+  text:`Chu was once a great state. Then a powerful state called Qin conquered it. But the people of Chu did not forget their home. They still loved the names of their old kings.
+
+In 208 BC, a general named Xiang Liang led an army against Qin. He wanted more people to join him. He needed one thing: a name that people trusted.
+
+Then Xiang Liang found a young man named Xiong Xin. Xiong Xin was a grandson of an old king of Chu. He was herding sheep to earn his living.
+
+Xiang Liang made Xiong Xin the new king. He gave him the famous old title, King Huai of Chu. The name did its work. Crowds of Chu people hurried to join the army, because the name felt like home.
+
+The stratagem is called "borrow a body to bring back a spirit." Something old seemed finished, but it was given new life. The lesson is that a familiar name or idea can bring people together.`,
+  scene:{bg:'day',ground:'grass',items:[{e:'🐑',x:80,y:165,s:44},{e:'🐑',x:135,y:172,s:36},{e:'🤴',x:225,y:148,s:66},{e:'👑',x:225,y:98,s:28},{e:'🧑',x:315,y:152,s:56,flip:true},{e:'🚩',x:360,y:110,s:34}]},
+  cap:'Xiang Liang crowns the shepherd Xiong Xin as king.'}],
+ q:[
+  {q:"Where did Xiang Liang find Xiong Xin?",o:["Fighting in a battle","Herding sheep","Teaching at a school","Sailing on a river"],a:1},
+  {q:"In this story, what does 'borrow a body to bring back a spirit' mean?",o:["Using an old name or idea to give something new life","Burying a king in the ground","Telling ghost stories at night","Building a new city quickly"],a:0},
+  {q:"Why did many people join the army after Xiong Xin became king?",o:["They were paid gold coins.","They were afraid of Xiang Liang.","The name of the old Chu king felt like home.","They wanted to herd sheep."],a:2},
+  {q:"Which is the best example of this idea?",o:["A cook burns the soup.","A runner starts early.","A student forgets homework.","A club brings back its old, loved team name to gather members again."],a:3}]},
+
+{id:'s15',num:15,grp:3,cat:'s36',title:'调虎离山 · Lure the Tiger Down the Mountain',py:'diào hǔ lí shān',en:'Lure the tiger away from the mountain',diff:'easy',rating:950,em:'🐯',src:'history',
+ memo:"Pull a strong enemy away from the place where it is strongest.",
+ parts:[{h:'The strong city of Lujiang',
+  text:`Lujiang was a strong city. It had high walls and many soldiers. A young leader named Sun Ce wanted it, but he knew an attack on the walls would cost too much.
+
+The ruler of Lujiang was named Liu Xun. Sun Ce thought of a plan. He sent Liu Xun rich gifts and kind words. Then he said that a place called Shangliao kept attacking him, and he begged Liu Xun for help.
+
+Liu Xun was proud to be asked. He marched out of his city with his army.
+
+While Liu Xun was away, Sun Ce rushed to Lujiang. The city was almost empty. He took it without a long fight.
+
+A tiger is strongest on its own mountain. If you can lure it down to flat land, it loses its power. That is the idea of "lure the tiger down the mountain."`,
+  scene:{bg:'day',ground:'grass',items:[{e:'⛰️',x:80,y:108,s:62},{e:'🏯',x:335,y:108,s:60},{e:'🐯',x:160,y:160,s:54},{e:'🐎',x:250,y:158,s:50,flip:true},{e:'💰',x:205,y:178,s:24}]},
+  cap:'Liu Xun leaves his strong city, and Sun Ce takes it.'}],
+ q:[
+  {q:"Why did Sun Ce not attack the walls of Lujiang?",o:["The walls were high and an attack would cost too much.","He was afraid of tigers.","He did not want the city.","It was raining."],a:0},
+  {q:"What did Sun Ce ask Liu Xun to do?",o:["Give him the city","Join a feast","Help him against Shangliao","Teach his soldiers"],a:2},
+  {q:"What does 'lure the tiger down the mountain' mean?",o:["Climb a mountain very fast","Catch a real tiger in a cage","Hide in the mountains","Pull a strong enemy away from the place where it is strongest"],a:3},
+  {q:"Why was Lujiang easy to take?",o:["Its walls had fallen down.","Liu Xun had taken his army away.","The people opened the gates for a feast.","Sun Ce had the biggest army in the world."],a:1}]},
+
+{id:'s16',num:16,grp:3,cat:'s36',title:'欲擒故纵 · Let Go to Catch',py:'yù qín gù zòng',en:'To catch, first let go',diff:'medium',rating:1250,em:'🧠',src:'novel',
+ memo:"Patience and respect win hearts better than force.",
+ parts:[{h:'Seven times, seven times free',
+  text:`This story comes from the famous novel Romance of the Three Kingdoms. A leader in the south, named Meng Huo, kept fighting the state of Shu. The wise Zhuge Liang led the Shu army to deal with him.
+
+Zhuge Liang could have defeated Meng Huo by force. But that would only make the southern people angry. He wanted something better. He wanted Meng Huo to truly agree.
+
+So Zhuge Liang captured Meng Huo. Then he let him go. Meng Huo went home and said he was not beaten. He fought again, and Zhuge Liang captured him again, and let him go again.
+
+This happened seven times! Each time, Zhuge Liang stayed calm and kind.
+
+At last, Meng Huo felt ashamed. He said, "Your Excellency has the power of heaven. We southerners will never rebel again." He meant it from his heart.
+
+The idea is "to catch, first let go." If you rush and force people, they may turn against you. If you are patient and respectful, they may follow you willingly.`,
+  scene:{bg:'day',ground:'grass',items:[{e:'🧑‍🏫',x:110,y:150,s:64},{e:'👨',x:285,y:150,s:62,flip:true},{e:'🌴',x:45,y:105,s:42},{e:'🌳',x:355,y:105,s:44},{e:'🤝',x:200,y:168,s:30}]},
+  cap:'Zhuge Liang and Meng Huo at last agree.'}],
+ q:[
+  {q:"How many times did Zhuge Liang capture Meng Huo?",o:["Three","Five","Seven","Nine"],a:2},
+  {q:"In this story, what does 'to catch, first let go' mean?",o:["Letting prisoners run away because you are lazy","Being patient so people agree with you from the heart","Throwing a net into a river","Chasing someone faster"],a:1},
+  {q:"Why did Zhuge Liang not simply win by force?",o:["He had no soldiers.","He did not like to travel.","Meng Huo was too strong.","Force would only make the southern people angry."],a:3},
+  {q:"What finally made Meng Huo stop fighting?",o:["He felt ashamed and truly respected Zhuge Liang.","Zhuge Liang gave him a castle.","He fell sick.","His army ran away."],a:0}]},
+
+{id:'s17',num:17,grp:3,cat:'s36',title:'抛砖引玉 · Toss a Brick, Gain Jade',py:'pāo zhuān yǐn yù',en:'Toss out a brick to attract jade',diff:'easy',rating:950,em:'🧱',src:'history',
+ memo:"Offer something small to get something much better.",
+ parts:[
+  {h:'The firewood trick',
+   text:`About 700 BC, the army of Chu wanted to take a small walled state called Jiao. Jiao was well defended, so Chu needed a clever plan.
+
+An adviser had an idea. Send men to cut firewood, but do not give them any weapons. Jiao's soldiers would be tempted.
+
+The next day, Jiao's soldiers caught some woodcutters and took their wood. The following day, more woodcutters came, and Jiao's soldiers caught even more.
+
+Soon the soldiers of Jiao felt very sure of themselves. They stopped being careful. Then one day, many of them rushed out of the walls to chase the woodcutters. Chu's army had been hiding. It jumped out and won.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🌳',x:55,y:108,s:46},{e:'🧑‍🌾',x:140,y:152,s:56},{e:'🪵',x:195,y:172,s:32},{e:'🧑',x:240,y:150,s:56,flip:true},{e:'🏰',x:335,y:105,s:58}]},
+   cap:'The woodcutters are bait for the soldiers of Jiao.'},
+  {h:'Two lines of poetry',
+   text:`There is another story about this idea. In the Tang dynasty, a poet named Zhao Gu visited a temple. He wrote just two lines of a poem on a wall. He hoped a better poet would finish it.
+
+Another poet, Chang Jian, saw the lines. He added two much better lines. People said that Zhao Gu had tossed out a brick, and Chang Jian had given back a piece of jade.
+
+A brick is plain. Jade is a precious stone. The idiom means that you offer something small to get something much better.`,
+   scene:{bg:'indoor',ground:'none',items:[{e:'📜',x:200,y:80,s:46},{e:'👨',x:100,y:150,s:60},{e:'👨',x:300,y:150,s:60,flip:true},{e:'🖌️',x:205,y:150,s:28}]},
+   cap:'Two poets finish a poem together.'}],
+ q:[
+  {q:"What did Chu's army send out to trick Jiao?",o:["Unarmed woodcutters","Giant horses","Gold coins","Soldiers with big drums"],a:0},
+  {q:"Why did Jiao's soldiers finally rush out of the walls?",o:["They were told to by their king.","They saw a fire.","They grew careless and wanted to chase the woodcutters.","They wanted to build a bridge."],a:2},
+  {q:"In the poem story, what are the 'brick' and the 'jade'?",o:["Chang Jian is the brick; the temple is the jade.","Zhao Gu's two lines are the brick; Chang Jian's better lines are the jade.","The wall is the brick; the poem is the jade.","Both are real stones in the temple."],a:1},
+  {q:"What does the idiom 'toss a brick to gain jade' mean?",o:["Throw stones at your enemies","Build a house with bricks","Offer something small to get something much better","Buy jewelry cheaply"],a:2}]},
+
+{id:'s18',num:18,grp:3,cat:'s36',title:'擒贼擒王 · Catch the Leader First',py:'qín zéi qín wáng',en:'To catch bandits, catch their chief',diff:'medium',rating:1250,em:'🏹',src:'history',
+ memo:"Go after the most important target first.",
+ parts:[{h:'Find the leader',
+  text:`In the Tang dynasty, a brave commander named Zhang Xun defended a city. A huge army, led by a man named Yin Ziqi, surrounded it.
+
+Zhang Xun knew that if he could stop the enemy leader, the whole army might give up. But which man was the leader? From far away, everyone looked the same.
+
+So Zhang Xun tried a clever test. His soldiers shot arrows made of straw. The enemy soldiers thought the arrows were real. They cheered and pointed toward their commander.
+
+Now Zhang Xun knew who the leader was! An archer named Nan Jiyun took careful aim. He shot and wounded Yin Ziqi. The enemy army pulled back.
+
+Later, the poet Du Fu wrote: "To shoot a rider, shoot his horse first. To catch a robber, catch the chief first."
+
+That is the idea of "catch the leader first." Do not waste your effort on small things. Find the most important target.`,
+  scene:{bg:'dusk',ground:'grass',items:[{e:'🏯',x:65,y:105,s:52},{e:'🧑',x:130,y:150,s:62},{e:'🏹',x:190,y:150,s:36},{e:'🌾',x:235,y:170,s:28},{e:'🐎',x:325,y:155,s:58,flip:true},{e:'🎯',x:355,y:100,s:30}]},
+  cap:'Zhang Xun tests who the enemy leader is.'}],
+ q:[
+  {q:"How did Zhang Xun find out who the enemy leader was?",o:["He sent a spy.","He used straw arrows, and the enemy soldiers cheered and pointed.","He asked a prisoner.","He watched the flags."],a:1},
+  {q:"What does 'catch the leader first' mean?",o:["Chase the fastest runner","Let others do the work","Surrender early","Go after the most important target first"],a:3},
+  {q:"Why did Zhang Xun want to stop the enemy leader?",o:["If the leader was stopped, the whole army might give up.","The leader had a big horse.","The leader was his brother.","He wanted a new hat."],a:0},
+  {q:"Which poet wrote about shooting the horse first?",o:["Li Bai","Du Fu","Zhang Xun","Nan Jiyun"],a:1}]},
+
+{id:'s19',num:19,grp:4,cat:'s36',title:'釜底抽薪 · Take the Firewood from Under the Pot',py:'fǔ dǐ chōu xīn',en:'Remove the firewood from under the pot',diff:'easy',rating:950,em:'🔥',src:'history',
+ memo:"Cut the supply, and a strong enemy becomes weak.",
+ parts:[{h:'Raiding the grain',
+  text:`A big army needs lots of food. Without grain, even the bravest soldiers cannot fight. This is the idea behind "take the firewood from under the pot."
+
+About 204 BC, two rivals fought for China. One was Liu Bang of Han. The other was Xiang Yu of Chu. Xiang Yu's army was strong, and Han could not beat it in open battle.
+
+So a Han general named Peng Yue tried something different. He and his men went behind Chu's army. They found the wagons that carried grain, and they burned the supplies. Then they slipped away before anyone could catch them.
+
+Xiang Yu rushed back to chase Peng Yue. But Peng Yue kept raiding again and again. Chu's army grew hungry and tired.
+
+If you boil water, you can stir it, fan it, or fight it. But if you take the firewood away, the water cools. Cut the supply, and the strong enemy becomes weak.`,
+  scene:{bg:'night',ground:'grass',items:[{e:'🌙',x:350,y:45,s:30},{e:'🧑',x:130,y:150,s:62},{e:'🔥',x:250,y:150,s:52},{e:'🌾',x:235,y:172,s:34},{e:'🐴',x:330,y:160,s:50,flip:true},{e:'🍚',x:80,y:172,s:24}]},
+  cap:'Peng Yue burns the grain wagons at night.'}],
+ q:[
+  {q:"What did Peng Yue burn?",o:["Chu's boats","Chu's grain supplies","A bridge","A castle"],a:1},
+  {q:"What does 'take the firewood from under the pot' mean?",o:["Cook dinner for the soldiers","Break a cooking pot","Light a big fire","Stop a problem by cutting off what feeds it"],a:3},
+  {q:"Why did Xiang Yu's army grow hungry and tired?",o:["Peng Yue kept raiding its supplies, so Xiang Yu had to keep rushing back.","The soldiers refused to eat.","It was winter.","Chu had no wagons."],a:0},
+  {q:"Which is the best example of this stratagem today?",o:["A boy runs faster than his friend.","A girl paints a big sign.","A town stops a flood by closing the gate where the water comes in.","A cook buys a new spoon."],a:2}]},
+
+{id:'s20',num:20,grp:4,cat:'s36',title:'混水摸鱼 · Catch Fish in Muddy Water',py:'hùn shuǐ mō yú',en:'Fish in muddy water',diff:'medium',rating:1250,em:'🐟',src:'history',
+ memo:"When everything is confusing, the one with a plan can win.",
+ parts:[{h:'The disguised soldiers',
+  text:`About 280 AD, the state of Western Jin wanted to conquer the state of Wu. A Jin general named Du Yu made a bold plan.
+
+One night, Du Yu sent an officer named Zhou Zhi across the river with 200 soldiers. They put on Wu uniforms so no one would notice them. They hid near the city of Yuexiang.
+
+The next day, the Wu general, Sun Xin, led his army out to fight. Jin's army beat him back, and his soldiers ran toward the city gate. Now came the surprise. Zhou Zhi's hidden men jumped in and mixed with the running Wu soldiers. In the noise and dust, nobody could tell who was who.
+
+The hidden soldiers entered the city with the crowd. Inside, they set fires and made more confusion. Zhou Zhi captured the general Sun Xin, and the city fell.
+
+The idiom is "catch fish in muddy water." When water is muddy, fish cannot see the net. When there is confusion, the one with a plan can win.`,
+  scene:{bg:'night',ground:'water',items:[{e:'🛶',x:90,y:160,s:48},{e:'🌊',x:160,y:178,s:36},{e:'🥷',x:225,y:150,s:56},{e:'🏯',x:315,y:105,s:56},{e:'🔥',x:355,y:150,s:30},{e:'🌙',x:45,y:45,s:28}]},
+  cap:'Soldiers in disguise slip into the city.'}],
+ q:[
+  {q:"What did Zhou Zhi's soldiers wear?",o:["Jin armor with red flags","Farmer clothes","Merchant robes","Wu uniforms"],a:3},
+  {q:"What does 'catch fish in muddy water' mean?",o:["Go fishing in a river","Clean dirty water","Use confusion to win when others cannot see clearly","Hide under a boat"],a:2},
+  {q:"Why could Zhou Zhi's men enter the city?",o:["They broke the gate with a log.","They mixed in with the running Wu soldiers.","The guards invited them.","They climbed ladders."],a:1},
+  {q:"What did the hidden soldiers do inside the city?",o:["Set fires and made more confusion","Opened a market","Sang songs","Slept in the barracks"],a:0}]},
+
+{id:'s21',num:21,grp:4,cat:'s36',title:'金蝉脱壳 · The Golden Cicada Sheds Its Shell',py:'jīn chán tuō qiào',en:'The golden cicada leaves its shell',diff:'medium',rating:1250,em:'🪵',src:'novel',
+ memo:"Leave a decoy behind and slip away safely.",
+ parts:[{h:'The wooden Zhuge Liang',
+  text:`This story is from the novel Romance of the Three Kingdoms. Zhuge Liang, the wise leader of Shu, was camped with his army. His rival, Sima Yi, was camped nearby. Zhuge Liang became very ill.
+
+He knew he would not get better. He gave his officers a secret order. When he passed away, they should not cry out. They should retreat quietly. They should also carve a wooden statue of him and put it in a carriage.
+
+The officers followed the plan. When Zhuge Liang had passed away, the Shu army began to retreat slowly. Sima Yi's scouts saw the army leaving, and Sima Yi gave chase.
+
+Suddenly, Shu's soldiers turned around, and their flags and drums were ready. In the middle sat Zhuge Liang in his carriage! Sima Yi was shocked. He thought it was a trap, and he ran. The Shu army got home safely.
+
+People still say: "A dead Zhuge Liang frightens a living Sima Yi." The idea of "the golden cicada sheds its shell" is to leave a shell, or decoy, behind and slip away.`,
+  scene:{bg:'dusk',ground:'grass',items:[{e:'🧑‍🏫',x:200,y:150,s:60},{e:'🪵',x:250,y:172,s:30},{e:'🚩',x:110,y:110,s:38},{e:'🥁',x:140,y:168,s:34},{e:'🐎',x:325,y:155,s:54,flip:true},{e:'😮',x:350,y:105,s:30}]},
+  cap:'Sima Yi sees the wooden Zhuge Liang and runs.'}],
+ q:[
+  {q:"What did Zhuge Liang tell his officers to put in a carriage?",o:["A bag of gold","A war drum","A wooden statue of himself","His sword"],a:2},
+  {q:"In this story, what does the 'shell' mean?",o:["A sea animal","A decoy left behind while the real army slips away","A warm coat","A hard hat"],a:1},
+  {q:"Why did Sima Yi run away?",o:["He lost his horse.","He saw a storm.","He was called home.","He thought it was a trap."],a:3},
+  {q:"What does the saying 'a dead Zhuge Liang frightens a living Sima Yi' show?",o:["Zhuge Liang's clever plan still scared his rival","Sima Yi was a very kind man","Zhuge Liang had not really died","Statues can talk"],a:0}]},
+
+{id:'s22',num:22,grp:4,cat:'s36',title:'关门捉贼 · Shut the Door to Catch the Thief',py:'guān mén zhuō zéi',en:'Close the door to catch the thief',diff:'medium',rating:1250,em:'🚪',src:'history',
+ memo:"Close the exits first, then deal with the trapped enemy.",
+ parts:[{h:'The trap at Changping',
+  text:`In 260 BC, the states of Qin and Zhao faced each other at a place called Changping. The war went on for a long time. Zhao had a careful old general, and he kept his army safe.
+
+The king of Zhao grew impatient. He replaced the old general with a young man named Zhao Kuo. Zhao Kuo had read many books about war. But he had never fought in a real battle. People said he talked about war only on paper.
+
+Qin's general, Bai Qi, saw his chance. He pretended to retreat. Zhao Kuo thought he was winning, and he chased Qin's army. Then Qin closed the door behind him. Qin soldiers blocked both ends of the road and cut off Zhao's food.
+
+Zhao's army was trapped. The soldiers grew hungry and could not escape. In the end, they had to give up.
+
+The idea is "shut the door to catch the thief." First close all the exits. Then deal with the trapped enemy. The story also reminds us that book learning needs real practice.`,
+  scene:{bg:'dusk',ground:'stone',items:[{e:'⛰️',x:60,y:108,s:60},{e:'⛰️',x:340,y:108,s:60},{e:'🚪',x:200,y:168,s:36},{e:'🧑',x:200,y:150,s:54},{e:'🧱',x:120,y:165,s:42},{e:'🧱',x:280,y:165,s:42}]},
+  cap:'The road is blocked at both ends.'}],
+ q:[
+  {q:"Who replaced the careful old general of Zhao?",o:["Bai Qi","Zhao Kuo","Sun Bin","Fan Ju"],a:1},
+  {q:"What does 'only on paper' mean in this story?",o:["Using paper as armor","Writing long letters home","Drawing maps in the sand","Knowing war only from books, not from real experience"],a:3},
+  {q:"How did Qin trap the Zhao army?",o:["They blocked both ends of the road and cut off the food.","They built a wall of snow.","They flooded the valley.","They set the woods on fire."],a:0},
+  {q:"What is the lesson of 'shut the door to catch the thief'?",o:["Always keep your doors open","Never chase anyone","Close the exits first, then handle the trapped enemy","Lock your house at night"],a:2}]},
+
+{id:'s23',num:23,grp:4,cat:'s36',title:'远交近攻 · Befriend the Far, Attack the Near',py:'yuǎn jiāo jìn gōng',en:'Befriend far states, attack near ones',diff:'easy',rating:950,em:'🗺️',src:'history',
+ memo:"Be friendly with those far away, and focus on what is close.",
+ parts:[{h:'Fan Ju gives advice',
+  text:`About 270 BC, the state of Qin was strong. Its king wanted to take over more land. He asked an adviser named Fan Ju what to do.
+
+The king wanted to attack Qi, a rich state far away. Fan Ju said no. Qi is far, he said. Your army would have to march a long way. Even if you win, it will be hard to keep land so far from home. And the states nearby will grow stronger while your army is away.
+
+Then Fan Ju gave his advice. Make friends with the faraway states. Attack the nearby states, one at a time.
+
+Think of a map. Your closest neighbors are the biggest worry. A faraway state cannot reach you quickly. When you take the land next door, it joins your own land and stays safe.
+
+The idea is called "befriend the far, attack the near."`,
+  scene:{bg:'day',ground:'grass',items:[{e:'🏰',x:70,y:105,s:56},{e:'🏰',x:335,y:105,s:34},{e:'🤴',x:150,y:150,s:62},{e:'🧑',x:240,y:150,s:60,flip:true},{e:'📜',x:195,y:100,s:30},{e:'🤝',x:300,y:165,s:30}]},
+  cap:'Fan Ju shows the king a plan on the map.'}],
+ q:[
+  {q:"Which state did the king first want to attack?",o:["Wu","Chu","Qi","Yue"],a:2},
+  {q:"Why did Fan Ju say attacking a faraway state was a bad idea?",o:["It is hard to keep land far from home, and nearby states grow stronger.","The roads were closed for repair.","The far state had no food.","Qin's king was afraid of boats."],a:0},
+  {q:"What does 'befriend the far, attack the near' mean?",o:["Make friends with everyone nearby","Be friendly with distant states and deal with nearby states first","Never fight anyone","March far away first"],a:1},
+  {q:"When you win the land next door, what happens?",o:["It disappears","It floats away","It becomes a faraway state","It joins your own land and stays safe"],a:3}]},
+
+{id:'s24',num:24,grp:4,cat:'s36',title:'假道伐虢 · Borrow the Road to Attack Guo',py:'jiǎ dào fá guó',en:'Borrow a road to attack Guo',diff:'easy',rating:950,em:'🏺',src:'history',
+ memo:"Friends who depend on each other should help each other.",
+ parts:[{h:'Lips and teeth',
+  text:`About 655 BC, the state of Jin wanted to attack the state of Guo. There was a problem. To reach Guo, Jin's army had to go through a small state called Yu.
+
+Jin's leader had a plan. He sent gifts to Yu's ruler: a beautiful piece of jade and some fine horses. Then he asked, "May we borrow your road to attack Guo?"
+
+Yu's wise adviser, Gong Zhiqi, was worried. "Yu and Guo are like lips and teeth," he said. "If the lips are gone, the teeth will be cold."
+
+But the ruler of Yu loved the gifts. He did not listen. He let Jin's army pass.
+
+Jin defeated Guo. On the way home, Jin's army took Yu as well! The lips were gone, and the teeth were cold. The idiom for this means that friends who depend on each other should help each other.`,
+  scene:{bg:'day',ground:'grass',items:[{e:'🏰',x:60,y:106,s:46},{e:'🏰',x:335,y:106,s:46},{e:'🐎',x:150,y:160,s:46},{e:'🏺',x:215,y:172,s:34},{e:'💎',x:250,y:162,s:26},{e:'🧑',x:285,y:150,s:58,flip:true}]},
+  cap:'Gifts of jade and horses open the road.'}],
+ q:[
+  {q:"What gifts did Jin send to Yu?",o:["Gold swords","Jade and fine horses","Silk and rice","Drums and flags"],a:1},
+  {q:"What did Gong Zhiqi mean by 'lips and teeth'?",o:["Yu's soldiers had sore mouths","Jin wanted to bring dinner","Both states had long bridges","Guo and Yu depend on each other, so if one falls the other is in danger"],a:3},
+  {q:"Why did Yu's ruler let Jin pass?",o:["Jin's army was too big.","He wanted to attack Guo too.","He loved the gifts and did not listen to the warning.","He did not know about the plan."],a:2},
+  {q:"What happened to Yu at the end?",o:["Jin took Yu on the way home.","Yu became stronger.","Guo helped Yu.","Yu moved away."],a:0}]}
+);
+// 三十六计 stories 25-36 (groups 5 and 6)
+STORIES.push(
+{id:'s25',num:25,grp:5,cat:'s36',
+ title:"偷梁换柱 · Swap the Beams and Pillars",
+ py:'tōu liáng huàn zhù', en:"Secretly swap the beams and pillars",
+ diff:'easy', rating:950, em:'🐱', src:'legend',
+ memo:"Keep the outside the same, but secretly change the inside.",
+ parts:[
+  {h:'The cat and the prince',
+   text:`This is an old story from Chinese opera. It is not real history, but people love to tell it.
+
+Long ago, two queens in the Song palace were waiting for babies. Both wanted a son. One queen had a sneaky helper.
+
+When the first queen's baby prince was born, the helper made a secret plan. She took the baby away. In his place, she put a cat dressed in baby clothes! Then she told everyone that the queen had given birth to a cat.
+
+A kind servant saw what had happened. He carried the real baby out of the palace and kept him safe. Many years later, the truth came out, and the prince came home.
+
+The bundle in the blanket looked the same on the outside. But the inside was changed. That is the idea of swapping the beams and pillars.`,
+   scene:{bg:'indoor',ground:'none',items:[{e:'👸',x:80,y:145,s:58},{e:'🐱',x:195,y:155,s:46},{e:'👶',x:285,y:155,s:44},{e:'👨',x:350,y:145,s:56},{e:'🛏️',x:140,y:110,s:34}]},
+   cap:'A cat in a baby blanket, and the real baby is saved'}
+ ],
+ q:[
+  {q:"What did the sneaky helper put in the blanket instead of the baby?",o:['A little dog','A cat dressed in baby clothes','A doll','A pillow'],a:1},
+  {q:"What does \"swapping the beams and pillars\" mean in this story?",o:['Fixing a broken palace','Hiding behind a big pillar','Keeping the outside the same while secretly changing the inside','Building a new house'],a:2},
+  {q:"Why did the kind servant carry the baby out of the palace?",o:['To keep the baby safe','To sell the baby','To take him to school','To play a game'],a:0},
+  {q:"Which is the best example of this idea today?",o:['A plain box with a gift inside that is different from the label','Opening the box and showing everyone','Throwing the box away','Writing your name on the box'],a:0}
+ ]},
+
+{id:'s26',num:26,grp:5,cat:'s36',
+ title:"指桑骂槐 · Point at the Mulberry, Scold the Locust",
+ py:'zhǐ sāng mà huái', en:"Point at the mulberry tree and scold the locust tree",
+ diff:'medium', rating:1250, em:'🌳', src:'history',
+ memo:"Talk about one thing to teach about another.",
+ parts:[
+  {h:'Zou Ji and the mirror',
+   text:`Zou Ji lived in the state of Qi long ago. He was tall and handsome, and he knew it. One morning he asked his wife, "Who is more handsome, me or Mr. Xu?" Mr. Xu was famous for his good looks.
+
+"You are, of course!" said his wife. His second wife said the same. So did a visitor. But later Zou Ji saw Mr. Xu in person. He looked at him closely, then looked in his mirror. Mr. Xu was clearly more handsome!
+
+Zou Ji thought hard. "My wife loves me. My second wife is afraid of me. The visitor wants a favor. So they all said what I wanted to hear," he thought.
+
+Zou Ji did not say "You are all flatterers" to King Wei of Qi. He told the king his own story instead. "Your Majesty, everyone around you loves you, fears you, or wants something. They may not tell you the truth." The king listened. He asked people to point out his mistakes, and Qi grew stronger. Zou Ji pointed at one tree to teach about another.`,
+   scene:{bg:'indoor',ground:'none',items:[{e:'👨',x:70,y:148,s:58},{e:'🪞',x:150,y:125,s:44},{e:'👩',x:230,y:150,s:52},{e:'🤴',x:330,y:145,s:60,flip:true}]},
+   cap:'Zou Ji tells the king why people only say nice things'}
+ ],
+ q:[
+  {q:"What did Zou Ji see when he looked at Mr. Xu and then in the mirror?",o:['Mr. Xu was more handsome','Zou Ji was more handsome','They looked exactly the same','The mirror was broken'],a:0},
+  {q:"Why did the three people say Zou Ji was more handsome?",o:['They had never seen Mr. Xu','They loved him, feared him, or wanted a favor','Zou Ji paid them money','They did not want to look at him'],a:1},
+  {q:"What does \"pointing at the mulberry to scold the locust\" mean in this story?",o:['Fighting under a tree','Planting two kinds of trees','Teaching about one thing by talking about another','Climbing a tree to hide'],a:2},
+  {q:"What happened after King Wei listened to Zou Ji?",o:['Qi grew stronger','The king got angry','Zou Ji lost his job','Mr. Xu moved away'],a:0}
+ ]},
+
+{id:'s27',num:27,grp:5,cat:'s36',
+ title:"假痴不癫 · Act Foolish but Stay Wise",
+ py:'jiǎ chī bù diān', en:"Pretend to be foolish, but do not be crazy",
+ diff:'medium', rating:1250, em:'🍲', src:'history',
+ memo:"Looking weak for a while can help you win later.",
+ parts:[
+  {h:'Sima Yi fools the spy',
+   text:`Sima Yi was an old and clever general in the kingdom of Wei. A young leader named Cao Shuang did not trust him. So Cao Shuang sent a man to check on Sima Yi.
+
+Sima Yi had a plan. When the man arrived, Sima Yi lay in bed and acted very sick. His maids helped him sit up. He spilled soup all over his clothes. He pretended he could not hear well and mixed up every answer.
+
+The man went back to Cao Shuang. "Sima Yi is old and weak," he said. "He is no danger." So Cao Shuang relaxed.
+
+Many months later, Cao Shuang left the city with the emperor. Suddenly Sima Yi jumped up, healthy and strong. He took control of the capital while Cao Shuang was away.
+
+Sima Yi acted foolish, but he was never foolish. He stayed wise inside. In real life, honesty is best. This trick is a story about being patient.`,
+   scene:{bg:'indoor',ground:'none',items:[{e:'🛏️',x:80,y:125,s:48},{e:'👴',x:115,y:150,s:58},{e:'🍲',x:185,y:165,s:30},{e:'🕵️',x:300,y:150,s:56,flip:true},{e:'🏯',x:360,y:100,s:40}]},
+   cap:'Sima Yi pretends to be sick while a spy watches'}
+ ],
+ q:[
+  {q:"What did Sima Yi spill all over his clothes?",o:['Tea','Soup','Ink','Water'],a:1},
+  {q:"What does \"act foolish but stay wise\" mean in this story?",o:['Never trust anyone','Always be silly','Look weak or silly on purpose while your mind stays sharp','Forget everything you know'],a:2},
+  {q:"Why did Cao Shuang relax?",o:['He believed Sima Yi was old, weak and no danger','He had fallen asleep','Sima Yi gave him a gift','He wanted a holiday'],a:0},
+  {q:"When did Sima Yi act?",o:['The day the spy arrived','When Cao Shuang left the city with the emperor','When winter began','Before he got sick'],a:1}
+ ]},
+
+{id:'s28',num:28,grp:5,cat:'s36',
+ title:"上屋抽梯 · Remove the Ladder",
+ py:'shàng wū chōu tī', en:"Go up to the roof, then remove the ladder",
+ diff:'easy', rating:950, em:'🪜', src:'novel',
+ memo:"Close the other doors so the choice is clear.",
+ parts:[
+  {h:'Liu Qi and the ladder',
+   text:`This story is from the famous novel Romance of the Three Kingdoms.
+
+Liu Qi was a young lord. His stepmother wanted him gone, so he was in danger. He asked a very clever man, Zhuge Liang, for help. But Zhuge Liang said no. "This is a family matter," he said. "I should not get involved."
+
+Liu Qi had an idea. He invited Zhuge Liang to a meal on the top floor of a tall building. They climbed a ladder to get there. While they ate, Liu Qi quietly had the ladder taken away.
+
+"Now no one can hear us, and we cannot go down," said Liu Qi. "Please tell me what to do."
+
+Zhuge Liang laughed. Then he gave good advice. He told Liu Qi to ask for a post far away in a place called Jiangxia. There he would be safe.
+
+Removing the ladder meant there was only one choice left: talk.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🏯',x:300,y:100,s:70},{e:'🪜',x:240,y:165,s:44,rot:-12},{e:'🧑',x:80,y:150,s:58},{e:'🧙',x:150,y:150,s:58,flip:true},{e:'🍚',x:290,y:70,s:24}]},
+   cap:'The ladder is gone, so Zhuge Liang has to talk'}
+ ],
+ q:[
+  {q:"Where did Liu Qi invite Zhuge Liang to eat?",o:['By the river','In a boat','On the top floor of a tall building','In a cave'],a:2},
+  {q:"What does \"remove the ladder\" mean in this story?",o:['Closing the other choices so someone has to decide','Fixing a house','Climbing higher','Cleaning the building'],a:0},
+  {q:"Why did Zhuge Liang finally give advice?",o:['He was paid','He was very hungry','Liu Qi shouted at him','No one could hear them and he could not leave'],a:3},
+  {q:"What advice did Zhuge Liang give Liu Qi?",o:['Stay at home','Ask for a post far away in Jiangxia','Fight his stepmother','Run to the mountains'],a:1}
+ ]},
+
+{id:'s29',num:29,grp:5,cat:'s36',
+ title:"树上开花 · Flowers on a Tree",
+ py:'shù shàng kāi huā', en:"Make flowers bloom on a tree",
+ diff:'easy', rating:950, em:'🌸', src:'novel',
+ memo:"Make a small force look big.",
+ parts:[
+  {h:'Zhang Fei at the bridge',
+   text:`In the famous novel Romance of the Three Kingdoms, Zhang Fei faced a big problem. Cao Cao's huge army was chasing his friends. Zhang Fei had only a few riders.
+
+He had a clever idea. He told his riders to go into the woods behind the bridge. "Tie branches to your horses' tails," he said. "Then ride back and forth."
+
+The horses ran through the woods. The branches dragged along the ground, and big clouds of dust rose up. From far away, it looked like a giant army was hiding there!
+
+Zhang Fei stood alone on the bridge at Changban. He held his long spear and shouted in a thunder voice, "I am Zhang Fei! Come and fight me!"
+
+Cao Cao saw the dust and heard the shout. "It must be a trap," he thought. His army stopped. The idea is like tying paper flowers to a bare tree. From far away, the tree looks full of blossoms.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🌳',x:60,y:105,s:44},{e:'🐎',x:105,y:155,s:50},{e:'💨',x:165,y:150,s:30},{e:'🌉',x:240,y:130,s:52},{e:'🧔',x:310,y:150,s:60,flip:true},{e:'🐴',x:370,y:155,s:40,flip:true}]},
+   cap:"Dust clouds make Zhang Fei's few riders look like an army"}
+ ],
+ q:[
+  {q:"What did the riders tie to their horses' tails?",o:['Ribbons','Bells','Branches','Flags'],a:2},
+  {q:"What does \"make flowers bloom on a tree\" mean in this story?",o:['Planting a garden','Making a small force look big','Cutting down a tree','Giving flowers as a gift'],a:1},
+  {q:"Why did Cao Cao's army stop?",o:['They were tired from walking','They ran out of food','Cao Cao thought it was a trap','It started to rain'],a:2},
+  {q:"Where did Zhang Fei stand?",o:['On the bridge at Changban','In the woods','On a boat','Inside a castle'],a:0}
+ ]},
+
+{id:'s30',num:30,grp:5,cat:'s36',
+ title:"反客为主 · Turn Guest into Host",
+ py:'fǎn kè wéi zhǔ', en:"Reverse the guest and the host",
+ diff:'medium', rating:1250, em:'🤝', src:'history',
+ memo:"Start small as a guest, then step by step take the lead.",
+ parts:[
+  {h:'Liu Bei comes to Yi Province',
+   text:`Liu Bei was a leader with a small army. He did not have land of his own. Then a ruler named Liu Zhang invited him to Yi Province. "Please come and help me fight my enemies," said Liu Zhang.
+
+So Liu Bei came as a guest. He was polite and helpful. His soldiers worked hard, and the people liked him. Slowly, Liu Bei made friends. He also took control of key places.
+
+At first he was only a guest in Liu Zhang's house. But step by step, he grew stronger. In time, Yi Province became Liu Bei's home base. The guest had become the host!
+
+That is the meaning of turning guest into host. You begin in a weaker place, then slowly move to the leading place. Some people say Liu Bei was not very fair to Liu Zhang. A wise person also asks, "Is it fair?"`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🏯',x:310,y:105,s:60},{e:'🧑',x:100,y:150,s:60},{e:'🤝',x:190,y:145,s:36},{e:'👨',x:260,y:150,s:56,flip:true},{e:'🌳',x:50,y:105,s:36}]},
+   cap:'A guest slowly becomes the host'}
+ ],
+ q:[
+  {q:"Who invited Liu Bei to Yi Province?",o:['Liu Zhang','Cao Cao','Zhuge Liang','Sima Yi'],a:0},
+  {q:"What does \"turn guest into host\" mean in this story?",o:['Cook dinner for visitors','Slowly move from a weaker place to the leading place','Always say thank you','Leave a house quickly'],a:1},
+  {q:"How did Liu Bei become stronger in Yi Province?",o:['He built a giant wall','He ran away','He helped, made friends, and took control of key places','He asked for money'],a:2},
+  {q:"Which is the best example of this idea today?",o:['A new student helps everyone and later becomes team captain','A visitor goes home after dinner','A teacher gives homework','A player sits on the bench'],a:0}
+ ]},
+
+{id:'s31',num:31,grp:6,cat:'s36',
+ title:"美人计 · The Beauty Plan",
+ py:'měi rén jì', en:"The beautiful person plan",
+ diff:'medium', rating:1250, em:'🌸', src:'history',
+ memo:"Pleasure and flattery can make a leader forget what matters.",
+ parts:[
+  {h:'Goujian never forgets',
+   text:`Long ago, Goujian was the king of Yue. He lost a war to Fuchai, the king of Wu. For years, Goujian had to serve Fuchai.
+
+When he finally went home, he made a promise. He would never forget his defeat. He slept on firewood instead of a soft bed. Every day he tasted something bitter. "Remember this pain," he told himself. People call this idea 卧薪尝胆, sleeping on firewood and tasting bitterness.
+
+In secret, Yue grew stronger and Goujian waited for the right time.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🤴',x:120,y:150,s:62},{e:'🪵',x:215,y:165,s:34},{e:'🌿',x:260,y:160,s:28},{e:'🏯',x:330,y:105,s:52}]},
+   cap:'Goujian sleeps on firewood to remember his defeat'},
+  {h:'Xi Shi goes to Wu',
+   text:`Goujian needed a plan. He sent Xi Shi to Fuchai's court. Xi Shi was a kind and clever young woman from Yue. She loved her homeland, so she agreed to serve it.
+
+Fuchai enjoyed her company. He held many parties and spent a lot of money. He stopped listening to his wise advisers, and he forgot his duties as a king.
+
+Meanwhile, Yue grew stronger every year. At last, Yue's army defeated Wu. A leader who loves pleasure and flattery more than his work can lose everything. That is why people call this the Beauty Plan.`,
+   scene:{bg:'indoor',ground:'none',items:[{e:'👸',x:110,y:150,s:60},{e:'🤴',x:250,y:150,s:60,flip:true},{e:'🎶',x:180,y:100,s:30},{e:'🎻',x:340,y:150,s:44}]},
+   cap:'Fuchai enjoys parties and forgets his duties'}
+ ],
+ q:[
+  {q:"Who did Goujian send to Fuchai's court?",o:['Zhuge Liang','Xi Shi','Zou Ji','Pang Tong'],a:1},
+  {q:"What does \"sleeping on firewood and tasting bitterness\" mean?",o:['Remembering hard times to stay determined','Cooking dinner outdoors','Taking a long nap','Learning to make soup'],a:0},
+  {q:"Why did Wu become weak?",o:['Fuchai had no money for soldiers','Fuchai spent his time on parties and stopped listening to advisers','Wu had a flood','Fuchai moved to Yue'],a:1},
+  {q:"What does this story teach a leader?",o:['Never go to parties','Hire more soldiers','Sleep on firewood too','Do not let pleasure and flattery make you forget what matters'],a:3}
+ ]},
+
+{id:'s32',num:32,grp:6,cat:'s36',
+ title:"空城计 · The Empty City",
+ py:'kōng chéng jì', en:"The empty city plan",
+ diff:'easy', rating:950, em:'🏯', src:'novel',
+ memo:"Acting calm can make a strong enemy afraid.",
+ parts:[
+  {h:'Zhuge Liang plays the qin',
+   text:`This story is from the famous novel Romance of the Three Kingdoms. Zhuge Liang, a very clever leader, was in a small city. Most of his soldiers were far away. Only a few helpers stayed with him.
+
+Suddenly, a huge army marched toward the city. It was led by Sima Yi. Everyone was afraid. But Zhuge Liang stayed calm. He ordered the city gates to be opened wide. Then he sat on the gate tower in plain clothes and played a qin, a Chinese string instrument. Soft music floated down.
+
+Sima Yi stopped and stared. "Why is Zhuge Liang so calm?" he wondered. "Why are the gates open? There must be soldiers hiding inside!" He knew Zhuge Liang was very clever, so he thought it was an ambush. He turned his army around and left.
+
+The city was safe without a single battle. Zhuge Liang used the enemy's fear and doubt as his weapon.`,
+   scene:{bg:'day',ground:'stone',items:[{e:'🏯',x:310,y:105,s:66},{e:'🧙',x:310,y:85,s:34},{e:'🎶',x:262,y:80,s:26},{e:'🚪',x:310,y:165,s:34},{e:'🐎',x:70,y:155,s:52},{e:'🐴',x:135,y:160,s:44}]},
+   cap:'Zhuge Liang plays music while the gates stand open'}
+ ],
+ q:[
+  {q:"What did Zhuge Liang do on the gate tower?",o:['Fought with a sword','Played a qin','Wrote a letter','Counted soldiers'],a:1},
+  {q:"Why was the city in danger?",o:['A flood was coming','The gates were broken','Zhuge Liang was sick','Most of his soldiers were far away'],a:3},
+  {q:"Why did Sima Yi turn his army around?",o:['He thought it was a trap with soldiers hiding','He was out of food','He heard a loud noise','He wanted to play music too'],a:0},
+  {q:"What does \"the empty city plan\" mean?",o:['Cleaning a city','Leaving a city empty forever','Hiding in a cave','Acting calm and confident to make a strong enemy unsure'],a:3}
+ ]},
+
+{id:'s33',num:33,grp:6,cat:'s36',
+ title:"反间计 · Turn the Spy",
+ py:'fǎn jiàn jì', en:"Turn the enemy's spy against his own side",
+ diff:'medium', rating:1250, em:'✉️', src:'novel',
+ memo:"Check whether a secret message is true before you act.",
+ parts:[
+  {h:'The fake letter',
+   text:`This story is from the novel Romance of the Three Kingdoms. Before the Battle of Red Cliffs, the powerful leader Cao Cao wanted to cross the Yangtze River. He had a huge fleet. His navy was led by two skilled commanders, Cai Mao and Zhang Yun. They knew how to fight on water. Cao Cao's northern soldiers did not.
+
+On the other side was a clever general named Zhou Yu. He knew he could not win while those two led the fleet. So he made a plan.
+
+Cao Cao's friend Jiang Gan came to visit Zhou Yu's camp. Zhou Yu pretended to drink too much wine and fell asleep. On his desk lay a fake secret letter. It made it look as if Cai Mao and Zhang Yun were secretly working for Zhou Yu.
+
+Jiang Gan stole the letter and hurried to Cao Cao. Cao Cao was furious. Without checking the facts, he removed both commanders from their jobs. Soon he learned it was a trick, but it was too late.`,
+   scene:{bg:'dusk',ground:'water',items:[{e:'🧑',x:80,y:150,s:60},{e:'✉️',x:165,y:140,s:32},{e:'🕵️',x:240,y:150,s:56,flip:true},{e:'🚢',x:330,y:155,s:50},{e:'⛵',x:375,y:140,s:28}]},
+   cap:'A fake letter on a desk fools Cao Cao'}
+ ],
+ q:[
+  {q:"Why were Cai Mao and Zhang Yun important to Cao Cao?",o:['They were his cooks','They were his teachers','They were his brothers','They were skilled commanders of his navy'],a:3},
+  {q:"What does \"fake\" mean in \"fake secret letter\"?",o:['Not real, but made to look real','Very old','Written in code','Written in gold ink'],a:0},
+  {q:"What was Cao Cao's mistake?",o:['He waited too long','He did not check whether the letter was true','He lost his ships','He ran away'],a:1},
+  {q:"What did Zhou Yu pretend to do while Jiang Gan visited?",o:['Study maps','Sing songs','Drink too much wine and fall asleep','Practice archery'],a:2}
+ ]},
+
+{id:'s34',num:34,grp:6,cat:'s36',
+ title:"苦肉计 · The Bitter Flesh Plan",
+ py:'kǔ ròu jì', en:"The plan of suffering",
+ diff:'medium', rating:1250, em:'🔥', src:'novel',
+ memo:"A trick works best when the story behind it looks real.",
+ parts:[
+  {h:'Huang Gai takes the punishment',
+   text:`This story is from the novel Romance of the Three Kingdoms, and it happens at Red Cliffs, too. Zhou Yu needed to get close to Cao Cao's huge fleet. Old General Huang Gai had an idea.
+
+In front of everyone, Huang Gai argued with Zhou Yu. Zhou Yu pretended to be furious and ordered a harsh punishment. Huang Gai was punished in front of all the officers. It looked completely real!
+
+That night, Huang Gai sent a secret letter to Cao Cao. "I am angry at Zhou Yu. I want to join you," he wrote. Cao Cao read it and believed it. Why? Because the punishment had looked so real.
+
+On the planned night, Huang Gai sailed toward Cao Cao's ships. His boats were filled with dry grass and things that burn. Cao Cao's soldiers cheered, thinking a friend was coming. A trick is only believed when the story behind it feels true.`,
+   scene:{bg:'dusk',ground:'water',items:[{e:'🧓',x:90,y:150,s:60},{e:'✉️',x:170,y:125,s:30},{e:'⛵',x:245,y:155,s:42},{e:'🚢',x:320,y:155,s:50},{e:'🔥',x:350,y:105,s:30}]},
+   cap:'Huang Gai sails toward Cao Cao with boats full of dry grass'}
+ ],
+ q:[
+  {q:"Who was punished in front of all the officers?",o:['Cao Cao','Huang Gai','Zhou Yu','Zhuge Liang'],a:1},
+  {q:"What does \"harsh\" mean in the phrase \"harsh punishment\"?",o:['Very funny','Very strict and hard to bear','Very quiet','Very tasty'],a:1},
+  {q:"Why did Cao Cao believe Huang Gai's letter?",o:['Huang Gai was his friend','The punishment looked real','Cao Cao read it twice','It came with a gift'],a:1},
+  {q:"What were Huang Gai's boats filled with?",o:['Gold coins','Rice','Dry grass and things that burn','Soldiers'],a:2}
+ ]},
+
+{id:'s35',num:35,grp:6,cat:'s36',
+ title:"连环计 · Chain of Plans",
+ py:'lián huán jì', en:"Linked plans",
+ diff:'medium', rating:1250, em:'⛓️', src:'novel',
+ memo:"Link plans together, and watch out for advice that is too convenient.",
+ parts:[
+  {h:'Pang Tong and the chained ships',
+   text:`This is another Red Cliffs story from the novel Romance of the Three Kingdoms. Cao Cao's soldiers came from the north. They were not used to boats. On the rolling river, many felt seasick.
+
+A man named Pang Tong came to visit Cao Cao. "Your soldiers feel sick on the water," he said. "Why not chain your ships together with iron? Then they will be as steady as land." Cao Cao thought it was a wonderful idea. "Do it!" he said.
+
+The ships were linked in one long line. The soldiers felt better. They could even walk from ship to ship.
+
+Then came the fire attack. The chained ships could not escape. One plan had set up the next plan, like links in a chain. The advice had sounded helpful, but it was part of a trick. Be careful with advice that is too convenient.`,
+   scene:{bg:'fire',ground:'water',items:[{e:'🚢',x:70,y:155,s:52},{e:'⛓️',x:130,y:155,s:26},{e:'🚢',x:195,y:155,s:52},{e:'⛓️',x:258,y:155,s:26},{e:'🚢',x:325,y:155,s:52},{e:'🔥',x:200,y:100,s:40}]},
+   cap:'Chained ships cannot escape the fire'}
+ ],
+ q:[
+  {q:"Why did Cao Cao's soldiers feel unwell on the ships?",o:['They had eaten too much','They were seasick','They were cold','They were homesick'],a:1},
+  {q:"What does it mean to link plans one after another?",o:['Tie your shoes twice','Make one plan that sets up the next plan','Forget your first plan','Change plans every day'],a:1},
+  {q:"Why could the ships not escape the fire?",o:['They were chained together','They had no sails','The river was too shallow','The soldiers were asleep'],a:0},
+  {q:"What can we learn from this story?",o:['Never ride on boats','Always take advice quickly','Chains are strong and good','Be careful with advice that sounds too convenient'],a:3}
+ ]},
+
+{id:'s36',num:36,grp:6,cat:'s36',
+ title:"走为上 · Running Away Is Best",
+ py:'zǒu wéi shàng', en:"When losing, retreat is the best plan",
+ diff:'easy', rating:950, em:'🏃', src:'history',
+ memo:"A smart retreat saves your strength and keeps your promises.",
+ parts:[
+  {h:'Duke Wen steps back three times',
+   text:`Duke Wen of Jin once made a promise to the leader of Chu. "If our armies meet in battle, I will pull back three she," he said. Three she was about ninety li. That is roughly thirty miles!
+
+Years later, the two armies faced each other. Duke Wen kept his promise. His army marched back. The commander of Chu felt proud. "They are afraid of us!" he said. He ordered his soldiers to follow.
+
+But Jin's army was not afraid. They kept their strength and used the time to get ready. Duke Wen kept his promise, and Chu's army grew proud and careless. Then, at a place called Chengpu, Jin turned around and won the battle.
+
+A smart retreat is not running away in fear. It can save your army and give you the best moment to win. Keeping a promise also earns respect.`,
+   scene:{bg:'day',ground:'grass',items:[{e:'🤴',x:90,y:150,s:60},{e:'🐎',x:180,y:155,s:50},{e:'🏃',x:270,y:150,s:54},{e:'➡️',x:225,y:105,s:30},{e:'🌳',x:350,y:110,s:38}]},
+   cap:'Duke Wen steps back, then wins'}
+ ],
+ q:[
+  {q:"What promise did Duke Wen make?",o:['To build a wall','To give Chu a gift','To pull his army back three she if the armies met','To never fight'],a:2},
+  {q:"What does \"a smart retreat\" mean in this story?",o:['Stepping back on purpose to save strength and get ready','Running away in fear','Giving up forever','Hiding from friends'],a:0},
+  {q:"Why did the Chu army follow Jin?",o:['They were lost','They felt proud and thought Jin was afraid','They wanted to talk','They were hungry'],a:1},
+  {q:"What happened at Chengpu?",o:['Chu won','Both sides went home','A storm stopped the fight','Jin turned around and won'],a:3}
+ ]}
 );
 // ---------- SWIM BETTER: from Bronze to Silver to Gold ----------
 STORIES.push(
@@ -764,19 +1504,62 @@ function catScreen(){
   var c=cat(S.cat),h='';
   h+='<button class="back" onclick="go(\'home\')">‹ Back 返回</button>';
   h+='<div class="rank '+c.cls+'"><div class="row"><div class="badge">'+c.em+'</div><div><div class="big">'+c.n+'</div><div>'+c.zh+'</div></div></div></div>';
+  var lastGrp=0;
   storiesOf(c.id).forEach(function(s){
     var d=P.done[s.id];
-    h+='<button class="story'+(d?' done':'')+'" onclick="startRead(\''+s.id+'\')"><span class="em">'+s.em+'</span><span class="grow"><div class="t">'+esc(s.title)+'</div>'+
+    if(s.grp&&s.grp!==lastGrp){lastGrp=s.grp;h+='<div class="grp">'+GROUPS[s.grp]+'</div>'}
+    h+='<button class="story'+(d?' done':'')+'" onclick="startRead(\''+s.id+'\')"><span class="em">'+s.em+'</span><span class="grow"><div class="t">'+(s.num?'#'+s.num+' ':'')+esc(s.title)+'</div>'+
        '<div>'+pill(s.diff)+'<span class="pill g">Lv '+s.rating+'</span><span class="pill g">'+s.q.length+' questions</span></div>'+
        '<div class="sub" style="margin-top:4px">'+(d?('✅ Best '+d.best+'/'+s.q.length+' · played '+d.n+'×'):'Not played yet · 还没读过')+'</div></span><span class="sub">›</span></button>';
   });
   return h;
 }
 
+var GROUPS={1:'Winning Plans · 胜战计',2:'Facing the Enemy · 敌战计',3:'Attack Plans · 攻战计',4:'Chaos Plans · 混战计',5:'Joining Plans · 并战计',6:'When You Are Losing · 败战计'};
+var SRCLAB={history:'📚 History',novel:'📖 From a famous novel',legend:'🧚 Old legend'};
+// Illustration: an SVG scene built from emoji (viewBox 400x200, horizon at y=130)
+function sceneSVG(sc){
+  var bg=sc.bg||'day',g=sc.ground||'grass',o='<svg viewBox="0 0 400 200" role="img" aria-label="illustration"><defs>'+
+   '<linearGradient id="sky-day" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc4ff"/><stop offset="1" stop-color="#d8f0ff"/></linearGradient>'+
+   '<linearGradient id="sky-dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8a5c"/><stop offset="1" stop-color="#ffd9a8"/></linearGradient>'+
+   '<linearGradient id="sky-night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1a3a"/><stop offset="1" stop-color="#2f4a8a"/></linearGradient>'+
+   '<linearGradient id="sky-fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a0a0a"/><stop offset="1" stop-color="#ff7a18"/></linearGradient></defs>';
+  var sky={day:'day',water:'day',dusk:'dusk',night:'night',fire:'fire',indoor:'day'}[bg]||'day';
+  if(bg==='indoor'){
+    o+='<rect width="400" height="200" fill="#f3dfc1"/><rect x="0" y="130" width="400" height="70" fill="#b98a5a"/>'+
+       '<rect x="14" y="0" width="16" height="130" fill="#b3261e"/><rect x="370" y="0" width="16" height="130" fill="#b3261e"/>'+
+       '<rect x="170" y="22" width="60" height="70" rx="6" fill="#bfe3ff" stroke="#8b5e34" stroke-width="4"/><line x1="200" y1="22" x2="200" y2="92" stroke="#8b5e34" stroke-width="3"/>';
+  }else{
+    o+='<rect width="400" height="200" fill="url(#sky-'+sky+')"/>';
+    if(bg==='day'||bg==='water')o+='<circle cx="340" cy="38" r="20" fill="#ffe27a"/><ellipse cx="90" cy="40" rx="34" ry="11" fill="#fff" opacity=".8"/><ellipse cx="116" cy="34" rx="22" ry="9" fill="#fff" opacity=".8"/>';
+    if(bg==='dusk')o+='<circle cx="330" cy="118" r="30" fill="#fff0b3"/>';
+    if(bg==='night')o+='<circle cx="64" cy="40" r="16" fill="#f5f1c8"/><circle cx="270" cy="24" r="1.8" fill="#fff"/><circle cx="330" cy="50" r="1.5" fill="#fff"/><circle cx="190" cy="36" r="1.6" fill="#fff"/><circle cx="380" cy="22" r="1.4" fill="#fff"/><circle cx="140" cy="18" r="1.3" fill="#fff"/>';
+    if(bg==='fire')o+='<ellipse cx="200" cy="140" rx="230" ry="60" fill="#ffb347" opacity=".35"/>';
+    if(bg==='water'&&g==='none')g='water';
+    var gcol={grass:'#6cc24a',sand:'#e9cf8f',stone:'#9aa0a6',snow:'#f4f8ff',water:'#3a8fd8'}[g];
+    if(gcol){
+      o+='<rect x="0" y="130" width="400" height="70" fill="'+gcol+'"/>';
+      if(g==='grass')o+='<ellipse cx="70" cy="132" rx="120" ry="14" fill="#58ad3a"/><ellipse cx="330" cy="134" rx="130" ry="12" fill="#58ad3a"/>';
+      if(g==='water')o+='<path d="M0 150 q25 -10 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/><path d="M0 178 q25 -10 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0" fill="none" stroke="#fff" stroke-width="2" opacity=".5"/>';
+      if(g==='stone')o+='<path d="M0 160 h400 M0 185 h400" stroke="#7d8389" stroke-width="2" opacity=".6"/>';
+    }
+  }
+  (sc.items||[]).slice().sort(function(a,b){return a.y-b.y}).forEach(function(it){
+    if(it.s>=44)o+='<ellipse cx="'+it.x+'" cy="'+(it.y+it.s*0.42)+'" rx="'+(it.s*0.34)+'" ry="'+(it.s*0.07)+'" fill="#000" opacity=".16"/>';
+    var tr='translate('+it.x+' '+it.y+')'+(it.rot?' rotate('+it.rot+')':'')+(it.flip?' scale(-1 1)':'');
+    o+='<text transform="'+tr+'" font-size="'+it.s+'" text-anchor="middle" dominant-baseline="central" style="font-family:\'Apple Color Emoji\',\'Segoe UI Emoji\',sans-serif">'+it.e+'</text>';
+  });
+  return o+'</svg>';
+}
 function passageHTML(st){
-  return st.passage.split('\n\n').map(function(p){
-    return '<p'+(p.indexOf('三十六计')===0?' class="stz"':'')+'>'+esc(p)+'</p>';
-  }).join('');
+  if(!st.parts)return st.passage.split('\n\n').map(function(p){return '<p>'+esc(p)+'</p>'}).join('');
+  var h='<div class="stz36"><b>三十六计 #'+st.num+'</b> · '+esc(st.py)+'<br><span>'+esc(st.en)+'</span><div class="srcb">'+SRCLAB[st.src]+'</div></div>';
+  st.parts.forEach(function(p,i){
+    h+='<div class="part"><h3 class="parth">'+(st.parts.length>1?'Story '+(i+1)+': ':'')+esc(p.h)+'</h3>'+
+       '<figure class="scene">'+sceneSVG(p.scene)+'<figcaption>'+esc(p.cap)+'</figcaption></figure>'+
+       p.text.split('\n\n').map(function(t){return '<p>'+esc(t)+'</p>'}).join('')+'</div>';
+  });
+  return h+'<div class="memo">🧠 Remember it: '+esc(st.memo)+'</div>';
 }
 
 function readScreen(){
