@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Strategy Academy">
+<title>Strategy Academy</title>
+<style>
+:root{--blue:#4f8cff;--bg:#0b1020;--panel:#151c33;--panel2:#1e2745;--line:#2c3a66;--text:#eef2ff;--muted:#9aa7d1;--p1:#4f8cff;--p2:#fb923c;--green:#34d399;--red:#f87171;--gold:#fbbf24}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","PingFang SC","Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.45;min-height:100vh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#app{max-width:1280px;margin:0 auto;padding:14px 16px 48px}
+button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.35;cursor:not-allowed}
+h1,h2,h3{margin:0}
+.sub{color:var(--muted);font-size:14px}
+.row{display:flex;align-items:center;gap:10px}.grow{flex:1;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.card h3{font-size:17px;margin-bottom:8px}
+.big-btn{width:100%;padding:15px;border-radius:16px;font-size:18px;font-weight:800;color:#fff;background:#2563eb;min-height:56px}
+.big-btn.sec{background:var(--panel2);border:1px solid var(--line);font-weight:700}
+.big-btn.green{background:#059669}.big-btn.red{background:#b91c1c}
+.back{background:none;color:var(--muted);padding:8px 0;font-size:16px;min-height:44px}
+.pill{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--panel2);color:var(--muted);margin-right:6px}
+.up{color:var(--green)}.dn{color:var(--red)}
+.p1c{color:var(--p1)}.p2c{color:var(--p2)}
+.stz{background:#fef3c7;color:#1f2937;border-left:5px solid #f59e0b;padding:8px 12px;border-radius:8px;font-weight:700}
+.warn{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fde68a;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:700}
+input.name{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:18px;width:100%}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.chart h3{font-size:15px;margin-bottom:2px}
+.chart svg{width:100%;height:auto;display:block}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.lg i{display:inline-block;width:12px;height:4px;border-radius:2px;margin-right:4px;vertical-align:middle}
+@media (max-width:760px){.charts{grid-template-columns:1fr}}
+
+.m-aca button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation}
+.m-aca h1,.m-aca h2,.m-aca h3{margin:0}
+.m-aca .sub{color:var(--muted);font-size:14px}
+.m-aca .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.m-aca .back{background:none;color:var(--muted);padding:10px 0;font-size:17px;min-height:44px}
+.m-aca .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin-bottom:14px}
+.m-aca .row{display:flex;align-items:center;gap:12px}
+.m-aca .grow{flex:1;min-width:0}
+.m-aca .big-btn{width:100%;padding:16px;border-radius:18px;font-size:19px;font-weight:800;color:#fff;background:var(--blue);min-height:58px}
+.m-aca .big-btn.sec{background:var(--panel2);border:1px solid var(--line);font-weight:700}
+.m-aca .big-btn.green{background:#059669}
+.m-aca .big-btn.red{background:#b91c1c}
+.m-aca .big-btn:disabled,.m-aca .buy:disabled{opacity:.35;cursor:not-allowed}
+.m-aca .mod{width:100%;text-align:left;border-radius:22px;padding:18px;margin-bottom:12px;color:#fff;display:flex;gap:14px;align-items:center;min-height:92px}
+.m-aca .mod .em{font-size:42px}
+.m-aca .mod .t{font-weight:800;font-size:21px}
+.m-aca .mod .z{opacity:.9;font-size:15px}
+.m-aca .m-macro{background:linear-gradient(135deg,#7c3aed,#4338ca)}
+.m-aca .m-chess{background:linear-gradient(135deg,#0ea5e9,#0369a1)}
+.m-aca .m-36{background:linear-gradient(135deg,#f59e0b,#b45309)}
+.m-aca .skill{display:flex;align-items:center;gap:10px;margin:8px 0}
+.m-aca .skill .nm{width:150px;font-weight:700;font-size:16px}
+.m-aca .bar{height:14px;background:var(--panel2);border-radius:99px;overflow:hidden;flex:1}
+.m-aca .bar>i{display:block;height:100%;background:linear-gradient(90deg,#4f8cff,#34d399);border-radius:99px;transition:width .6s}
+.m-aca .pct{width:44px;text-align:right;font-weight:800;font-size:15px}
+.m-aca .pill{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--panel2);color:var(--muted);margin-right:6px}
+.m-aca .won{color:#6ee7b7}
+.m-aca /* macro */
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.m-aca .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;text-align:center}
+.m-aca .stat b{display:block;font-size:24px}
+.m-aca .warn{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fde68a;border-radius:16px;padding:10px 14px;margin-bottom:12px;font-weight:700}
+.m-aca .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.m-aca .unit{display:flex;align-items:center;gap:10px;font-size:20px;margin:4px 0}
+.m-aca .unit small{color:var(--muted);font-size:14px}
+.m-aca .buys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.m-aca .buy{background:var(--panel2);border:2px solid var(--line);border-radius:18px;padding:12px 6px;font-weight:700;min-height:84px;font-size:16px}
+.m-aca .buy .e{font-size:30px;display:block}
+.m-aca .buy.worker{border-color:#a16207}
+.m-aca .buy.scout{border-color:#0e7490}
+.m-aca .fog{opacity:.7}
+.m-aca .wheel{font-size:22px;text-align:center;letter-spacing:2px}
+.m-aca .pbar{height:26px;border-radius:10px;margin:6px 0;display:flex;align-items:center;padding:0 10px;font-weight:800;font-size:15px;color:#fff;min-width:60px}
+.m-aca .ck{display:flex;gap:10px;margin:10px 0}
+.m-aca /* chess */
+.cwrap{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:16px;align-items:start}
+.m-aca .board{display:grid;grid-template-columns:repeat(8,1fr);border-radius:12px;overflow:hidden;border:3px solid #3b4a7a;width:100%;max-width:560px;user-select:none}
+.m-aca .sq{aspect-ratio:1;position:relative;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,8vw,54px);line-height:1;cursor:pointer}
+.m-aca .sq.l{background:#e8d8b4}
+.m-aca .sq.d{background:#a97c50}
+.m-aca .sq .co{position:absolute;left:3px;top:1px;font-size:11px;font-weight:800;color:rgba(0,0,0,.45)}
+.m-aca .pw{color:#fff;text-shadow:0 0 2px #000,0 0 2px #000,0 0 3px #000,0 1px 0 #000}
+.m-aca .pb{color:#111;text-shadow:0 0 2px #fff,0 0 1px #fff}
+.m-aca .sq.sel{outline:4px solid #4f8cff;outline-offset:-4px;background-blend-mode:multiply}
+.m-aca .sq.hl::after{content:"";position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(52,211,153,.8)}
+.m-aca .sq.hl.cap::after{width:86%;height:86%;background:none;border:5px solid rgba(248,113,113,.9)}
+.m-aca .fb{padding:12px 16px;border-radius:16px;font-weight:700;margin-top:12px}
+.m-aca .fb.ok{background:rgba(52,211,153,.15);color:#6ee7b7}
+.m-aca .fb.bad{background:rgba(248,113,113,.15);color:#fca5a5}
+.m-aca .vals{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.m-aca .vals span{background:var(--panel2);border-radius:10px;padding:2px 10px;font-weight:700;font-size:15px}
+.m-aca /* scenario */
+.opt{width:100%;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:10px;font-weight:600;font-size:18px;min-height:64px}
+.m-aca .opt.ok{background:#065f46;border-color:#34d399}
+.m-aca .opt.bad{background:#7f1d1d;border-color:#f87171}
+.m-aca .opt.dim{opacity:.45}
+.m-aca .stz{background:#fef3c7;color:#1f2937;border-left:5px solid #f59e0b;padding:8px 12px;border-radius:8px;font-weight:700}
+@media (max-width:760px){.m-aca .cwrap,.m-aca .two{grid-template-columns:1fr}
+.m-aca .stat4{grid-template-columns:repeat(2,1fr)}
+.m-aca .skill .nm{width:120px;font-size:14px}}
+.m-aca .mb-duel{background:linear-gradient(135deg,#dc2626,#7c3aed)}
+.m-aca .mb-stock{background:linear-gradient(135deg,#059669,#0e7490)}
+
+
+.m-duel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.m-duel .hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.m-duel .badge{font-weight:800;border-radius:12px;padding:4px 14px;font-size:17px}
+.m-duel .duelgrid{display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-areas:"sb ord" "ch ord";gap:12px;align-items:start}
+.m-duel .gsb{grid-area:sb}
+.m-duel .gord{grid-area:ord}
+.m-duel .gch{grid-area:ch}
+.m-duel .sbs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.m-duel .pc{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:12px 14px}
+.m-duel .pc.p0{border-color:rgba(79,140,255,.7)}
+.m-duel .pc.p1{border-color:rgba(251,146,60,.7)}
+.m-duel .pc h2{font-size:19px;margin-bottom:6px}
+.m-duel .k{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid rgba(44,58,102,.6)}
+.m-duel .k:first-of-type{border-top:0}
+.m-duel .k .l{color:var(--muted);font-size:14px}
+.m-duel .k .v{font-weight:800;font-size:19px}
+.m-duel .k .d{font-size:13px;font-weight:700;margin-left:6px}
+.m-duel .comp{font-size:15px;color:var(--text)}
+.m-duel .stepper{display:flex;align-items:center;gap:8px;margin:7px 0}
+.m-duel .stepper .nm{flex:1;font-weight:700}
+.m-duel .stepper .nm small{display:block;color:var(--muted);font-weight:500;font-size:12px}
+.m-duel .stepper button{width:46px;height:46px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:24px;font-weight:800}
+.m-duel .stepper .n{width:34px;text-align:center;font-size:21px;font-weight:800}
+.m-duel .stance{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.m-duel .stance button{padding:12px 6px;border-radius:14px;background:var(--panel2);border:2px solid var(--line);font-weight:800;font-size:15px}
+.m-duel .stance button.on.atk{border-color:#ef4444;background:rgba(239,68,68,.18)}
+.m-duel .stance button.on.home{border-color:#34d399;background:rgba(52,211,153,.16)}
+.m-duel .prev{background:var(--panel2);border-radius:12px;padding:8px 12px;font-size:14px;color:var(--muted)}
+.m-duel .prev b{color:var(--text)}
+.m-duel .ev{border-left:4px solid var(--line);padding:6px 12px;margin:8px 0;background:var(--panel2);border-radius:0 12px 12px 0}
+.m-duel .tbl{width:100%;border-collapse:collapse;font-size:15px}
+.m-duel .tbl th,.m-duel .tbl td{padding:6px 8px;text-align:center;border-bottom:1px solid rgba(44,58,102,.6)}
+.m-duel .tbl th:first-child,.m-duel .tbl td:first-child{text-align:left}
+.m-duel .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 12px}
+.m-duel .seg button{padding:12px;border-radius:14px;background:var(--panel2);border:2px solid var(--line);font-weight:700}
+.m-duel .seg button.on{border-color:#4f8cff;background:rgba(79,140,255,.18)}
+.m-duel .pass{text-align:center;padding:60px 20px}
+.m-duel .wheel{font-size:22px;text-align:center;letter-spacing:2px}
+@media (max-width:1000px){.m-duel .duelgrid{grid-template-columns:1fr;grid-template-areas:"sb" "ord" "ch"}
+.m-duel .sbs{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.m-duel .sbs{grid-template-columns:1fr}}
+
+
+.m-stock .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.m-stock .board2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.m-stock .lb{display:grid;gap:10px;margin-bottom:12px}
+.m-stock .lb.two{grid-template-columns:1fr 1fr}
+.m-stock .pc{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:10px 14px}
+.m-stock .pc.cur{box-shadow:0 0 0 3px rgba(255,255,255,.12)}
+.m-stock .pc .nw{font-size:26px;font-weight:800}
+.m-stock .news{border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:700}
+.m-stock .news.on{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.5);color:#fde68a}
+.m-stock .news.off{background:var(--panel);border:1px solid var(--line);color:var(--muted);font-weight:500}
+.m-stock .as{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px}
+.m-stock .as.sel{border-color:#4f8cff}
+.m-stock .as .hd{display:flex;align-items:center;gap:10px;cursor:pointer}
+.m-stock .as .em{font-size:30px}
+.m-stock .as .pr{font-size:24px;font-weight:800}
+.m-stock .as .own{font-size:14px;color:var(--muted);margin:6px 0 8px}
+.m-stock .as .own b{color:var(--text)}
+.m-stock .tb{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.m-stock .tb button{padding:10px 2px;border-radius:12px;font-weight:800;font-size:14px;min-height:46px}
+.m-stock .tb .b{background:#065f46;border:1px solid #10b981}
+.m-stock .tb .s{background:#7f1d1d;border:1px solid #f87171}
+.m-stock .ev{border-left:4px solid var(--line);padding:6px 12px;margin:8px 0;background:var(--panel2);border-radius:0 12px 12px 0}
+.m-stock .tbl{width:100%;border-collapse:collapse;font-size:15px}
+.m-stock .tbl th,.m-stock .tbl td{padding:6px 8px;text-align:center;border-bottom:1px solid rgba(44,58,102,.6)}
+.m-stock .tbl th:first-child,.m-stock .tbl td:first-child{text-align:left}
+.m-stock .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 12px}
+.m-stock .seg button{padding:12px;border-radius:14px;background:var(--panel2);border:2px solid var(--line);font-weight:700}
+.m-stock .seg button.on{border-color:#4f8cff;background:rgba(79,140,255,.18)}
+@media (max-width:1000px){.m-stock .board2{grid-template-columns:1fr}}
+@media (max-width:560px){.m-stock .lb.two{grid-template-columns:1fr}
+.m-stock .tb{grid-template-columns:repeat(3,1fr)}}
+
+
+.m-aca{max-width:980px;margin:0 auto}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ================= tiny SVG line chart (no dependencies) =================
+// o: {series:[{name,color,pts:[numbers|null],dash:bool}], h, min, max, fmt, xl:function(i), markers:[{i,v,t:'buy'|'sell'}]}
+function lineChart(o){
+  var W=380,H=o.h||170,pl=44,pr=12,pt=10,pb=24,fmt=o.fmt||function(v){return Math.round(v)};
+  var all=[],n=0;
+  o.series.forEach(function(s){n=Math.max(n,s.pts.length);s.pts.forEach(function(v){if(v!=null)all.push(v)})});
+  if(!all.length)return '';
+  var mn=o.min!=null?o.min:Math.min.apply(null,all),mx=o.max!=null?o.max:Math.max.apply(null,all);
+  if(mx-mn<1e-9){mx=mn+1}
+  if(o.min==null){var pad=(mx-mn)*.08;mn-=pad}
+  if(o.max==null){mx+=(mx-mn)*.06}
+  function X(i){return pl+(n>1?i/(n-1):.5)*(W-pl-pr)}
+  function Y(v){return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb)}
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img">';
+  for(var g=0;g<=3;g++){
+    var v=mn+(mx-mn)*g/3,y=Y(v);
+    s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="#2c3a66" stroke-width="1"/>'+
+       '<text x="'+(pl-5)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#9aa7d1">'+fmt(v)+'</text>';
+  }
+  var xl=o.xl||function(i){return i+1},idx=[0,Math.floor((n-1)/2),n-1];
+  idx.forEach(function(i,k){if(k&&idx[k-1]===i)return;s+='<text x="'+X(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="#9aa7d1">'+xl(i)+'</text>'});
+  o.series.forEach(function(se){
+    var d=[];se.pts.forEach(function(v,i){if(v!=null)d.push(X(i).toFixed(1)+','+Y(v).toFixed(1))});
+    if(d.length>1)s+='<polyline fill="none" stroke="'+se.color+'" stroke-width="'+(se.w||2.6)+'" stroke-linejoin="round" stroke-linecap="round"'+(se.dash?' stroke-dasharray="5 4"':'')+' points="'+d.join(' ')+'"/>';
+    var last=se.pts.length-1;if(se.pts[last]!=null)s+='<circle cx="'+X(last).toFixed(1)+'" cy="'+Y(se.pts[last]).toFixed(1)+'" r="3.6" fill="'+se.color+'"/>';
+  });
+  (o.markers||[]).forEach(function(m){
+    var x=X(m.i),y=Y(m.v),up=m.t==='buy';
+    s+='<path d="M'+x.toFixed(1)+' '+(up?y+7:y-7).toFixed(1)+' l-5 '+(up?7:-7)+' h10 z" fill="'+(up?'#34d399':'#f87171')+'" stroke="#0b1020" stroke-width="1"/>';
+  });
+  return s+'</svg>';
+}
+function legend(series){
+  return '<div class="lg">'+series.map(function(s){return '<span><i style="background:'+s.color+(s.dash?';opacity:.7':'')+'"></i>'+s.name+'</span>'}).join('')+'</div>';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(id){return document.getElementById(id)}
+
+var Duel=(function(){
+// ================= Commander Duel engine (2 players, simultaneous orders) =================
+var UNITS={
+  spear:{n:'Spearmen',zh:'长矛兵',em:'🔱',counters:'cav'},
+  arch:{n:'Archers',zh:'弓箭手',em:'🏹',counters:'spear'},
+  cav:{n:'Cavalry',zh:'骑兵',em:'🐎',counters:'arch'}
+};
+var UKEYS=['spear','arch','cav'];
+var CFG={rounds:20,startMin:150,startW:4,wCost:50,uCost:50,income:10,sat1:8,sat2:16,maxSupply:40,hp:100,defBonus:1.25,dmg:3};
+
+function total(a){return UKEYS.reduce(function(s,k){return s+(a[k]||0)},0)}
+function copy(o){return JSON.parse(JSON.stringify(o))}
+function mult(u,t){return u===t?1:(UNITS[u].counters===t?2:0.5)}
+// Each of A's units fights B's units in proportion to B's mix: counter x2, same x1, countered x0.5
+function power(A,B){
+  var nb=total(B);if(!nb)return total(A)*2;
+  return UKEYS.reduce(function(s,u){
+    var per=UKEYS.reduce(function(x,t){return x+((B[t]||0)/nb)*mult(u,t)},0);
+    return s+(A[u]||0)*per;
+  },0);
+}
+// workers 1-8 mine at full rate, 9-16 at half rate, beyond 16 mine nothing
+function incomeOf(w){return Math.min(w,CFG.sat1)*CFG.income+Math.max(0,Math.min(w,CFG.sat2)-CFG.sat1)*CFG.income/2}
+function supply(p){return p.w+total(p.army)}
+function wealth(p){return p.min+(p.w+total(p.army))*CFG.wCost}
+function dominant(A){var b=null,bv=0;UKEYS.forEach(function(k){if((A[k]||0)>bv){bv=A[k];b=k}});return b}
+
+function newDuel(n0,n1){
+  function mk(n){return {name:n,min:CFG.startMin,w:CFG.startW,army:{spear:0,arch:0,cav:0},hp:CFG.hp,ecoSpend:0,armySpend:0,won:0,lost:0,unitsLost:0,wRaided:0}}
+  var g={round:1,p:[mk(n0),mk(n1)],hist:[],over:null};
+  snap(g);return g;
+}
+function snapOf(g,i){
+  var p=g.p[i],e=g.p[1-i];
+  return {min:p.min,inc:incomeOf(p.w),w:p.w,army:total(p.army),pw:power(p.army,e.army),hp:p.hp,wealth:wealth(p),a:copy(p.army)};
+}
+function snap(g){g.hist.push([snapOf(g,0),snapOf(g,1)])}
+
+function blankOrders(){return {w:0,spear:0,arch:0,cav:0,stance:'home'}}
+function orderCost(o){return o.w*CFG.wCost+(o.spear+o.arch+o.cav)*CFG.uCost}
+function checkOrders(g,i,o){
+  var p=g.p[i],cost=orderCost(o),units=o.w+o.spear+o.arch+o.cav;
+  return {cost:cost,left:p.min-cost,supplyAfter:supply(p)+units,ok:cost<=p.min&&supply(p)+units<=CFG.maxSupply};
+}
+
+function zero(){return {spear:0,arch:0,cav:0}}
+// Lanchester-style: stronger army wins and keeps sqrt(1-r^2) of its units, r = weaker/stronger power
+function fight(A,B,bA,bB){
+  var nA=total(A),nB=total(B);
+  if(!nA&&!nB)return {winner:-1,A:zero(),B:zero(),pA:0,pB:0,r:0,k:0};
+  var pA=nA?power(A,B)*bA:0,pB=nB?power(B,A)*bB:0;
+  if(pA===pB)return {winner:-1,A:zero(),B:zero(),pA:pA,pB:pB,r:1,k:0};
+  var w=pA>pB?0:1,hi=Math.max(pA,pB),lo=Math.min(pA,pB),r=lo/hi,k=Math.sqrt(Math.max(0,1-r*r));
+  var win=w===0?A:B,surv=zero();UKEYS.forEach(function(u){surv[u]=Math.round((win[u]||0)*k)});
+  return {winner:w,A:w===0?surv:zero(),B:w===1?surv:zero(),pA:pA,pB:pB,r:r,k:k};
+}
+
+// returns the round report; mutates g
+function resolveRound(g,o){
+  var rep={round:g.round,orders:copy(o),events:[],before:copy(g.hist[g.hist.length-1])};
+  var P=g.p;
+  // 1. pay for orders (they arrive at the end of the round, after the battle)
+  [0,1].forEach(function(i){
+    var c=checkOrders(g,i,o[i]);
+    if(!c.ok)throw new Error('illegal orders for player '+i);
+    P[i].min-=c.cost;P[i].ecoSpend+=o[i].w*CFG.wCost;P[i].armySpend+=(o[i].spear+o[i].arch+o[i].cav)*CFG.uCost;
+  });
+  // 2. battle
+  var a0=o[0].stance==='atk',a1=o[1].stance==='atk';
+  if(a0||a1){
+    var field=a0&&a1,att=a0?0:1,def=1-att;
+    var A=copy(P[0].army),B=copy(P[1].army);
+    var bA=1,bB=1;
+    if(!field){if(att===0)bB=CFG.defBonus;else bA=CFG.defBonus}
+    var f=fight(A,B,bA,bB);
+    var ev={kind:'battle',field:field,att:field?-1:att,pA:f.pA,pB:f.pB,before:[A,B],after:[f.A,f.B],winner:f.winner,dmg:0,raided:0,defBonus:field?0:def};
+    // losses
+    [0,1].forEach(function(i){var lost=total(i?B:A)-total(i?f.B:f.A);P[i].unitsLost+=lost;P[i].army=copy(i?f.B:f.A);});
+    if(f.winner>=0){
+      P[f.winner].won++;P[1-f.winner].lost++;
+      var surv=total(f.winner===0?f.A:f.B);
+      // the winner hits the loser's base if they were the attacker (or won a field battle)
+      if(field||f.winner===att){
+        ev.dmg=surv*CFG.dmg;P[1-f.winner].hp=Math.max(0,P[1-f.winner].hp-ev.dmg);
+        ev.raided=Math.min(P[1-f.winner].w,Math.floor(surv/3));P[1-f.winner].w-=ev.raided;P[1-f.winner].wRaided+=ev.raided;
+      }
+    }
+    rep.events.push(ev);
+  }
+  // 3. income (after raids), 4. deliveries
+  [0,1].forEach(function(i){
+    P[i].min+=incomeOf(P[i].w);
+    P[i].w+=o[i].w;
+    UKEYS.forEach(function(k){P[i].army[k]+=o[i][k]});
+  });
+  g.round++;snap(g);
+  rep.after=copy(g.hist[g.hist.length-1]);
+  // 5. end checks
+  var d0=P[0].hp<=0,d1=P[1].hp<=0;
+  if(d0||d1){
+    var w=d0&&d1?(wealth(P[0])>=wealth(P[1])?0:1):(d0?1:0);
+    g.over={winner:w,reason:'The base of '+P[1-w].name+' was destroyed!'};
+  }else if(g.round>CFG.rounds){
+    var h0=P[0].hp,h1=P[1].hp,w2=h0!==h1?(h0>h1?0:1):(wealth(P[0])>=wealth(P[1])?0:1);
+    g.over={winner:w2,reason:h0!==h1?'Time is up. '+P[w2].name+' has the healthier base.':'Time is up. Same base health, but '+P[w2].name+' has more total wealth.'};
+  }
+  return rep;
+}
+
+// ---------- coach: rule-based hints for player i ----------
+function coach(g,i){
+  var p=g.p[i],e=g.p[1-i],t=[],s=g.hist[g.hist.length-1][i],es=g.hist[g.hist.length-1][1-i];
+  var ed=dominant(e.army);
+  if(ed){t.push('The enemy has mostly '+UNITS[ed].em+' '+UNITS[ed].n+'. The counter is '+UNITS[Object.keys(UNITS).filter(function(k){return UNITS[k].counters===ed})[0]].em+' '+UNITS[Object.keys(UNITS).filter(function(k){return UNITS[k].counters===ed})[0]].n+'.')}
+  else t.push('The enemy has NO army. If you have soldiers, attacking now hits their base for free!');
+  if(p.w<6&&g.round<=6)t.push('Early game: each worker earns 10💎 per round and pays for itself in 5 rounds. Build workers now.');
+  if(p.w>=CFG.sat1&&p.w<CFG.sat2)t.push('You have '+p.w+' workers. Workers after the 8th earn only 5💎 each. Soldiers are probably a better buy now.');
+  if(p.w>=CFG.sat2)t.push('Your base is crowded: workers beyond 16 earn nothing. Build soldiers instead.');
+  if(p.min>=150)t.push('You are holding '+p.min+'💎. Minerals sitting in the bank do not earn or fight!');
+  if(total(p.army)&&total(e.army)){
+    if(s.pw<es.pw*0.8)t.push('Their army is stronger than yours ('+es.pw.toFixed(1)+' vs '+s.pw.toFixed(1)+'). Stay home: defenders get +25%. Build counters.');
+    else if(s.pw>es.pw*1.3)t.push('Your army is clearly stronger ('+s.pw.toFixed(1)+' vs '+es.pw.toFixed(1)+'). A good time to attack!');
+  }
+  if(CFG.maxSupply-supply(p)<=5)t.push('Almost at the supply limit ('+supply(p)+' / '+CFG.maxSupply+'). Choose units that are worth it.');
+  return t.slice(0,3);
+}
+// ================= Commander Duel UI =================
+var KEY='commanderDuelV1';
+var COL=['#4f8cff','#fb923c'];
+var S={screen:'setup',g:null,names:['Dad','Jimmy'],secret:true,coach:true,phase:'order',cur:0,orders:[null,null],draft:blankOrders(),rep:null};
+
+function saveGame(){try{localStorage.setItem(KEY,JSON.stringify({g:S.g,names:S.names,secret:S.secret,coach:S.coach}))}catch(e){}}
+function loadGame(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):null}catch(e){return null}}
+function clearSave(){try{localStorage.removeItem(KEY)}catch(e){}}
+
+function armyStr(a){var o=UKEYS.filter(function(k){return a[k]}).map(function(k){return UNITS[k].em+'×'+a[k]});return o.length?o.join(' '):'none'}
+function ordStr(o){var b=[];if(o.w)b.push('👷×'+o.w);UKEYS.forEach(function(k){if(o[k])b.push(UNITS[k].em+'×'+o[k])});return (b.length?b.join(' '):'nothing')+' · '+(o.stance==='atk'?'⚔️ Attack':'🏠 Stay home')}
+function dlt(v,p,dec,good){
+  if(p==null)return '';var d=v-p;if(Math.abs(d)<1e-9)return '<span class="d sub">–</span>';
+  var up=d>0,cls=(up===(good!==false))?'up':'dn';
+  return '<span class="d '+cls+'">'+(up?'▲+':'▼')+(dec?d.toFixed(dec):Math.round(d))+'</span>';
+}
+
+// ---------- setup ----------
+function setup(){
+  var saved=loadGame(),h='<button class="back" onclick="Aca.go(\'home\')">‹ Academy 学院</button><div class="top"><div><h1>⚔️ Commander Duel · 指挥官对决</h1><div class="sub">Two players, one iPad. Watch the numbers, outthink your opponent.</div></div></div>';
+  h+='<div class="card"><h3>Players · 玩家</h3><div class="row"><div class="grow"><div class="sub p1c">Player 1 (blue)</div><input class="name" id="n0" maxlength="14" value="'+esc(S.names[0])+'" oninput="Duel.S.names[0]=this.value||\'Player 1\'"></div>'+
+     '<div class="grow"><div class="sub p2c">Player 2 (orange)</div><input class="name" id="n1" maxlength="14" value="'+esc(S.names[1])+'" oninput="Duel.S.names[1]=this.value||\'Player 2\'"></div></div></div>';
+  h+='<div class="card"><h3>How orders work · 下令方式</h3><div class="seg"><button class="'+(S.secret?'on':'')+'" onclick="Duel.S.secret=true;Duel.render()">🕶️ Secret orders<br><span class="sub">pass the iPad each round</span></button><button class="'+(!S.secret?'on':'')+'" onclick="Duel.S.secret=false;Duel.render()">🤝 Open (teaching)<br><span class="sub">talk it through together</span></button></div>'+
+     '<h3>Coach tips · 教练提示</h3><div class="seg"><button class="'+(S.coach?'on':'')+'" onclick="Duel.S.coach=true;Duel.render()">💡 On</button><button class="'+(!S.coach?'on':'')+'" onclick="Duel.S.coach=false;Duel.render()">Off</button></div></div>';
+  h+='<button class="big-btn green" onclick="Duel.startDuel()">▶ New duel · 开始对决</button>';
+  if(saved&&saved.g&&!saved.g.over)h+='<button class="big-btn sec" style="margin-top:10px" onclick="Duel.resume()">⏯ Resume: round '+saved.g.round+' ('+esc(saved.names[0])+' vs '+esc(saved.names[1])+')</button>';
+  h+='<div class="card" style="margin-top:14px"><h3>How to win · 规则</h3><div class="wheel">🔱 beats 🐎 beats 🏹 beats 🔱</div><ul style="padding-left:20px;margin:8px 0 0;font-size:15px;color:var(--muted)">'+
+     '<li>Each worker mines <b style="color:#fff">10💎</b> a round. Workers 9-16 mine only 5💎. Beyond 16: nothing.</li>'+
+     '<li>Worker or soldier costs <b style="color:#fff">50💎</b>. Limit: 40 workers + soldiers.</li>'+
+     '<li>Both players give orders in secret, then everything happens at once. New units arrive at the END of the round.</li>'+
+     '<li><b style="color:#fff">Attack</b> or <b style="color:#fff">Stay home</b>. Defenders get +25% power. A winning attacker hits the base (3 HP per survivor) and raids workers.</li>'+
+     '<li>Counter units count double, wrong units count half. The stronger army wins and keeps most of its soldiers.</li>'+
+     '<li>Destroy the enemy base (100 HP), or have the stronger base after 20 rounds.</li></ul></div>';
+  return h;
+}
+function startDuel(){S.g=newDuel(S.names[0],S.names[1]);beginRound();saveGame();go('game')}
+function resume(){var s=loadGame();S.g=s.g;S.names=s.names;S.secret=s.secret;S.coach=s.coach;beginRound();go('game')}
+function beginRound(){S.cur=0;S.orders=[null,null];S.draft=blankOrders();S.phase='order';S.rep=null}
+function go(screen){S.screen=screen;render()}
+
+// ---------- dashboard ----------
+function pcard(i){
+  var g=S.g,H=g.hist,s=H[H.length-1][i],pv=H.length>1?H[H.length-2][i]:null,p=g.p[i];
+  var h='<div class="pc p'+i+'"><h2 style="color:'+COL[i]+'">'+(i===0?'🟦':'🟧')+' '+esc(p.name)+'</h2>';
+  function row(l,v,pvv,dec,good){return '<div class="k"><span class="l">'+l+'</span><span><span class="v">'+(dec?v.toFixed(dec):v)+'</span>'+dlt(v,pvv==null?null:pvv,dec,good)+'</span></div>'}
+  h+=row('💎 Minerals',s.min,pv&&pv.min);
+  h+=row('📈 Income / round',s.inc,pv&&pv.inc);
+  h+=row('👷 Workers',s.w,pv&&pv.w);
+  h+=row('⚔️ Army size',s.army,pv&&pv.army);
+  h+='<div class="k"><span class="l">Army mix</span><span class="comp">'+armyStr(s.a)+'</span></div>';
+  h+=row('💪 Power vs enemy',s.pw,pv&&pv.pw,1);
+  h+=row('❤️ Base HP',s.hp,pv&&pv.hp);
+  h+=row('🧮 Total wealth',s.wealth,pv&&pv.wealth);
+  h+='<div class="sub" style="margin-top:4px">Supply '+supply(p)+' / '+CFG.maxSupply+'</div></div>';
+  return h;
+}
+function charts(){
+  var H=S.g.hist,N=S.g.p.map(function(p){return p.name});
+  function ser(key){return [0,1].map(function(i){return {name:N[i],color:COL[i],pts:H.map(function(r){return r[i][key]})}})}
+  function box(title,key,fmt,min){var s=ser(key);return '<div class="chart"><h3>'+title+'</h3>'+lineChart({series:s,fmt:fmt,min:min,xl:function(i){return 'R'+(i+1)}})+legend(s)+'</div>'}
+  return '<div class="charts">'+box('🧮 Total wealth (bank + workers + army)','wealth')+box('📈 Income per round','inc',null,0)+box('💪 Army power vs the enemy','pw',function(v){return +v.toFixed(1)},0)+box('❤️ Base HP','hp',null,0)+'</div>';
+}
+
+// ---------- orders ----------
+function stepKey(k,d){
+  var o=S.draft;if(o[k]+d<0)return;o[k]+=d;
+  if(!checkOrders(S.g,S.cur,o).ok)o[k]-=d;
+  render(true);
+}
+function setStance(s){S.draft.stance=s;render(true)}
+function lock(){
+  S.orders[S.cur]=copy(S.draft);
+  if(S.cur===0){
+    if(S.secret){S.phase='pass'}else{S.cur=1;S.draft=blankOrders()}
+    render();return;
+  }
+  S.rep=resolveRound(S.g,S.orders);S.phase=S.g.over?'over':'report';
+  if(S.g.over){clearSave();Aca.stat('duel')}else saveGame();
+  render();
+}
+function afterPass(){S.cur=1;S.draft=blankOrders();S.phase='order';render()}
+function nextRound(){beginRound();render()}
+function ordersPanel(){
+  var g=S.g,i=S.cur,p=g.p[i],o=S.draft,c=checkOrders(g,i,o),h='<div class="card" style="border-color:'+COL[i]+'"><h3 style="color:'+COL[i]+'">🎮 '+esc(p.name)+'\'s orders</h3>';
+  if(!S.secret&&i===1&&S.orders[0])h+='<div class="prev" style="margin-bottom:8px">'+esc(g.p[0].name)+' ordered: <b>'+ordStr(S.orders[0])+'</b></div>';
+  if(S.secret)h+='<div class="sub" style="margin-bottom:6px">'+esc(g.p[1-i].name)+', look away!</div>';
+  [['w','👷','Worker',CFG.wCost,'+10💎 / round'],['spear','🔱','Spearmen',CFG.uCost,'beats 🐎'],['arch','🏹','Archers',CFG.uCost,'beats 🔱'],['cav','🐎','Cavalry',CFG.uCost,'beats 🏹']].forEach(function(r){
+    h+='<div class="stepper"><div class="nm">'+r[1]+' '+r[2]+'<small>'+r[3]+'💎 · '+r[4]+'</small></div><button onclick="Duel.stepKey(\''+r[0]+'\',-1)">−</button><div class="n">'+o[r[0]]+'</div><button onclick="Duel.stepKey(\''+r[0]+'\',1)">+</button></div>';
+  });
+  h+='<div class="prev">Spend <b>'+c.cost+'💎</b> · left <b>'+c.left+'💎</b> · supply <b>'+c.supplyAfter+'/'+CFG.maxSupply+'</b></div>';
+  h+='<div class="stance"><button class="home'+(o.stance==='home'?' on':'')+'" onclick="Duel.setStance(\'home\')">🏠 Stay home<br><span class="sub">+25% defence</span></button><button class="atk'+(o.stance==='atk'?' on':'')+'" onclick="Duel.setStance(\'atk\')">⚔️ Attack<br><span class="sub">hit their base</span></button></div>';
+  var nm=c.left+incomeOf(p.w),nw=p.w+o.w;
+  h+='<div class="prev" style="margin-bottom:10px">Next round you will have about <b>💎 '+nm+'</b> · 👷 <b>'+nw+'</b> · ⚔️ <b>'+armyStr({spear:p.army.spear+o.spear,arch:p.army.arch+o.arch,cav:p.army.cav+o.cav})+'</b></div>';
+  h+='<button class="big-btn '+(i===0&&S.secret?'':'green')+'" onclick="Duel.lock()">'+(i===0&&S.secret?'🔒 Lock in, pass to '+esc(g.p[1].name):(i===0?'✅ Done, '+esc(g.p[1].name)+'\'s turn':'🔒 Lock in &amp; fight!'))+'</button></div>';
+  if(S.coach){
+    h+='<div class="card"><h3>💡 Coach · 教练</h3>'+coach(g,i).map(function(t){return '<div class="stz" style="margin:6px 0;font-size:15px">'+esc(t)+'</div>'}).join('')+'<div class="sub" style="margin-top:8px">Ask: what will your opponent build next, and why?</div></div>';
+  }
+  return h;
+}
+
+// ---------- screens ----------
+function gameScreen(){
+  var g=S.g,h='<div class="top"><button class="back" onclick="Duel.go(\'setup\')">‹ Menu</button><div class="hdr"><span class="badge" style="background:var(--panel2)">Round '+Math.min(g.round,CFG.rounds)+' / '+CFG.rounds+'</span></div></div>';
+  if(S.phase==='pass'){
+    return h+'<div class="card pass"><div style="font-size:64px">🔒</div><h1>Orders locked</h1><p>Pass the iPad to <b class="p2c">'+esc(g.p[1].name)+'</b>.</p><div class="sub" style="margin-bottom:16px">'+esc(g.p[0].name)+', your orders are hidden.</div><button class="big-btn green" onclick="Duel.afterPass()">I\'m '+esc(g.p[1].name)+'. Show my turn</button></div>';
+  }
+  if(S.phase==='report')return h+reportScreen();
+  if(S.phase==='over')return h+overScreen();
+  h+='<div class="duelgrid"><div class="gsb"><div class="sbs">'+pcard(0)+pcard(1)+'</div></div><div class="gord">'+ordersPanel()+'</div><div class="gch">'+charts()+'</div></div>';
+  return h;
+}
+function battleText(ev,g){
+  var P=g.p,t='';
+  if(ev.field)t+='Both armies marched out and met in the field.';
+  else t+='<b style="color:'+COL[ev.att]+'">'+esc(P[ev.att].name)+'</b> attacked <b style="color:'+COL[1-ev.att]+'">'+esc(P[1-ev.att].name)+'</b>\'s base. The defender got +25%.';
+  t+='<br>Power: <b style="color:'+COL[0]+'">'+ev.pA.toFixed(1)+'</b> vs <b style="color:'+COL[1]+'">'+ev.pB.toFixed(1)+'</b>';
+  if(ev.winner<0)t+=' → <b>Both armies were wiped out.</b>';
+  else{
+    var w=ev.winner;t+=' → <b style="color:'+COL[w]+'">'+esc(P[w].name)+' wins</b> and keeps '+armyStr(w===0?ev.after[0]:ev.after[1]);
+    t+='<br>Before the fight: '+esc(P[0].name)+' '+armyStr(ev.before[0])+' · '+esc(P[1].name)+' '+armyStr(ev.before[1]);
+    if(ev.dmg)t+='<br>💥 Base damage '+ev.dmg+' HP'+(ev.raided?' · 👷 '+ev.raided+' worker'+(ev.raided>1?'s':'')+' raided':'');
+  }
+  return t;
+}
+function reportScreen(){
+  var g=S.g,r=S.rep,h='<div class="card"><h2>📋 Round '+r.round+' report</h2>';
+  [0,1].forEach(function(i){h+='<div style="margin:6px 0"><b style="color:'+COL[i]+'">'+esc(g.p[i].name)+'</b> ordered: '+ordStr(r.orders[i])+'</div>'});
+  if(!r.events.length)h+='<div class="ev">Both stayed home. No battle this round.</div>';
+  r.events.forEach(function(ev){h+='<div class="ev">'+battleText(ev,g)+'</div>'});
+  h+='<table class="tbl" style="margin-top:8px"><tr><th></th><th style="color:'+COL[0]+'">'+esc(g.p[0].name)+'</th><th style="color:'+COL[1]+'">'+esc(g.p[1].name)+'</th></tr>';
+  [['💎 Minerals','min'],['📈 Income','inc'],['👷 Workers','w'],['⚔️ Army','army'],['❤️ Base HP','hp'],['🧮 Wealth','wealth']].forEach(function(k){
+    h+='<tr><td>'+k[0]+'</td>'+[0,1].map(function(i){var a=r.before[i][k[1]],b=r.after[i][k[1]];return '<td>'+a+' → <b>'+b+'</b> '+dlt(b,a)+'</td>'}).join('')+'</tr>';
+  });
+  h+='</table><button class="big-btn green" style="margin-top:12px" onclick="Duel.nextRound()">Next round ›</button></div>'+charts();
+  return h;
+}
+function overScreen(){
+  var g=S.g,w=g.over.winner,P=g.p,H=g.hist,h='';
+  h+='<div class="card" style="text-align:center"><div style="font-size:64px">🏆</div><h1 style="color:'+COL[w]+'">'+esc(P[w].name)+' wins!</h1><div class="sub">'+esc(g.over.reason)+'</div></div>';
+  var lead=null,flip=0,prev=0;
+  H.forEach(function(r,idx){var d=r[0].wealth-r[1].wealth,s=d>0?1:d<0?-1:0;if(s&&prev&&s!==prev)flip=idx+1;if(s)prev=s;if(!lead||Math.abs(d)>Math.abs(lead.d))lead={d:d,round:idx+1}});
+  h+='<div class="card"><h3>What happened · 复盘</h3><table class="tbl"><tr><th></th><th style="color:'+COL[0]+'">'+esc(P[0].name)+'</th><th style="color:'+COL[1]+'">'+esc(P[1].name)+'</th></tr>';
+  [['🧮 Final wealth',function(p){return wealth(p)}],['❤️ Base HP',function(p){return p.hp}],['⚔️ Battles won / lost',function(p){return p.won+' / '+p.lost}],['☠️ Soldiers lost',function(p){return p.unitsLost}],['👷 Workers raided',function(p){return p.wRaided}],['💰 Spent on workers',function(p){return p.ecoSpend+'💎'}],['⚔️ Spent on army',function(p){return p.armySpend+'💎'}]].forEach(function(k){
+    h+='<tr><td>'+k[0]+'</td><td>'+k[1](P[0])+'</td><td>'+k[1](P[1])+'</td></tr>';
+  });
+  h+='</table>'+(lead?'<p class="sub">Biggest wealth lead: <b style="color:'+COL[lead.d>0?0:1]+'">'+esc(P[lead.d>0?0:1].name)+'</b> by '+Math.abs(lead.d)+'💎 in round '+lead.round+'.'+(flip?' The lead last changed hands in round '+flip+'.':'')+'</p>':'')+'</div>';
+  h+='<div class="card"><h3>Talk about it · 一起复盘</h3><ul style="margin:0;padding-left:20px"><li>Look at the wealth chart. When did the lead change, and why?</li><li>Did anyone have minerals sitting unused for many rounds?</li><li>Which choice would you change if you played again?</li></ul></div>'+charts();
+  h+='<button class="big-btn green" onclick="Duel.startDuel()">🔁 Rematch · 再来一局</button><button class="big-btn sec" style="margin-top:10px" onclick="Duel.go(\'setup\')">Menu</button>';
+  return h;
+}
+
+function render(keep){
+  var f={setup:setup,game:gameScreen}[S.screen]||setup,y=window.scrollY;
+  $('app').innerHTML='<div class="m-duel">'+f()+'</div>';
+  window.scrollTo(0,keep?y:0);
+}
+
+
+return {S:S,afterPass:afterPass,armyStr:armyStr,battleText:battleText,beginRound:beginRound,blankOrders:blankOrders,charts:charts,checkOrders:checkOrders,clearSave:clearSave,coach:coach,copy:copy,dlt:dlt,dominant:dominant,fight:fight,gameScreen:gameScreen,go:go,incomeOf:incomeOf,loadGame:loadGame,lock:lock,mult:mult,newDuel:newDuel,nextRound:nextRound,ordStr:ordStr,orderCost:orderCost,ordersPanel:ordersPanel,overScreen:overScreen,pcard:pcard,power:power,render:render,reportScreen:reportScreen,resolveRound:resolveRound,resume:resume,saveGame:saveGame,setStance:setStance,setup:setup,snap:snap,snapOf:snapOf,startDuel:startDuel,stepKey:stepKey,supply:supply,total:total,wealth:wealth,zero:zero};
+})();
+Duel.start=function(){Duel.S.screen='setup';Duel.render()};
+var Stock=(function(){
+// ================= Stock Market Game engine =================
+var FEE=0.01,START_CASH=1000;
+var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var ASSETS=[
+ {id:'bond',n:'Piggy Bond',zh:'储蓄债券',em:'🏦',p0:100,mu:0.008,sig:0,desc:'Slow and safe. Grows a little every month and never drops.'},
+ {id:'mart',n:'SteadyMart',zh:'稳稳超市',em:'🛒',p0:50,mu:0.009,sig:0.02,div:0.02,divEvery:4,desc:'Sells everyday things. Calm price, plus a 2% dividend every 4 months.'},
+ {id:'ice',n:'Sunny Ice Cream',zh:'阳光冰淇淋',em:'🍦',p0:30,mu:0.005,sig:0.03,season:0.09,desc:'Sells more in summer and less in winter.'},
+ {id:'pixel',n:'PixelGames',zh:'像素游戏',em:'🎮',p0:40,mu:0.009,sig:0.055,desc:'Hit games push it up, flops push it down.'},
+ {id:'rocket',n:'RocketTech',zh:'火箭科技',em:'🚀',p0:20,mu:0.012,sig:0.10,desc:'Big dreams. It can zoom up or crash.'}
+];
+var STOCKS=ASSETS.filter(function(a){return a.id!=='bond'});
+var NEWS={
+ mart:['SteadyMart opens 10 new stores!','SteadyMart recalls a product.'],
+ ice:['A heat wave is coming. Everyone wants ice cream!','Rainy weekends: very few ice cream customers.'],
+ pixel:['PixelGames\' new game is #1 in the store!','PixelGames\' new game gets terrible reviews.'],
+ rocket:['RocketTech\'s new rocket reaches space!','RocketTech\'s rocket test fails.']
+};
+function asset(id){return ASSETS.filter(function(a){return a.id===id})[0]}
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){var u=Math.max(1e-9,r()),v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function round2(x){return Math.round(x*100)/100}
+
+// all prices are generated up front from a seed, so both players see the same market and a game can be replayed
+function genMarket(seed,months){
+  var r=mulberry32(seed),prices={},news=[],used={};
+  var nEv=Math.round(months*0.45);
+  while(news.length<nEv){
+    var t=1+Math.floor(r()*(months-1));if(used[t])continue;used[t]=1;
+    var a=STOCKS[Math.floor(r()*STOCKS.length)],dir=r()<0.5?1:-1,mag=0.10+r()*0.10,real=r()<0.75;
+    news.push({t:t,id:a.id,dir:dir,mag:mag,real:real,text:NEWS[a.id][dir>0?0:1]});
+  }
+  news.sort(function(x,y){return x.t-y.t});
+  ASSETS.forEach(function(a){
+    var p=[a.p0];
+    for(var t=0;t<months;t++){
+      var s=a.season?a.season*(Math.sin(2*Math.PI*(t+1-3)/12)-Math.sin(2*Math.PI*(t-3)/12)):0;
+      var ev=0;news.forEach(function(n){if(n.t===t&&n.id===a.id&&n.real)ev=n.dir*n.mag});
+      var z=a.sig?gauss(r):0;if(!a.sig)r();
+      p.push(Math.max(1,round2(p[t]*Math.exp(a.mu+a.sig*z+s+ev))));
+    }
+    prices[a.id]=p;
+  });
+  return {seed:seed,months:months,prices:prices,news:news};
+}
+function newPlayer(n){var p={name:n,cash:START_CASH,sh:{},cost:{},realizedBy:{},fees:0,trades:0,divs:0,nw:[START_CASH],marks:[]};ASSETS.forEach(function(a){p.sh[a.id]=0;p.cost[a.id]=0;p.realizedBy[a.id]=0});return p}
+function newGame(names,months,seed){
+  seed=seed||Math.floor(Math.random()*1e9);
+  return {market:genMarket(seed,months),t:0,players:names.map(newPlayer),cur:0,over:false};
+}
+function price(g,id,t){return g.market.prices[id][t==null?g.t:t]}
+function netWorth(g,p,t){t=t==null?g.t:t;return ASSETS.reduce(function(s,a){return s+p.sh[a.id]*price(g,a.id,t)},p.cash)}
+function maxBuy(g,p,id){return Math.max(0,Math.floor(p.cash/(price(g,id)*(1+FEE))+1e-9))}
+function buy(g,p,id,q){
+  var pr=price(g,id),cost=round2(q*pr),fee=round2(cost*FEE);
+  if(q<=0||cost+fee>p.cash+1e-9)return false;
+  p.cash=round2(p.cash-cost-fee);p.sh[id]+=q;p.cost[id]=round2(p.cost[id]+cost+fee);p.fees=round2(p.fees+fee);p.trades++;
+  p.marks.push({t:g.t,id:id,type:'buy',price:pr,q:q});return true;
+}
+function sell(g,p,id,q){
+  if(q<=0||q>p.sh[id])return false;
+  var pr=price(g,id),proceeds=round2(q*pr),fee=round2(proceeds*FEE),basis=round2(p.cost[id]*q/p.sh[id]);
+  p.cash=round2(p.cash+proceeds-fee);p.cost[id]=round2(p.cost[id]-basis);p.sh[id]-=q;
+  p.realizedBy[id]=round2(p.realizedBy[id]+proceeds-fee-basis);p.fees=round2(p.fees+fee);p.trades++;
+  if(p.sh[id]===0)p.cost[id]=0;
+  p.marks.push({t:g.t,id:id,type:'sell',price:pr,q:q});return true;
+}
+function plOf(g,p,id){return round2(p.realizedBy[id]+p.sh[id]*price(g,id)-p.cost[id])}
+// move to next month: pay dividends, record net worth
+function advance(g){
+  var rep={t:g.t,from:{},to:{},divs:[],news:g.market.news.filter(function(n){return n.t===g.t}),nw0:g.players.map(function(p){return netWorth(g,p)})};
+  ASSETS.forEach(function(a){rep.from[a.id]=price(g,a.id)});
+  g.t++;
+  ASSETS.forEach(function(a){rep.to[a.id]=price(g,a.id)});
+  g.players.forEach(function(p,i){
+    var d=0;
+    STOCKS.forEach(function(a){if(a.div&&g.t%a.divEvery===0&&p.sh[a.id]>0)d+=round2(p.sh[a.id]*price(g,a.id)*a.div)});
+    p.cash=round2(p.cash+d);p.divs=round2(p.divs+d);rep.divs.push(d);
+    p.nw.push(netWorth(g,p));
+  });
+  rep.nw1=g.players.map(function(p){return netWorth(g,p)});
+  if(g.t>=g.market.months)g.over=true;
+  g.cur=0;
+  return rep;
+}
+// benchmarks (no fees, no dividends): hold cash, split $1000 equally across the 4 stocks, all in the bond
+function benchmark(g,kind,t){
+  if(kind==='cash')return START_CASH;
+  if(kind==='bond')return START_CASH/asset('bond').p0*price(g,'bond',t);
+  return STOCKS.reduce(function(s,a){return s+(START_CASH/STOCKS.length)/a.p0*price(g,a.id,t)},0);
+}
+function streak(g,id){var n=0,t=g.t;while(t>0&&price(g,id,t)>price(g,id,t-1)){n++;t--}return n}
+
+function coach(g,p){
+  var tips=[],nw=netWorth(g,p),hold=nw-p.cash;
+  var nw0=g.market.news.filter(function(n){return n.t===g.t})[0];
+  if(nw0)tips.push('News: "'+nw0.text+'" Ask: how much could the price move? Is news always right?');
+  if(g.t>=2&&p.cash/nw>0.7)tips.push('You are holding $'+Math.round(p.cash)+' in cash ('+Math.round(p.cash/nw*100)+'% of your money). Cash does not grow. Put some to work, but keep a cushion.');
+  if(hold>0){
+    var big=ASSETS.map(function(a){return {a:a,v:p.sh[a.id]*price(g,a.id)}}).sort(function(x,y){return y.v-x.v})[0];
+    if(big.v/hold>0.6&&hold>nw*0.3)tips.push(Math.round(big.v/hold*100)+'% of your investments are in '+big.a.n+'. If it drops, you feel it a lot. Spreading across several assets lowers the risk.');
+  }
+  STOCKS.forEach(function(a){var s=streak(g,a.id);if(s>=3)tips.push(a.n+' has risen '+s+' months in a row. Will it keep going? What could make it turn?')});
+  ASSETS.forEach(function(a){if(p.sh[a.id]>0&&p.cost[a.id]>0){var pl=(p.sh[a.id]*price(g,a.id)-p.cost[a.id])/p.cost[a.id];if(pl<-0.15)tips.push('Your '+a.n+' is down '+Math.round(-pl*100)+'%. Is the reason you bought it still true, or is it time to cut the loss?')}});
+  if(p.fees>nw*0.02&&p.trades>6)tips.push('You have paid $'+p.fees.toFixed(2)+' in fees across '+p.trades+' trades. Every trade costs 1%, so trade with a reason.');
+  return tips.slice(0,3);
+}
+// ================= Stock Market Game UI =================
+var KEY='stockGameV1',COL=['#4f8cff','#fb923c'];
+var S={screen:'setup',names:['Dad','Jimmy'],players:2,months:24,coach:true,g:null,phase:'trade',rep:null,sel:'rocket'};
+
+function saveGame(){try{localStorage.setItem(KEY,JSON.stringify({g:S.g,names:S.names,players:S.players,months:S.months,coach:S.coach}))}catch(e){}}
+function loadGame(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):null}catch(e){return null}}
+function clearSave(){try{localStorage.removeItem(KEY)}catch(e){}}
+function $d(v){return (v<0?'-$':'$')+Math.abs(v).toFixed(2)}
+function $0(v){return (v<0?'-$':'$')+Math.abs(Math.round(v)).toLocaleString()}
+function pct(v){return (v>=0?'+':'')+(v*100).toFixed(1)+'%'}
+function mlabel(t){return MONTHS[t%12]+' · Year '+(Math.floor(t/12)+1)}
+function cls(v){return v>0?'up':v<0?'dn':'sub'}
+function spark(pts,color){
+  var mn=Math.min.apply(null,pts),mx=Math.max.apply(null,pts),W=84,H=30;if(mx===mn)mx=mn+1;
+  var d=pts.map(function(v,i){return (i/(pts.length-1||1)*W).toFixed(1)+','+(H-2-(v-mn)/(mx-mn)*(H-4)).toFixed(1)}).join(' ');
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="84" height="30"><polyline fill="none" stroke="'+color+'" stroke-width="2.2" stroke-linejoin="round" points="'+d+'"/></svg>';
+}
+
+// ---------- setup ----------
+function setup(){
+  var saved=loadGame(),h='<button class="back" onclick="Aca.go(\'home\')">‹ Academy 学院</button><div class="top"><div><h1>📈 Stock Market Game · 股票小天地</h1><div class="sub">Buy low, sell high, and see if you beat the market.</div></div></div>';
+  h+='<div class="card"><h3>Players · 玩家</h3><div class="seg"><button class="'+(S.players===1?'on':'')+'" onclick="Stock.S.players=1;Stock.render()">👤 Solo</button><button class="'+(S.players===2?'on':'')+'" onclick="Stock.S.players=2;Stock.render()">👥 Two players (same market)</button></div>'+
+     '<div class="row"><div class="grow"><div class="sub p1c">Player 1</div><input class="name" maxlength="14" value="'+esc(S.names[0])+'" oninput="Stock.S.names[0]=this.value||\'Player 1\'"></div>'+
+     (S.players===2?'<div class="grow"><div class="sub p2c">Player 2</div><input class="name" maxlength="14" value="'+esc(S.names[1])+'" oninput="Stock.S.names[1]=this.value||\'Player 2\'"></div>':'')+'</div></div>';
+  h+='<div class="card"><h3>Length · 长度</h3><div class="seg"><button class="'+(S.months===12?'on':'')+'" onclick="Stock.S.months=12;Stock.render()">12 months (quick)</button><button class="'+(S.months===24?'on':'')+'" onclick="Stock.S.months=24;Stock.render()">24 months</button></div>'+
+     '<h3>Coach tips · 教练提示</h3><div class="seg"><button class="'+(S.coach?'on':'')+'" onclick="Stock.S.coach=true;Stock.render()">💡 On</button><button class="'+(!S.coach?'on':'')+'" onclick="Stock.S.coach=false;Stock.render()">Off</button></div></div>';
+  h+='<button class="big-btn green" onclick="Stock.startGame()">▶ New game · 开始</button>';
+  if(saved&&saved.g&&!saved.g.over)h+='<button class="big-btn sec" style="margin-top:10px" onclick="Stock.resume()">⏯ Resume: '+mlabel(saved.g.t)+'</button>';
+  h+='<div class="card" style="margin-top:14px"><h3>How it works · 规则</h3><ul style="padding-left:20px;margin:0;font-size:15px;color:var(--muted)">'+
+     '<li>Everyone starts with <b style="color:#fff">$1,000</b>. Each round is one month. You see the price now and last months\' prices.</li>'+
+     '<li>🏦 Piggy Bond: safe and slow. 🛒🍦🎮🚀 are stocks: more reward, more risk.</li>'+
+     '<li>Every buy or sell costs a <b style="color:#fff">1% fee</b>. 🛒 SteadyMart pays a 2% dividend every 4 months.</li>'+
+     '<li>📰 News can move a price, but it is <b style="color:#fff">not always right</b>.</li>'+
+     '<li>The dashed chart lines show easy alternatives: all cash, all bond, or $1,000 split evenly across the 4 stocks. Can you beat them?</li></ul></div>';
+  return h;
+}
+function startGame(seed){S.g=newGame(S.names.slice(0,S.players),S.months,seed);S.phase='trade';S.sel='rocket';S.rep=null;saveGame();go('game')}
+function resume(){var s=loadGame();S.g=s.g;S.names=s.names;S.players=s.players;S.months=s.months;S.coach=s.coach;S.phase='trade';go('game')}
+function go(s){S.screen=s;render()}
+
+// ---------- trading ----------
+function me(){return S.g.players[S.g.cur]}
+function doBuy(id,q){var p=me();if(q==='max')q=maxBuy(S.g,p,id);buy(S.g,p,id,q);render(true)}
+function doSell(id,q){var p=me();if(q==='all')q=p.sh[id];sell(S.g,p,id,q);render(true)}
+function pick(id){S.sel=id;render(true)}
+function done(){
+  var g=S.g;
+  if(g.players.length===2&&g.cur===0){g.cur=1;render();return}
+  S.rep=advance(g);S.phase=g.over?'over':'report';
+  if(g.over){clearSave();Aca.stat('stock')}else saveGame();
+  render();
+}
+function nextMonth(){S.g.cur=0;S.phase='trade';render()}
+
+// ---------- screens ----------
+function leaderboard(){
+  var g=S.g,h='<div class="lb'+(g.players.length===2?' two':'')+'">';
+  g.players.forEach(function(p,i){
+    var nw=netWorth(g,p),r=nw/START_CASH-1;
+    h+='<div class="pc'+(i===g.cur&&S.phase==='trade'?' cur':'')+'" style="border-color:'+COL[i]+'"><div class="row"><b style="color:'+COL[i]+'">'+(i?'🟧':'🟦')+' '+esc(p.name)+'</b><span class="sub grow" style="text-align:right">'+(i===g.cur&&S.phase==='trade'?'◀ your turn':'')+'</span></div>'+
+       '<div class="nw">'+$0(nw)+' <span class="'+cls(r)+'" style="font-size:16px">'+pct(r)+'</span></div><div class="sub">Cash '+$0(p.cash)+' · Invested '+$0(nw-p.cash)+' · Fees '+$d(p.fees)+'</div></div>';
+  });
+  return h+'</div>';
+}
+function assetCard(a){
+  var g=S.g,p=me(),pr=price(g,a.id),prev=g.t>0?price(g,a.id,g.t-1):pr,ch=pr/prev-1,sh=p.sh[a.id],val=sh*pr,pl=sh?val-p.cost[a.id]:0;
+  var hist=g.market.prices[a.id].slice(Math.max(0,g.t-11),g.t+1),st=streak(g,a.id);
+  var h='<div class="as'+(S.sel===a.id?' sel':'')+'"><div class="hd" onclick="Stock.pick(\''+a.id+'\')"><span class="em">'+a.em+'</span><div class="grow"><b>'+a.n+'</b> <span class="sub">'+a.zh+'</span><div class="sub" style="font-size:12px">'+a.desc+'</div></div>'+
+     '<div style="text-align:right"><div class="pr">$'+pr.toFixed(2)+'</div><div class="'+cls(ch)+'" style="font-weight:700;font-size:14px">'+(g.t>0?pct(ch):'–')+(st>=3?' 🔥'+st:'')+'</div></div>'+spark(hist,ch>=0?'#34d399':'#f87171')+'</div>';
+  h+='<div class="own">'+(sh?'You own <b>'+sh+'</b> share'+(sh>1?'s':'')+' · avg cost <b>$'+(p.cost[a.id]/sh).toFixed(2)+'</b> · worth <b>'+$d(val)+'</b> · <span class="'+cls(pl)+'"><b>'+(pl>=0?'+':'')+$d(pl)+'</b></span>':'You own none.')+'</div>';
+  var mb=maxBuy(g,p,a.id);
+  h+='<div class="tb"><button class="b" '+(mb>=1?'':'disabled')+' onclick="Stock.doBuy(\''+a.id+'\',1)">Buy 1</button><button class="b" '+(mb>=5?'':'disabled')+' onclick="Stock.doBuy(\''+a.id+'\',5)">Buy 5</button><button class="b" '+(mb>=1?'':'disabled')+' onclick="Stock.doBuy(\''+a.id+'\',\'max\')">Buy max ('+mb+')</button>'+
+     '<button class="s" '+(sh>=1?'':'disabled')+' onclick="Stock.doSell(\''+a.id+'\',1)">Sell 1</button><button class="s" '+(sh>=5?'':'disabled')+' onclick="Stock.doSell(\''+a.id+'\',5)">Sell 5</button><button class="s" '+(sh>=1?'':'disabled')+' onclick="Stock.doSell(\''+a.id+'\',\'all\')">Sell all</button></div></div>';
+  return h;
+}
+function charts(){
+  var g=S.g,p=me(),a=asset(S.sel),n=g.t+1,xl=function(i){return MONTHS[i%12]};
+  var ps=[{name:a.n+' price',color:'#fbbf24',pts:g.market.prices[a.id].slice(0,n)}];
+  var mk=p.marks.filter(function(m){return m.id===a.id}).map(function(m){return {i:m.t,v:m.price,t:m.type}});
+  var nws=g.players.map(function(q,i){return {name:q.name,color:COL[i],pts:q.nw.slice()}}).concat([
+    {name:'Split evenly, never trade',color:'#a78bfa',dash:true,w:2,pts:Array.apply(null,Array(n)).map(function(_,t){return benchmark(g,'equal',t)})},
+    {name:'All bond',color:'#34d399',dash:true,w:2,pts:Array.apply(null,Array(n)).map(function(_,t){return benchmark(g,'bond',t)})},
+    {name:'All cash',color:'#9aa7d1',dash:true,w:2,pts:Array.apply(null,Array(n)).map(function(){return START_CASH})}]);
+  return '<div class="chart" style="margin-bottom:12px"><h3>'+a.em+' '+a.n+' price · tap a stock to change</h3>'+lineChart({series:ps,markers:mk,fmt:function(v){return '$'+v.toFixed(0)},xl:xl,h:190})+
+     '<div class="lg"><span>▲ green = you bought</span><span>▼ red = you sold</span></div></div>'+
+     '<div class="chart"><h3>💰 Net worth vs easy alternatives</h3>'+lineChart({series:nws,fmt:function(v){return '$'+Math.round(v)},xl:xl,h:210})+legend(nws)+'</div>';
+}
+function gameScreen(){
+  var g=S.g,h='<div class="top"><button class="back" onclick="Stock.go(\'setup\')">‹ Menu</button><div><span class="pill" style="font-size:15px">'+(S.phase==='over'?'Final':mlabel(g.t))+'</span><span class="pill">Round '+Math.min(g.t+1,g.market.months)+' / '+g.market.months+'</span><span class="pill">Market #'+g.market.seed%10000+'</span></div></div>';
+  if(S.phase==='report')return h+reportScreen();
+  if(S.phase==='over')return h+overScreen();
+  var p=me(),nw=g.market.news.filter(function(n){return n.t===g.t})[0];
+  h+=leaderboard();
+  h+=nw?'<div class="news on">📰 '+esc(nw.text)+'</div>':'<div class="news off">📰 No big news this month.</div>';
+  h+='<div class="board2"><div>';
+  ASSETS.forEach(function(a){h+=assetCard(a)});
+  h+='</div><div>';
+  if(S.coach){var tips=coach(g,p);if(tips.length)h+='<div class="card"><h3>💡 Coach · 教练</h3>'+tips.map(function(t){return '<div class="stz" style="margin:6px 0;font-size:15px">'+esc(t)+'</div>'}).join('')+'</div>'}
+  h+=charts()+'</div></div>';
+  var last=g.players.length===1||g.cur===1;
+  h+='<div style="position:sticky;bottom:0;padding:10px 0;background:linear-gradient(transparent,var(--bg) 30%)"><button class="big-btn '+(last?'green':'')+'" onclick="Stock.done()">'+(last?'⏭ End month → '+MONTHS[(g.t+1)%12]:'✅ Done, '+esc(g.players[1].name)+'\'s turn')+'</button></div>';
+  return h;
+}
+function reportScreen(){
+  var g=S.g,r=S.rep,h='<div class="card"><h2>📋 '+MONTHS[r.t%12]+' → '+MONTHS[(r.t+1)%12]+' report</h2>';
+  r.news.forEach(function(n){var a=asset(n.id),mv=r.to[n.id]/r.from[n.id]-1;h+='<div class="ev">📰 "'+esc(n.text)+'"<br>'+(n.real?'<b class="up">The news came true</b>':'<b class="dn">The news fizzled</b>')+': '+a.n+' moved '+pct(mv)+'.'+(n.real?'':' News is not always right!')+'</div>'});
+  h+='<table class="tbl"><tr><th></th><th>Price</th><th>Change</th></tr>';
+  ASSETS.forEach(function(a){var ch=r.to[a.id]/r.from[a.id]-1;h+='<tr><td>'+a.em+' '+a.n+'</td><td>$'+r.from[a.id].toFixed(2)+' → <b>$'+r.to[a.id].toFixed(2)+'</b></td><td class="'+cls(ch)+'">'+pct(ch)+'</td></tr>'});
+  h+='</table>';
+  g.players.forEach(function(p,i){var d=r.nw1[i]-r.nw0[i];h+='<div style="margin-top:10px"><b style="color:'+COL[i]+'">'+esc(p.name)+'</b>: '+$0(r.nw0[i])+' → <b>'+$0(r.nw1[i])+'</b> <span class="'+cls(d)+'">('+(d>=0?'+':'')+$d(d)+')</span>'+(r.divs[i]?' · 💵 dividends '+$d(r.divs[i]):'')+'</div>'});
+  h+='<button class="big-btn green" style="margin-top:12px" onclick="Stock.nextMonth()">Next month ›</button></div>';
+  return h;
+}
+function overScreen(){
+  var g=S.g,m=g.market.months,eq=benchmark(g,'equal',m),bd=benchmark(g,'bond',m),h='';
+  var order=g.players.map(function(p,i){return {p:p,i:i,nw:netWorth(g,p,m)}}).sort(function(a,b){return b.nw-a.nw});
+  h+='<div class="card" style="text-align:center"><div style="font-size:60px">'+(g.players.length>1?'🏆':'📈')+'</div>'+
+     (g.players.length>1?'<h1 style="color:'+COL[order[0].i]+'">'+esc(order[0].p.name)+' wins!</h1>':'<h1>Game over</h1>')+'<div class="sub">Market #'+g.market.seed%10000+' · '+m+' months</div></div>';
+  g.players.forEach(function(p,i){
+    var nw=netWorth(g,p,m),ret=nw/START_CASH-1,fee=p.fees,held=ASSETS.filter(function(a){return p.sh[a.id]>0}).length;
+    var worst=0,wm=0;p.nw.forEach(function(v,t){if(t&&v-p.nw[t-1]<worst){worst=v-p.nw[t-1];wm=t}});
+    h+='<div class="card" style="border-color:'+COL[i]+'"><h3 style="color:'+COL[i]+'">'+esc(p.name)+': '+$0(nw)+' <span class="'+cls(ret)+'">('+pct(ret)+')</span></h3>'+
+       '<table class="tbl"><tr><th>Asset</th><th>Profit / loss</th></tr>'+ASSETS.map(function(a){var pl=plOf(g,p,a.id);return '<tr><td>'+a.em+' '+a.n+'</td><td class="'+cls(pl)+'">'+(pl>=0?'+':'')+$d(pl)+'</td></tr>'}).join('')+'</table>'+
+       '<ul style="padding-left:20px;margin:10px 0 0;font-size:15px">'+
+       '<li>'+(nw>=eq?'You <b class="up">beat</b>':'You <b class="dn">trailed</b>')+' "split evenly and never trade" ('+$0(eq)+') by '+$0(Math.abs(nw-eq))+'. '+(nw>=eq?'Skill or luck? Replay the same market and find out!':'Doing nothing is a strong plan. Trading needs a reason.')+'</li>'+
+       '<li>The safe 🏦 bond ended at '+$0(bd)+'. '+(nw>=bd?'You beat the safe choice.':'The safe choice won this time. Was the extra risk worth it?')+'</li>'+
+       '<li>Trades: '+p.trades+' · fees paid '+$d(fee)+' ('+(fee/START_CASH*100).toFixed(1)+'% of your start money)'+(p.divs?' · dividends '+$d(p.divs):'')+'.</li>'+
+       '<li>Worst month: '+(wm?MONTHS[(wm-1)%12]+' → '+MONTHS[wm%12]+', '+$d(worst):'none')+'. You held '+held+' kind'+(held===1?'':'s')+' of asset at the end.</li></ul></div>';
+  });
+  h+='<div class="card"><div class="chart" style="border:0;padding:0">'+charts().split('<div class="chart">')[1].replace(/^/,'<div class="chart">')+'</div></div>';
+  h+='<div class="card"><h3>Talk about it · 一起复盘</h3><ul style="margin:0;padding-left:20px"><li>Which was your best decision? Which was your worst? Why?</li><li>Did the news help? When was it wrong?</li><li>Would you rather have the risky stock or the safe bond, and for how long?</li></ul></div>';
+  h+='<button class="big-btn green" onclick="Stock.startGame('+g.market.seed+')">🔁 Same market again · 同一市场再来</button><button class="big-btn sec" style="margin-top:10px" onclick="Stock.startGame()">🎲 New market · 新市场</button><button class="big-btn sec" style="margin-top:10px" onclick="Stock.go(\'setup\')">Menu</button>';
+  return h;
+}
+function render(keep){
+  var f={setup:setup,game:gameScreen}[S.screen]||setup,y=window.scrollY;
+  $('app').innerHTML='<div class="m-stock">'+f()+'</div>';
+  window.scrollTo(0,keep?y:0);
+}
+
+
+return {S:S,$0:$0,$d:$d,advance:advance,asset:asset,assetCard:assetCard,benchmark:benchmark,buy:buy,charts:charts,clearSave:clearSave,cls:cls,coach:coach,doBuy:doBuy,doSell:doSell,done:done,gameScreen:gameScreen,gauss:gauss,genMarket:genMarket,go:go,leaderboard:leaderboard,loadGame:loadGame,maxBuy:maxBuy,me:me,mlabel:mlabel,mulberry32:mulberry32,netWorth:netWorth,newGame:newGame,newPlayer:newPlayer,nextMonth:nextMonth,overScreen:overScreen,pct:pct,pick:pick,plOf:plOf,price:price,render:render,reportScreen:reportScreen,resume:resume,round2:round2,saveGame:saveGame,sell:sell,setup:setup,spark:spark,startGame:startGame,streak:streak};
+})();
+Stock.start=function(){Stock.S.screen='setup';Stock.render()};
+var Aca=(function(){
+// ================= ENGINE: Chess tactics =================
+var FILES='abcdefgh';
+var VAL={P:1,N:3,B:3,R:5,Q:9,K:0};
+var PNAME={P:'pawn',N:'knight',B:'bishop',R:'rook',Q:'queen',K:'king'};
+var GLYPH={K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'};
+function sqn(f,r){return FILES[f]+(r+1)}
+function inb(f,r){return f>=0&&f<8&&r>=0&&r<8}
+function parseBoard(w,b){
+  var bd={};
+  w.split(' ').forEach(function(t){if(t)bd[t.slice(1)]={c:'w',t:t[0]}});
+  b.split(' ').forEach(function(t){if(t)bd[t.slice(1)]={c:'b',t:t[0]}});
+  return bd;
+}
+var DN=[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]];
+var DK=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+var DD=[[1,1],[1,-1],[-1,1],[-1,-1]],DO=[[1,0],[-1,0],[0,1],[0,-1]];
+// squares a piece attacks (includes squares holding any piece)
+function attacks(bd,from){
+  var p=bd[from],f=FILES.indexOf(from[0]),r=+from[1]-1,out=[];
+  function ray(ds){ds.forEach(function(d){var x=f+d[0],y=r+d[1];while(inb(x,y)){var s=sqn(x,y);out.push(s);if(bd[s])break;x+=d[0];y+=d[1]}})}
+  function step(ds){ds.forEach(function(d){var x=f+d[0],y=r+d[1];if(inb(x,y))out.push(sqn(x,y))})}
+  if(p.t==='N')step(DN);else if(p.t==='K')step(DK);else if(p.t==='B')ray(DD);else if(p.t==='R')ray(DO);
+  else if(p.t==='Q'){ray(DD);ray(DO)}
+  else{var dir=p.c==='w'?1:-1;[-1,1].forEach(function(dx){if(inb(f+dx,r+dir))out.push(sqn(f+dx,r+dir))})}
+  return out;
+}
+// pseudo-legal moves (no check rules, no promotion/castling/en passant: puzzles avoid them)
+function moves(bd,from){
+  var p=bd[from],f=FILES.indexOf(from[0]),r=+from[1]-1;
+  var out=attacks(bd,from).filter(function(s){return !bd[s]||bd[s].c!==p.c});
+  if(p.t==='P'){
+    out=out.filter(function(s){return bd[s]&&bd[s].c!==p.c});
+    var dir=p.c==='w'?1:-1,one=sqn(f,r+dir);
+    if(inb(f,r+dir)&&!bd[one]){out.push(one);var two=sqn(f,r+2*dir);if(((p.c==='w'&&r===1)||(p.c==='b'&&r===6))&&!bd[two])out.push(two)}
+  }
+  return out;
+}
+function attackersOf(bd,s,byColor){
+  return Object.keys(bd).filter(function(k){return bd[k].c===byColor&&attacks(bd,k).indexOf(s)>=0});
+}
+function after(bd,from,to){var nb={};for(var k in bd)nb[k]=bd[k];nb[to]=nb[from];delete nb[from];return nb}
+function nm(bd,s){return PNAME[bd[s].t]+' on '+s}
+function names(bd,list){return list.map(function(s){return nm(bd,s)}).join(' and ')}
+
+// Judge a move for a puzzle. type: 'free' | 'safe' | 'fork'. Player is always White.
+function judge(puz,bd,from,to){
+  var me='w',opp='b',nb=after(bd,from,to),p=bd[from],tgt=bd[to];
+  var threats=attackersOf(nb,to,opp);
+  if(puz.type==='free'){
+    if(!tgt)return {ok:false,msg:'That move does not capture anything. Look for a black piece that nobody protects!'};
+    var gain=VAL[tgt.t];
+    if(!threats.length)return {ok:true,msg:'Free piece! Your '+PNAME[p.t]+' takes the '+PNAME[tgt.t]+' (+'+gain+') and nothing can take it back.'};
+    var loss=VAL[p.t];
+    return {ok:false,msg:'That '+PNAME[tgt.t]+' is protected by the '+names(nb,threats)+'. You would win '+gain+' but lose your '+PNAME[p.t]+' ('+loss+'). Look for a piece with NO protector.'};
+  }
+  if(puz.type==='safe'){
+    if(puz.must&&from!==puz.must)return {ok:false,msg:'Your '+PNAME[bd[puz.must].t]+' on '+puz.must+' is still in danger! Move THAT piece.'};
+    if(!threats.length)return {ok:true,msg:'Safe! No black piece can capture your '+PNAME[p.t]+' on '+to+'.'+(tgt?' You even won a '+PNAME[tgt.t]+'!':'')};
+    return {ok:false,msg:'Not safe: the '+names(nb,threats)+' could capture you on '+to+'. Pick a square that no black piece attacks.'};
+  }
+  if(puz.type==='fork'){
+    if(threats.length)return {ok:false,msg:'Careful! The '+names(nb,threats)+' could capture your '+PNAME[p.t]+' on '+to+'.'};
+    var hit=attacks(nb,to).filter(function(s){return nb[s]&&nb[s].c===opp&&VAL[nb[s].t]>=3});
+    if(hit.length>=2)return {ok:true,msg:'FORK! Your '+PNAME[p.t]+' attacks the '+names(nb,hit)+' at the same time. Black can only save one!'};
+    return {ok:false,msg:'Safe, but your '+PNAME[p.t]+' only attacks '+hit.length+' valuable piece'+(hit.length===1?'':'s')+'. Find a square that attacks TWO.'};
+  }
+}
+// White pieces first, then black. Letters: K Q R B N P + square.
+var PUZZLES=[
+{id:'p1',type:'free',skill:'safe',title:'Free Piece #1',
+ q:'Your bishop can capture something. Which black piece is NOT protected? Take it for free!',
+ w:'Kg1 Bc4 Pf2 Pg2 Ph2',b:'Kg8 Pf7 Ne6 Rb5',
+ tip:'Before you capture, ask: "If I take it, can they take me back?"'},
+{id:'p2',type:'free',skill:'safe',title:'Free Piece #2',
+ q:'Your knight attacks several black pieces. Which one is a FREE capture?',
+ w:'Kg1 Nd4 Pf2 Pg2 Ph2',b:'Kg8 Qb5 Pe6 Bf5',
+ tip:'The biggest piece is not always the best target, but an unprotected queen is a gift!'},
+{id:'p3',type:'safe',skill:'safe',must:'c4',title:'Run to Safety',
+ q:'Black\'s pawn on d5 attacks your bishop! Move it to a SQUARE THAT NO BLACK PIECE ATTACKS.',
+ w:'Kg1 Bc4 Pf2 Pg2 Ph2',b:'Kg8 Pd5 Pe6 Pa6 Nc6',
+ tip:'A piece is safe when no enemy piece attacks its square.'},
+{id:'p4',type:'fork',skill:'look',title:'The Fork',
+ q:'Find a knight move that attacks TWO black rooks at once, on a square where the knight is safe.',
+ w:'Kg1 Nc3 Pf2 Pg2 Ph2',b:'Kg8 Rd6 Rf6 Pe6',
+ tip:'A fork attacks two pieces at once. Your opponent can only save one!'}
+];
+
+var SCENARIOS=[
+{id:'s1',num:6,py:'shēng dōng jī xī',zh:'声东击西',en:'Make noise in the east, strike in the west',em:'🎯',
+ sit:'In a strategy game, the enemy has put most of its soldiers at its EAST gate. Its WEST gate is almost empty. Your army is not strong enough to break the east gate.',
+ o:['Attack the east gate with everything.','Send a few units to make noise at the east gate, then attack the west gate with your main army.','Go home and build more houses.'],a:1,
+ why:'Pull the enemy\'s eyes to the east, then strike where it is weak. In chess, a threat on one side can distract a defender from the other.'},
+{id:'s2',num:2,py:'wéi wèi jiù zhào',zh:'围魏救赵',en:'Attack Wei to save Zhao',em:'🗡️',
+ sit:'The enemy army is hitting your friend\'s base and is too strong to fight there. But the enemy\'s own home base is almost undefended.',
+ o:['Rush to your friend\'s base and fight the big army.','Attack the enemy\'s home base so their army must run back.','Wait and watch.'],a:1,
+ why:'Do not push on the enemy\'s strongest point. Threaten what they cannot afford to lose, and they will leave your friend alone.'},
+{id:'s3',num:15,py:'diào hǔ lí shān',zh:'调虎离山',en:'Lure the tiger away from the mountain',em:'🐯',
+ sit:'A strong enemy guard sits in front of a gold mine, and you cannot beat it there. But the guard likes to chase any unit that gets close.',
+ o:['Attack the guard on its home ground.','Send a fast unit as bait to lead the guard far away, then grab the gold.','Send workers to mine right next to the guard.'],a:1,
+ why:'A guard is strongest at its post. Pull it away from its strong place first, then take what you want.'},
+{id:'s4',num:17,py:'pāo zhuān yǐn yù',zh:'抛砖引玉',en:'Toss a brick to attract jade',em:'♟️',
+ sit:'In chess, you can give away a small pawn. If the enemy queen takes it, your rook can then win the queen. A pawn is worth 1 and a queen is worth 9.',
+ o:['Never give up any piece, ever.','Give the pawn (the "brick") to lure the queen into a trap and win the queen (the "jade").','Give your queen for a pawn.'],a:1,
+ why:'A small sacrifice is good if it wins something much bigger. Count the values before you decide!'},
+{id:'s5',num:36,py:'zǒu wéi shàng',zh:'走为上',en:'Retreat is the best choice',em:'🏃',
+ sit:'Your small army meets an army three times bigger and you have no counter units. Fighting means losing everything.',
+ o:['Fight to the last soldier.','Retreat to save your army, then rebuild and return stronger.','Send your workers to attack.'],a:1,
+ why:'Retreat is not shameful when the fight cannot be won. A saved army can fight again later.'}
+];
+// ================= Strategy Academy hub =================
+var KEY='strategyAcademyV1';
+var SKILLS=[
+ {k:'safe',n:'Safety',zh:'安全',em:'🛡️'},
+ {k:'look',n:'Look Ahead',zh:'看两步',em:'👀'},
+ {k:'trick',n:'Stratagems',zh:'谋略',em:'🎭'}
+];
+function load(){var d={sk:{},done:{},st:{duel:0,stock:0}};try{var s=localStorage.getItem(KEY);if(s){var p=JSON.parse(s);for(var k in p)d[k]=p[k];if(!d.st)d.st={duel:0,stock:0}}}catch(e){}return d}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
+var P=load();
+function addSkill(k,good){var a=P.sk[k]||[0,0];a[1]++;if(good)a[0]++;P.sk[k]=a}
+function stat(k){P.st[k]=(P.st[k]||0)+1;save()}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+var S={screen:'home',pi:0,sel:null,hl:[],fb:null,tried:false,si:0,sans:null,bd:null,armed:false};
+function go(screen,x){S.screen=screen;S.armed=false;if(x)for(var k in x)S[k]=x[k];render()}
+function inProgress(key){try{var s=JSON.parse(localStorage.getItem(key));return s&&s.g&&!s.g.over?' <span class="pill">⏯ game in progress</span>':''}catch(e){return ''}}
+
+function home(){
+  var h='<div class="top"><div><h1>🧠 Strategy Academy</h1><div class="sub">战略学院 · Think like a commander</div></div></div>';
+  h+='<button class="mod mb-duel" onclick="Duel.start()"><span class="em">⚔️</span><span class="grow"><div class="t">Commander Duel · 指挥官对决</div><div class="z">Two players, live dashboard of both sides. Economy, army, counters.'+inProgress('commanderDuelV1')+'</div></span><span>'+(P.st.duel||0)+' played</span></button>';
+  h+='<button class="mod mb-stock" onclick="Stock.start()"><span class="em">📈</span><span class="grow"><div class="t">Stock Market · 股票小天地</div><div class="z">Buy, sell and watch prices change each month.'+inProgress('stockGameV1')+'</div></span><span>'+(P.st.stock||0)+' played</span></button>';
+  var cw=PUZZLES.filter(function(p){return P.done[p.id]}).length;
+  var sw=SCENARIOS.filter(function(p){return P.done[p.id]}).length;
+  h+='<button class="mod m-chess" onclick="Aca.go(\'chessList\')"><span class="em">♟️</span><span class="grow"><div class="t">Chess Tactics · 国际象棋小课堂</div><div class="z">Free pieces, safe squares and forks</div></span><span>'+cw+'/'+PUZZLES.length+'</span></button>';
+  h+='<button class="mod m-36" onclick="Aca.go(\'scn\',{si:0,sans:null})"><span class="em">📜</span><span class="grow"><div class="t">三十六计 Decisions · 谋略卡</div><div class="z">Pick the stratagem that fits the situation</div></span><span>'+sw+'/'+SCENARIOS.length+'</span></button>';
+  h+='<div class="card" style="margin-top:6px"><h3 style="margin-bottom:6px">Solo skills · 个人能力</h3>';
+  SKILLS.forEach(function(s){
+    var a=P.sk[s.k],p=a?Math.round(a[0]/a[1]*100):0;
+    h+='<div class="skill"><div class="nm">'+s.em+' '+s.n+' <span class="sub">'+s.zh+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div><div class="pct">'+(a?p+'%':'–')+'</div></div>';
+  });
+  h+='<div class="sub">From the chess puzzles and stratagem cards. Duel and Stock keep their own records.</div></div>';
+  h+='<div class="sub" style="text-align:center;margin-top:10px">Same ideas in every game: know what you have, find out what they have, count before you act, think ahead.</div>';
+  h+='<div style="text-align:center;margin-top:12px"><button class="back" onclick="Aca.resetAll()">'+(S.armed?'Tap again to erase solo progress':'Reset solo progress')+'</button></div>';
+  return h;
+}
+function resetAll(){if(!S.armed){S.armed=true;render(true);return}P={sk:{},done:{},st:P.st};save();S.armed=false;go('home')}
+
+// ---------- chess ----------
+function chessList(){
+  var h='<button class="back" onclick="Aca.go(\'home\')">‹ Home 返回</button><h1 style="margin-bottom:12px">♟️ Chess Tactics · 小课堂</h1>';
+  PUZZLES.forEach(function(p,i){
+    h+='<button class="mod m-chess" onclick="Aca.openPuzzle('+i+')"><span class="em">'+({free:'🎁',safe:'🛡️',fork:'🍴'})[p.type]+'</span><span class="grow"><div class="t">'+(i+1)+'. '+p.title+'</div><div class="z">'+({free:'Win a piece for free',safe:'Move to a safe square',fork:'Attack two pieces at once'})[p.type]+'</div></span><span class="'+(P.done[p.id]?'won':'')+'">'+(P.done[p.id]?'✅':'›')+'</span></button>';
+  });
+  h+='<div class="card"><h3>Piece values · 棋子价值</h3><div class="vals"><span>♟ pawn 1</span><span>♞ knight 3</span><span>♝ bishop 3</span><span>♜ rook 5</span><span>♛ queen 9</span></div></div>';
+  return h;
+}
+function openPuzzle(i){var p=PUZZLES[i];go('puzzle',{pi:i,bd:parseBoard(p.w,p.b),sel:null,hl:[],fb:null,tried:false})}
+function puzzle(){
+  var p=PUZZLES[S.pi],bd=S.bd,h='<button class="back" onclick="Aca.go(\'chessList\')">‹ Puzzles</button>';
+  h+='<div class="cwrap"><div class="board">';
+  for(var r=7;r>=0;r--)for(var f=0;f<8;f++){
+    var s=sqn(f,r),pc=bd[s],cls='sq '+((f+r)%2?'l':'d');
+    if(S.sel===s)cls+=' sel';
+    if(S.hl.indexOf(s)>=0)cls+=' hl'+(pc?' cap':'');
+    h+='<div class="'+cls+'" onclick="Aca.tapSq(\''+s+'\')">'+(f===0?'<span class="co">'+(r+1)+'</span>':'')+(r===0?'<span class="co" style="left:auto;right:3px;top:auto;bottom:1px">'+FILES[f]+'</span>':'')+
+       (pc?'<span class="'+(pc.c==='w'?'pw':'pb')+'">'+GLYPH[pc.t]+'︎</span>':'')+'</div>';
+  }
+  h+='</div><div><div class="card"><h2 style="margin-bottom:6px">'+p.title+'</h2><div>'+esc(p.q)+'</div><div class="sub" style="margin-top:8px">You play White (the light pieces). Tap a piece, then tap where to move.</div></div>';
+  if(S.fb){
+    h+='<div class="fb '+(S.fb.ok?'ok':'bad')+'">'+(S.fb.ok?'✅ ':'❌ ')+esc(S.fb.msg)+'</div>';
+    if(S.fb.ok){h+='<div class="stz" style="margin-top:10px">💡 '+esc(p.tip)+'</div>'+
+      (S.pi+1<PUZZLES.length?'<button class="big-btn green" style="margin-top:12px" onclick="Aca.openPuzzle('+(Aca.S.pi+1)+')">Next puzzle ›</button>':'<button class="big-btn green" style="margin-top:12px" onclick="Aca.go(\'chessList\')">All done! Back to list</button>')}
+    else h+='<button class="big-btn sec" style="margin-top:12px" onclick="Aca.retryPuzzle()">Try again · 再试</button>';
+  }
+  h+='</div></div>';
+  return h;
+}
+function retryPuzzle(){S.sel=null;S.hl=[];S.fb=null;render(true)}
+function tapSq(s){
+  var p=PUZZLES[S.pi],bd=S.bd;
+  if(S.fb)return;
+  if(S.sel&&S.hl.indexOf(s)>=0){
+    var j=judge(p,bd,S.sel,s);S.fb=j;
+    if(!S.tried){S.tried=true;addSkill(p.skill,j.ok)}
+    if(j.ok){var d=P.done[p.id];P.done[p.id]=1;S.bd=after(bd,S.sel,s)}
+    S.sel=null;S.hl=[];save();render(true);return;
+  }
+  if(bd[s]&&bd[s].c==='w'){S.sel=s;S.hl=moves(bd,s)}else{S.sel=null;S.hl=[]}
+  render(true);
+}
+
+// ---------- scenarios ----------
+function scn(){
+  var sc=SCENARIOS[S.si],a=S.sans,h='<button class="back" onclick="Aca.go(\'home\')">‹ Home 返回</button>';
+  h+='<div class="sub">Card '+(S.si+1)+' of '+SCENARIOS.length+'</div><div class="card"><div class="row"><span style="font-size:42px">'+sc.em+'</span><div class="stz" style="flex:1">三十六计 #'+sc.num+' · ???</div></div><p style="margin:12px 0 0">'+esc(sc.sit)+'</p><div class="sub" style="margin-top:8px">What would you do?</div></div>';
+  sc.o.forEach(function(o,i){
+    var cls='opt';if(a!==null){if(i===sc.a)cls+=' ok';else if(i===a)cls+=' bad';else cls+=' dim'}
+    h+='<button class="'+cls+'" '+(a===null?'onclick="Aca.pickScn('+i+')"':'')+'>'+'ABC'[i]+'. '+esc(o)+'</button>';
+  });
+  if(a!==null){
+    h+='<div class="fb '+(a===sc.a?'ok':'bad')+'">'+(a===sc.a?'✅ Good thinking!':'❌ Not the best choice.')+'</div>'+
+       '<div class="card" style="margin-top:12px"><div class="stz">'+sc.zh+' · '+sc.py+'<br>'+sc.en+'</div><p style="margin:10px 0 0">'+esc(sc.why)+'</p></div>'+
+       (S.si+1<SCENARIOS.length?'<button class="big-btn green" onclick="Aca.go(\'scn\',{si:'+(Aca.S.si+1)+',sans:null})">Next card ›</button>':'<button class="big-btn green" onclick="Aca.go(\'home\')">All done! Home 首页</button>');
+  }
+  return h;
+}
+function pickScn(i){var sc=SCENARIOS[S.si];S.sans=i;addSkill('trick',i===sc.a);if(i===sc.a)P.done[sc.id]=1;save();render(true)}
+
+function render(keep){
+  var f={home:home,chessList:chessList,puzzle:puzzle,scn:scn}[S.screen]||home;
+  $('app').innerHTML='<div class="m-aca">'+f()+'</div>';
+  if(!keep)window.scrollTo(0,0);
+}
+
+return {S:S,$:$,addSkill:addSkill,after:after,attackersOf:attackersOf,attacks:attacks,chessList:chessList,esc:esc,go:go,home:home,inProgress:inProgress,inb:inb,judge:judge,load:load,moves:moves,names:names,nm:nm,openPuzzle:openPuzzle,parseBoard:parseBoard,pickScn:pickScn,puzzle:puzzle,render:render,resetAll:resetAll,retryPuzzle:retryPuzzle,save:save,scn:scn,sqn:sqn,stat:stat,tapSq:tapSq};
+})();
+
+Aca.go('home');
+</script>
+</body>
+</html>
